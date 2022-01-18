@@ -18,11 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('member', MemberController::class);
-// Route::get('member', [MemberController::class, 'index']);
-// Route::get('member/create', [MemberController::class, 'create']);
-// Route::get('member/{id}', [MemberController::class, 'show']);
-// Route::post('member', [MemberController::class, 'store']);
-// Route::get('member/{id}/edit', [MemberController::class, 'edit']);
-// Route::put('member/{id}', [MemberController::class, 'update']);
-// Route::delete('member/{id}', [MemberController::class, 'destroy']);
+Route::resource('members', MemberController::class);
+// Route::get('members', [MemberController::class, 'index']);
+// Route::get('members/create', [MemberController::class, 'create']);
+// Route::get('members/{id}', [MemberController::class, 'show']);
+// Route::post('members', [MemberController::class, 'store']);
+// Route::get('members/{id}/edit', [MemberController::class, 'edit']);
+// Route::put('members/{id}', [MemberController::class, 'update']);
+// Route::delete('members/{id}', [MemberController::class, 'destroy']);
