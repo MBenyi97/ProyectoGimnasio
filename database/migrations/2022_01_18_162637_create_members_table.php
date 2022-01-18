@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMemberTable extends Migration
+class CreateMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,9 +15,12 @@ class CreateMemberTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->string('Dni',9)->unique();
-            $table->string('Nombre completo');
-            $table->string('Peso');
+            $table->string('dni',9);
+            $table->string('name',30);
+            $table->integer('weight');
+            $table->integer('height');
+            $table->date('birthday');
+            $table->string('sex');
             $table->timestamps();
         });
     }
