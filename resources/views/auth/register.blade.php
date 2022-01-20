@@ -82,10 +82,14 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="sex" class="col-md-4 col-form-label text-md-end">{{ __('sex') }}</label>
+                            <label for="sex" class="col-md-4 col-form-label text-md-end">{{ __('Sex') }}</label>
 
                             <div class="col-md-6">
-                                <input id="sex" type="select" class="form-control @error('name') is-invalid @enderror" name="sex" value="{{ old('sex') }}" required autocomplete="sex" autofocus>
+                                <select id="sex" type="select" class="form-control @error('name') is-invalid @enderror" name="sex" value="{{ old('sex') }}" required autocomplete="sex" autofocus>
+                                    <option>Women</option>
+                                    <option>Man</option>
+                                    <option>Other</option>
+                                    </select>
 
                                 @error('sex')
                                 <span class="invalid-feedback" role="alert">
