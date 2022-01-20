@@ -15,6 +15,15 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
+<<<<<<< HEAD:database/migrations/2022_01_18_162637_create_members_table.php
+            $table->string('dni',9);
+            $table->string('name',30);
+            $table->integer('weight');
+            $table->integer('height');
+            $table->date('birthday');
+            $table->string('sex');
+=======
+>>>>>>> 0457668cfbee4fb526a8ae310a193032109d45c5:database/migrations/2022_01_18_162524_create_members_table.php
             $table->timestamps();
         });
     }
