@@ -28,3 +28,7 @@ Route::resource('member', ActivityController::class);
 // Route::get('member/{id}/edit', [MemberController::class, 'edit']);
 // Route::put('member/{id}', [MemberController::class, 'update']);
 // Route::delete('member/{id}', [MemberController::class, 'destroy']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
