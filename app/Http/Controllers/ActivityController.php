@@ -14,7 +14,11 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        //
+        $activities = Activity::all();
+
+        return view('activity.index', ['activities' => $activities]);
+        dd($activities);
+        return $activities;
     }
 
     /**
@@ -24,7 +28,7 @@ class ActivityController extends Controller
      */
     public function create()
     {
-        //
+        return view('activity.create');
     }
 
     /**
@@ -35,7 +39,20 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //version corta
+        $activity = Activity::create($request->all());
+
+        //version larga, comentada
+        // $activity = new Activity;
+        // $activity->code = $request->code;
+        // $activity->name = $request->name;
+        // $activity->abreviation = $request->abreviation;
+        // $activity->save();
+
+        // header('Location .....');
+        return redirect('/activities');
+
+        // INSERT INTO studies('code', 'name', 'abreviation')
     }
 
     /**
@@ -46,7 +63,7 @@ class ActivityController extends Controller
      */
     public function show(Activity $activity)
     {
-        //
+        return view('activity.show', ['activity' => $activity]);
     }
 
     /**
@@ -57,7 +74,7 @@ class ActivityController extends Controller
      */
     public function edit(Activity $activity)
     {
-        //
+        return view('activity.edit', ['activity' => $activity]);
     }
 
     /**
@@ -69,7 +86,16 @@ class ActivityController extends Controller
      */
     public function update(Request $request, Activity $activity)
     {
-        //
+        //version larga, comentada
+        // $study->code = $request->code;
+        // $study->name = $request->name;
+        // $study->abreviation = $request->abreviation;
+        
+        //version corta
+        $activity->fill($request->all());
+
+        $activity->save();
+        return redirect('/activities');
     }
 
     /**

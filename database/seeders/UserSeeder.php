@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'height' => '180',
             'birthdate' => '1995-06-15 00:00:00',
             'sex' => 'Man',
-            'password' => Hash::make('admin'),
+            'password' => Hash::make('adminadmin'),
         ]);
     }
 }
