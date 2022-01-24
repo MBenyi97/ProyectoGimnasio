@@ -19,8 +19,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('member', MemberController::class);
-Route::resource('member', ActivityController::class);
+Route::resource('members', MemberController::class);
+Route::resource('activities', ActivityController::class);
 // Route::get('member', [MemberController::class, 'index']);
 // Route::get('member/create', [MemberController::class, 'create']);
 // Route::get('member/{id}', [MemberController::class, 'show']);
