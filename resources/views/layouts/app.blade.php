@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Muscle Planet') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -21,7 +21,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -31,10 +31,27 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
+                    @if (!Auth::guest())
+                    <!-- Center Side Of Navbar -->
+                    <ul class="navbar-nav ms-auto me-auto">
+                        <!-- IMC Calculator -->
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/calculator/imc">Calcula tu IMC</a>
+                        </li>
+                        <!-- FCM Calculator -->
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Calcula tu FCM</a>
+                        </li>
+                        <!-- Gym Schedule -->
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Horario de gimnasio</a>
+                        </li>
+                        <!-- Physio & Activity Filter -->
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Filtrar por actividad & fisio</a>
+                        </li>
                     </ul>
+                    @endif
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
@@ -52,10 +69,10 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
+                            </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
