@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+
 use DB;
 
 class ActivitySeeder extends Seeder
@@ -15,7 +16,7 @@ class ActivitySeeder extends Seeder
     public function run()
     {
         DB::table('activities')->insert([
-            'activity' => 'Boxeo',
+            'name' => 'Boxeo',
             'description' => 'Clase de boxeo',
             'duration' => '25',
             'capacity' => '15'
