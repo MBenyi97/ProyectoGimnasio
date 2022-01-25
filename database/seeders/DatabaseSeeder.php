@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
+use  Database\Seeders\ActivitySeeder;
+use  Database\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
+use DB;
 
 class DatabaseSeeder extends Seeder
 {
