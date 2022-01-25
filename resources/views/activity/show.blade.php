@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Activity</title>
 </head>
+
 <body>
-    <h1>Estudion nº {{$study}}</h1>
+    <h1>Actividad nº {{$activity->id}}</h1>
 
 
     <ul>
         <li>
-            <strong>Código</strong>
-            {{ $study->code }}
-        </li>
-        <li>
             <strong>Nombre</strong>
-            {{ $study->name }}
+            {{ $activity->name }}
         </li>
         <li>
-            <strong>Abreviatura</strong>
-            {{ $study->abreviation }}
+            <strong>Descripción</strong>
+            {{ $activity->description }}
+        </li>
+        <li>
+            <strong>Capacidad</strong>
+            {{ $activity->capacity }}
+        </li>
+        <li>
+            <strong>Duración</strong>
+            {{ $activity->duration }}
         </li>
     </ul>
 </body>
+
 </html>

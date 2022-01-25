@@ -46,7 +46,7 @@
                         </li>
                         <!-- Gym Schedule -->
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Horario de gimnasio</a>
+                            <a class="nav-link active" aria-current="page" href="/activities">Horario de gimnasio</a>
                         </li>
                         <!-- Physio & Activity Filter -->
                         <li class="nav-item">

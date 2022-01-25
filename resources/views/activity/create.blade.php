@@ -4,31 +4,85 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-        <h1>Creación de estudios</h1>
+            <div class="card">
+                <div class="card-header">{{ __('Nueva actividad') }}</div>
 
-        <form action="/studies" method="post">
-        @csrf
-        <div>
-            <label for="code">Código</label>
-            <input type="text" name="code"> 
-        </div>
+                <div class="card-body">
+                    <form method="POST" action="/activities">
+                        @csrf
 
-        <div>
-            <label for="name">Nombre</label>
-            <input type="text" name="name"> 
-        </div>
+                        <!-- ACTIVITY -->
+                        <div class="row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Actividad') }}</label>
 
-        <div>
-            <label for="abreviation">Abreviatura</label>
-            <input type="text" name="abreviation"> 
-        </div>
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name" autofocus>
 
-        <div>
-            <input type="submit" value="crear"> 
-        </div>        
-        </form>
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- DESCRIPTION -->
+                        <div class="row mb-3">
+                            <label for="description" class="col-md-4 col-form-label text-md-end">{{ __('Descripción') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="description" type="text" class="form-control @error('name') is-invalid @enderror" name="description" required autocomplete="description" autofocus>
+
+                                @error('description')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- DURATION -->
+                        <div class="row mb-3">
+                            <label for="duration" class="col-md-4 col-form-label text-md-end">{{ __('Duración') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="duration" type="number" class="form-control @error('name') is-invalid @enderror" name="duration" required autocomplete="duration" autofocus>
+
+                                @error('duration')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- CAPACITY -->
+                        <div class="row mb-3">
+                            <label for="capacity" class="col-md-4 col-form-label text-md-end">{{ __('Capacidad') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="capacity" type="text" class="form-control @error('name') is-invalid @enderror" name="capacity" required autocomplete="capacity" autofocus>
+
+                                @error('capacity')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Crear') }}
+                                </button>
+                                <a href="/activities" class="btn btn-danger">Atrás</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
 @endsection

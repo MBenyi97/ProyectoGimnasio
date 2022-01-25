@@ -100,18 +100,18 @@
                             </div>
                         </div>
 
-                        <!-- SEX -->
+                        <!-- GENDER -->
                         <div class="row mb-3">
-                            <label for="sex" class="col-md-4 col-form-label text-md-end">{{ __('Sex') }}</label>
+                            <label for="gender" class="col-md-4 col-form-label text-md-end">{{ __('Gender') }}</label>
 
                             <div class="col-md-6">
-                                <select id="sex" type="select" class="form-control @error('name') is-invalid @enderror" name="sex" value="{{ old('sex') }}" required autocomplete="sex" autofocus>
-                                    <option selected>Woman</option>
-                                    <option>Man</option>
+                                <select id="gender" type="select" class="form-control @error('name') is-invalid @enderror" name="gender" value="{{ old('gender') }}" required autocomplete="gender" autofocus>
+                                    <option selected>Female</option>
+                                    <option>Male</option>
                                     <option>Other</option>
                                 </select>
 
-                                @error('sex')
+                                @error('gender')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

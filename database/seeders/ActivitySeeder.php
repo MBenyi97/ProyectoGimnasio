@@ -16,7 +16,7 @@ class ActivitySeeder extends Seeder
     public function run()
     {
         DB::table('activities')->insert([
-            'activity' => 'Boxeo',
+            'name' => 'Boxeo',
             'description' => 'Clase de boxeo',
             'duration' => '25',
             'capacity' => '15'
