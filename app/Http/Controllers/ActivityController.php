@@ -14,9 +14,15 @@ class ActivityController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
+        $activities= Activity::all();
+        
+        return view('activity.index',['activites'=>$activities]);
+=======
         $activities = Activity::all();
 
         return view('activity.index', ['activities' => $activities]);
+>>>>>>> master
         dd($activities);
         return $activities;
     }
@@ -53,6 +59,10 @@ class ActivityController extends Controller
         return redirect('/activities');
 
         // INSERT INTO studies('code', 'name', 'abreviation')
+<<<<<<< HEAD
+        
+=======
+>>>>>>> master
     }
 
     /**
@@ -87,15 +97,26 @@ class ActivityController extends Controller
     public function update(Request $request, Activity $activity)
     {
         //version larga, comentada
+<<<<<<< HEAD
+        // $activity->code = $request->code;
+        // $activity->name = $request->name;
+        // $activity->abreviation = $request->abreviation;
+        
+=======
         // $study->code = $request->code;
         // $study->name = $request->name;
         // $study->abreviation = $request->abreviation;
 
+>>>>>>> master
         //version corta
         $activity->fill($request->all());
 
         $activity->save();
+<<<<<<< HEAD
+        return redirect('/activity');
+=======
         return redirect('/activities');
+>>>>>>> master
     }
 
     /**
