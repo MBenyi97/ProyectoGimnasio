@@ -90,7 +90,7 @@ class ActivityController extends Controller
         // $study->code = $request->code;
         // $study->name = $request->name;
         // $study->abreviation = $request->abreviation;
-        
+
         //version corta
         $activity->fill($request->all());
 
@@ -106,6 +106,7 @@ class ActivityController extends Controller
      */
     public function destroy(Activity $activity)
     {
-        //
+        $activity->delete();
+        return redirect('/activities');
     }
 }

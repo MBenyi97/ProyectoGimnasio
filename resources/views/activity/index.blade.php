@@ -7,7 +7,7 @@
 
 
             <h1>Lista de actividades
-                <a href="/activities/create" class="btn btn-primary float-right">
+                <a href="/activities/create" class="btn btn-success btn-lg float-right" role="button">
                     Nuevo
                 </a>
             </h1>
@@ -19,17 +19,18 @@
                     <th>Descripción</th>
                     <th>Duración</th>
                     <th>Capacidad</th>
-                    <th>Opciones</th>
+                    <th class="text-center">Opciones</th>
                 </tr>
                 @forelse ($activities as $activity)
                 <tr>
-                    <td>{{$activity->activity}} </td>
+                    <td>{{$activity->name}} </td>
                     <td>{{$activity->description}} </td>
                     <td>{{$activity->duration}} </td>
                     <td>{{$activity->capacity}} </td>
-                    <td>
-                        <a class="btn btn-primary btn-sm" href="/activities/{{$activity->id}}">Ver</a>
-                        <a class="btn btn-primary btn-sm" href="/activities/{{$activity->id}}/edit">Editar</a>
+                    <td class="text-center">
+                        <a class="btn btn-primary" href="/activities/{{$activity->id}}">Ver</a>
+                        <a class="btn btn-warning" href="/activities/{{$activity->id}}/edit">Editar</a>
+                        <!-- <a class="btn btn-danger" href="/activities/{{$activity->id}}">Borrar</a> -->
                     </td>
                 </tr>
                 @empty
