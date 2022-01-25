@@ -62,7 +62,7 @@
                             <label for="capacity" class="col-md-4 col-form-label text-md-end">{{ __('Capacidad') }}</label>
 
                             <div class="col-md-6">
-                                <input id="capacity" type="text" class="form-control @error('name') is-invalid @enderror" name="capacity" value="{{$activity->capacity}}" required autocomplete="capacity" autofocus>
+                                <input id="capacity" type="number" class="form-control @error('name') is-invalid @enderror" name="capacity" value="{{$activity->capacity}}" required autocomplete="capacity" autofocus>
 
                                 @error('capacity')
                                 <span class="invalid-feedback" role="alert">
@@ -77,14 +77,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Editar') }}
                                 </button>
-                                <a href="/activities" class="btn btn-secondary">Atrás</a>
-                                <form method="POST" action="/activities/{{$activity->id}}">
-                                    @csrf
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <button type="submit" class="btn btn-secondary">
-                                        {{ __('Eliminar') }}
-                                    </button>
-                                </form>
+                                <a href="/activities" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
                     </form>
