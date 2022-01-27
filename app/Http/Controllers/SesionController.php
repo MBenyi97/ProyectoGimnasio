@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Activity;
+use App\Models\Sesion;
 use Illuminate\Http\Request;
 
-class ActivityController extends Controller
+class SesionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,11 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $activities = Activity::all();
+        $sesions = Sesion::all();
 
-        return view('activity.index', ['activities' => $activities]);
-        dd($activities);
-        return $activities;
+        return view('sesion.index', ['sesions' => $sesions]);
+        dd($sesions);
+        return $sesions;
     }
 
     /**
@@ -28,7 +28,7 @@ class ActivityController extends Controller
      */
     public function create()
     {
-        return view('activity.create');
+        return view('sesion.create');
     }
 
     /**
@@ -40,7 +40,7 @@ class ActivityController extends Controller
     public function store(Request $request)
     {
         //version corta
-        $activity = Activity::create($request->all());
+        $sesion = Sesion::create($request->all());
 
         //version larga, comentada
         // $activity = new Activity;
@@ -50,7 +50,7 @@ class ActivityController extends Controller
         // $activity->save();
 
         // header('Location .....');
-        return redirect('/activities');
+        return redirect('/sesions');
 
         // INSERT INTO studies('code', 'name', 'abreviation')
     }
@@ -58,33 +58,33 @@ class ActivityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Activity  $activity
+     * @param  \App\Models\Sesion  $sesion
      * @return \Illuminate\Http\Response
      */
-    public function show(Activity $activity)
+    public function show(Sesion $sesion)
     {
-        return view('activity.show', ['activity' => $activity]);
+        return view('sesion.show', ['sesion' => $sesion]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Activity  $activity
+     * @param  \App\Models\Sesion  $sesion
      * @return \Illuminate\Http\Response
      */
-    public function edit(Activity $activity)
+    public function edit(Sesion $sesion)
     {
-        return view('activity.edit', ['activity' => $activity]);
+        return view('sesion.edit', ['sesion' => $sesion]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Activity  $activity
+     * @param  \App\Models\Sesion  $sesion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Activity $activity)
+    public function update(Request $request, Sesion $sesion)
     {
         //version larga, comentada
         // $study->code = $request->code;
@@ -92,21 +92,21 @@ class ActivityController extends Controller
         // $study->abreviation = $request->abreviation;
 
         //version corta
-        $activity->fill($request->all());
+        $sesion->fill($request->all());
 
-        $activity->save();
-        return redirect('/activities');
+        $sesion->save();
+        return redirect('/sesions');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Activity  $activity
+     * @param  \App\Models\Sesion  $sesion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Activity $activity)
+    public function destroy(Sesion $sesion)
     {
-        $activity->delete();
-        return redirect('/activities');
+        $sesion->delete();
+        return redirect('/sesions');
     }
 }
