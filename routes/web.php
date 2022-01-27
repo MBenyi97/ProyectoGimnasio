@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\SesionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,8 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('members', MemberController::class);
+Route::resource('users', MemberController::class);
 Route::resource('activities', ActivityController::class);
+Route::resource('sesions', SesionController::class);
 // Route::get('member', [MemberController::class, 'index']);
 // Route::get('member/create', [MemberController::class, 'create']);
 // Route::get('member/{id}', [MemberController::class, 'show']);
