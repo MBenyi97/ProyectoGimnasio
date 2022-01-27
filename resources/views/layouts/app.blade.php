@@ -34,21 +34,17 @@
                     @if (!Auth::guest())
                     <!-- Center Side Of Navbar -->
                     <ul class="navbar-nav ms-auto me-auto">
-                        <!-- IMC Calculator -->
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/calculator/imc">Calcula tu IMC</a>
-                        </li>
                         <!-- FCM Calculator -->
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Calcula tu FCM</a>
+                            <a class="nav-link active" aria-current="page" href="/users">Usuarios</a>
                         </li>
                         <!-- Gym Schedule -->
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/activities">Horario de gimnasio</a>
+                            <a class="nav-link active" aria-current="page" href="/activities">Actividades</a>
                         </li>
-                        <!-- Physio & Activity Filter -->
+                        <!-- Sesions -->
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Filtrar por actividad & fisio</a>
+                            <a class="nav-link active" aria-current="page" href="/sesions">Sesiones</a>
                         </li>
                     </ul>
                     @endif
