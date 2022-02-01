@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sesion;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 
 class SesionController extends Controller
@@ -28,7 +29,8 @@ class SesionController extends Controller
      */
     public function create()
     {
-        return view('sesion.create');
+        $activities = Activity::all();
+        return view('sesion.create', ['activities' => $activities]);
     }
 
     /**
@@ -40,7 +42,10 @@ class SesionController extends Controller
     public function store(Request $request)
     {
         //version corta
-        $sesion = Sesion::create($request->all());
+        // $sesion = Sesion::create($request->all());
+
+        //la funcion 'dd' muestra las variables que le pases, como un 'var_dump'
+        // dd($request->all());
 
         //version larga, comentada
         // $activity = new Activity;
