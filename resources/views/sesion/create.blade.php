@@ -12,11 +12,16 @@
                         @csrf
 
                         <!-- ACTIVITY -->
-                        <!-- <div class="row mb-3">
+                        <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Actividad') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name" autofocus>
+                                <select id="id-name">
+                                    @foreach ($activities as $activity)
+                                    <option value="{{$activity->name}}">{{$activity->name}}</option>
+                                    @endforeach
+                                </select>
+
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -24,25 +29,40 @@
                                 </span>
                                 @enderror
                             </div>
-                        </div> -->
+                        </div>
 
-                        <!-- DATES -->
+                        <!-- DATE -->
                         <div class="row mb-3">
-                            <label for="fechaSesion" class="col-md-4 col-form-label text-md-end">{{ __('Fechas') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Fecha') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="fecha" type="date" class="form-control @error('name') is-invalid @enderror" name="fecha" required autocomplete="fecha" autofocus>
+
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- WEEK DAYS -->
+                        <div class="row mb-3">
+                            <label for="diaSemana" class="col-md-4 col-form-label text-md-end">{{ __('Días de la semana') }}</label>
 
                             <div class="col-md-6">
 
-                                <!-- <select class="form-select form-select-lg mb-3" multiple aria-label="multiple select .form-select-lg example"> -->
-                                <select id="id-name" multiple="multiple">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <select name="diaSemana" class="form-select form-select-lg mb-3" multiple aria-label="multiple select .form-select-lg example">
+                                    <option value="1">Lunes</option>
+                                    <option value="2">Martes</option>
+                                    <option value="3">Miércoles</option>
+                                    <option value="4">Jueves</option>
+                                    <option value="5">Viernes</option>
+                                    <option value="6">Sábado</option>
+                                    <option value="7">Domingo</option>
                                 </select>
 
-                                <!-- <input id="fechaSesion" type="date" class="form-control @error('name') is-invalid @enderror" name="fechaSesion" required autocomplete="fechaSesion" autofocus> -->
-
-                                @error('fechaSesion')
+                                @error('diaSemana')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -55,7 +75,7 @@
                             <label for="horaInicio" class="col-md-4 col-form-label text-md-end">{{ __('Hora de inicio') }}</label>
 
                             <div class="col-md-6">
-                                <input id="horaInicio" type="text" class="form-control @error('name') is-invalid @enderror" name="horaInicio" required autocomplete="horaInicio" autofocus>
+                                <input id="horaInicio" type="time" class="form-control @error('name') is-invalid @enderror" name="horaInicio" required autocomplete="horaInicio" autofocus>
 
                                 @error('horaInicio')
                                 <span class="invalid-feedback" role="alert">
@@ -70,7 +90,7 @@
                             <label for="horaFinal" class="col-md-4 col-form-label text-md-end">{{ __('Hora final') }}</label>
 
                             <div class="col-md-6">
-                                <input id="horaFinal" type="text" class="form-control @error('name') is-invalid @enderror" name="horaFinal" required autocomplete="horaFinal" autofocus>
+                                <input id="horaFinal" type="time" class="form-control @error('name') is-invalid @enderror" name="horaFinal" required autocomplete="horaFinal" autofocus>
 
                                 @error('horaFinal')
                                 <span class="invalid-feedback" role="alert">
@@ -94,10 +114,14 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
+@endsection
+<!-- @section('js')
+<script>
     $(document).ready(function() {
-        $('#id-name').multiselect();
+        $("#datepicker").datepicker({
+            viewMode: 'years',
+            format: 'mm-yyyy'
+        });
     });
 </script>
-@endsection
+@endsection -->
