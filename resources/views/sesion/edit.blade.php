@@ -62,7 +62,7 @@
                             <label for="capacity" class="col-md-4 col-form-label text-md-end">{{ __('Capacidad') }}</label>
 
                             <div class="col-md-6">
-                                <input id="capacity" type="text" class="form-control @error('name') is-invalid @enderror" name="capacity" value="{{$activity->capacity}}" required autocomplete="capacity" autofocus>
+                                <input id="capacity" type="number" class="form-control @error('name') is-invalid @enderror" name="capacity" value="{{$activity->capacity}}" required autocomplete="capacity" autofocus>
 
                                 @error('capacity')
                                 <span class="invalid-feedback" role="alert">
