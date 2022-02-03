@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Sesion;
 use App\Models\Activity;
 use Illuminate\Http\Request;
@@ -16,10 +17,10 @@ class SesionController extends Controller
     public function index()
     {
         $sesions = Sesion::all();
+        $activities = Activity::all();
 
-        return view('sesion.index', ['sesions' => $sesions]);
-        dd($sesions);
-        return $sesions;
+        // dd($sesions);
+        return view('sesion.index', ['sesions' => $sesions], ['activities' => $activities]);
     }
 
     /**
@@ -41,24 +42,33 @@ class SesionController extends Controller
      */
     public function store(Request $request)
     {
-        //version corta
-        // $sesion = Sesion::create($request->all());
+        $date = $request->date;
+        $hour_start = $request->hour_start;
+        $hour_end = $request->hour_end;
+        $activityId = $request->activity_id;
+        $weekDays[] = $request->weekDays;
 
-        //la funcion 'dd' muestra las variables que le pases, como un 'var_dump'
-        // dd($request->all());
+        $daysInMonth = $hour_start->daysInMonth;
+        for ($i = 1; $i < $daysInMonth; ++$i) {
+            $hourStart = Carbon::create($date->year, $date->month, $i, $hour_start->hour, $hour_start->minute, $hour_start->second);
+            $hourEnd = Carbon::create($date->year, $date->month, $i, $hour_end->hour, $hour_end->minute, $hour_end->second);
 
-        //version larga, comentada
-        // $activity = new Activity;
-        // $activity->code = $request->code;
-        // $activity->name = $request->name;
-        // $activity->abreviation = $request->abreviation;
-        // $activity->save();
+            $dayOfWeek = $hourStart->englishDayOfWeek;
+            if (in_array($dayOfWeek, $weekDays)) {
+                $sesion = new Sesion;
+                $sesion->date_start = $hourStart->format('Y-m-d h:i:s');
+                $sesion->date_end = $hourEnd->format('Y-m-d h:i:s');
+                $sesion->activity_id = $activityId;
+                $sesion->save();
+            }
+        }
 
         // header('Location .....');
         return redirect('/sesions');
 
         // INSERT INTO studies('code', 'name', 'abreviation')
     }
+
 
     /**
      * Display the specified resource.
