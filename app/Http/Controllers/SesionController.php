@@ -42,27 +42,30 @@ class SesionController extends Controller
      */
     public function store(Request $request)
     {
-        $date = $request->date;
-        $hour_start = $request->hour_start;
-        $hour_end = $request->hour_end;
+        // fecha creada con carbon
+        $dt = Carbon::now();
+        // array que recoge las horas de comienzo
+        $arrHoraStart = explode(":", $request->hour_start);
+        // array que recoge las horas del final
+        $arrHoraEnd = explode(":", $request->hour_end);
+        // fecha pasada por el formulario y parseada a carbon
+        $dateCarbon = Carbon::parse($request->date);
+        // id de la actividad seleccionada
         $activityId = $request->activity_id;
-        $weekDays[] = $request->weekDays;
+        // array de los dias de la semana seleccionados
+        $weekDays = $request->weekDays;
+        for ($i = 1; $i < $dateCarbon->daysInMonth + 1; ++$i) {
+            $hourStart = Carbon::create($dateCarbon->year, $dateCarbon->month, $i, $arrHoraStart[0], $arrHoraStart[1], 00);
+            $hourEnd = Carbon::create($dateCarbon->year, $dateCarbon->month, $i, $arrHoraEnd[0], $arrHoraEnd[1], 00);
 
-        $daysInMonth = $hour_start->daysInMonth;
-        for ($i = 1; $i < $daysInMonth; ++$i) {
-            $hourStart = Carbon::create($date->year, $date->month, $i, $hour_start->hour, $hour_start->minute, $hour_start->second);
-            $hourEnd = Carbon::create($date->year, $date->month, $i, $hour_end->hour, $hour_end->minute, $hour_end->second);
-
-            $dayOfWeek = $hourStart->englishDayOfWeek;
-            if (in_array($dayOfWeek, $weekDays)) {
+            if (in_array($hourStart->englishDayOfWeek, $weekDays, false)) {
                 $sesion = new Sesion;
-                $sesion->date_start = $hourStart->format('Y-m-d h:i:s');
-                $sesion->date_end = $hourEnd->format('Y-m-d h:i:s');
+                $sesion->date_start = $hourStart->format('Y-m-d H:i:s');
+                $sesion->date_end = $hourEnd->format('Y-m-d H:i:s');
                 $sesion->activity_id = $activityId;
                 $sesion->save();
             }
         }
-
         // header('Location .....');
         return redirect('/sesions');
 

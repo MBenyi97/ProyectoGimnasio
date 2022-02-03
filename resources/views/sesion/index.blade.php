@@ -45,7 +45,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="3">No hay acticidades registradas</td>
+                    <td colspan="4" class="text-center fw-bold">No hay acticidades registradas</td>
                 </tr>
                 @endforelse
             </table>

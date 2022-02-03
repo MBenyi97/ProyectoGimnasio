@@ -16,7 +16,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Actividad') }}</label>
 
                             <div class="col-md-6">
-                            <select class="form-select" aria-label="Default select example" name="activityId">
+                            <select class="form-select" aria-label="Default select example" name="activity_id" for="activity_id">
                                     @foreach ($activities as $activity)
                                     <option value="{{$activity->id}}" selected>{{$activity->name}}</option>
                                     @endforeach

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\MemberController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\SesionController;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('users', MemberController::class);
+Route::resource('users', UserController::class);
 Route::resource('activities', ActivityController::class);
 Route::resource('sesions', SesionController::class);
 // Route::get('member', [MemberController::class, 'index']);
@@ -33,8 +33,4 @@ Route::resource('sesions', SesionController::class);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');   

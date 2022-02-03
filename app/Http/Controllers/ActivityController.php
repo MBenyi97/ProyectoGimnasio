@@ -14,11 +14,11 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $activities= Activity::all();
-        
-        return view('activity.index',['activites'=>$activities]);
-        dd($activities);
-        return $activities;
+        $activities = Activity::all();
+
+        return view('activity.index', ['activities' => $activities]);
+        // dd($activities);
+        // return $activities;
     }
 
     /**
@@ -53,7 +53,7 @@ class ActivityController extends Controller
         return redirect('/activities');
 
         // INSERT INTO studies('code', 'name', 'abreviation')
-        
+
     }
 
     /**
@@ -91,7 +91,7 @@ class ActivityController extends Controller
         // $activity->code = $request->code;
         // $activity->name = $request->name;
         // $activity->abreviation = $request->abreviation;
-        
+
         //version corta
         $activity->fill($request->all());
 
