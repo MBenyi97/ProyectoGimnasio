@@ -16,9 +16,9 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Actividad') }}</label>
 
                             <div class="col-md-6">
-                                <select id="id-name">
+                            <select class="form-select" aria-label="Default select example" name="activityId">
                                     @foreach ($activities as $activity)
-                                    <option value="{{$activity->name}}">{{$activity->name}}</option>
+                                    <option value="{{$activity->id}}" selected>{{$activity->name}}</option>
                                     @endforeach
                                 </select>
 
@@ -36,7 +36,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Fecha') }}</label>
 
                             <div class="col-md-6">
-                                <input id="fecha" type="date" class="form-control @error('name') is-invalid @enderror" name="fecha" required autocomplete="fecha" autofocus>
+                                <input type="date" class="form-control @error('name') is-invalid @enderror" name="date" required autocomplete="fecha" autofocus>
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -52,15 +52,28 @@
 
                             <div class="col-md-6">
 
-                                <select name="diaSemana" class="form-select form-select-lg mb-3" multiple aria-label="multiple select .form-select-lg example">
-                                    <option value="1">Lunes</option>
-                                    <option value="2">Martes</option>
-                                    <option value="3">Miércoles</option>
-                                    <option value="4">Jueves</option>
-                                    <option value="5">Viernes</option>
-                                    <option value="6">Sábado</option>
-                                    <option value="7">Domingo</option>
-                                </select>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Monday" name="weekDays[]">
+                                    <label class="form-check-label">Lunes</label><br>
+
+                                    <input class="form-check-input" type="checkbox" value="Tuesday" name="weekDays[]">
+                                    <label class="form-check-label">Martes</label><br>
+
+                                    <input class="form-check-input" type="checkbox" value="Wednesday" name="weekDays[]">
+                                    <label class="form-check-label">Miércoles</label><br>
+
+                                    <input class="form-check-input" type="checkbox" value="Thursday" name="weekDays[]">
+                                    <label class="form-check-label">Jueves</label><br>
+
+                                    <input class="form-check-input" type="checkbox" value="Friday" name="weekDays[]">
+                                    <label class="form-check-label">Viernes</label><br>
+
+                                    <input class="form-check-input" type="checkbox" value="Saturday" name="weekDays[]">
+                                    <label class="form-check-label">Sábado</label><br>
+
+                                    <input class="form-check-input" type="checkbox" value="Sunday" name="weekDays[]">
+                                    <label class="form-check-label">Domingo</label>
+                                </div>
 
                                 @error('diaSemana')
                                 <span class="invalid-feedback" role="alert">
@@ -75,7 +88,7 @@
                             <label for="horaInicio" class="col-md-4 col-form-label text-md-end">{{ __('Hora de inicio') }}</label>
 
                             <div class="col-md-6">
-                                <input id="horaInicio" type="time" class="form-control @error('name') is-invalid @enderror" name="horaInicio" required autocomplete="horaInicio" autofocus>
+                                <input type="time" class="form-control @error('name') is-invalid @enderror" name="hour_start" required autocomplete="hour_start" autofocus>
 
                                 @error('horaInicio')
                                 <span class="invalid-feedback" role="alert">
@@ -90,7 +103,7 @@
                             <label for="horaFinal" class="col-md-4 col-form-label text-md-end">{{ __('Hora final') }}</label>
 
                             <div class="col-md-6">
-                                <input id="horaFinal" type="time" class="form-control @error('name') is-invalid @enderror" name="horaFinal" required autocomplete="horaFinal" autofocus>
+                                <input type="time" class="form-control @error('name') is-invalid @enderror" name="hour_end" required autocomplete="hour_end" autofocus>
 
                                 @error('horaFinal')
                                 <span class="invalid-feedback" role="alert">
@@ -115,13 +128,14 @@
     </div>
 </div>
 @endsection
-<!-- @section('js')
+@section('js')
 <script>
     $(document).ready(function() {
         $("#datepicker").datepicker({
-            viewMode: 'years',
-            format: 'mm-yyyy'
+            format: "mm-yyyy",
+            viewMode: "months",
+            minViewMode: "months"
         });
-    });
+    })
 </script>
-@endsection -->
+@endsection
