@@ -31,9 +31,8 @@
                         <!-- <a class="btn btn-danger" href="/activities/{{$activity->id}}">Borrar</a> -->
                         <form method="POST" action="/activities/{{$activity->id}}">
                             @csrf
-                            <a class="btn btn-primary" href="/activities/{{$activity->id}}">Ver</a>
-                            <a class="btn btn-warning" href="/activities/{{$activity->id}}/edit">Editar</a>
-                            <input type="hidden" name="_method" value="DELETE">
+                            
+                            <input type="hidden" name="_m ethod" value="DELETE">
                             <button type="submit" class="btn btn-danger">
                                 {{ __('Eliminar') }}
                             </button>

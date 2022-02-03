@@ -15,10 +15,8 @@ class SesionSeeder extends Seeder
     public function run()
     {
         DB::table('sesions')->insert([
-            // 'name' => '1',
-            'fechaSesion' => '1995-06-15 00:00:00',
-            'horaInicio' => '1995-06-15 00:00:00',
-            'horaFinal' => '1995-06-15 00:00:00'
+            'date_start' => '2022-02-25 18:00:00',
+            'date_end' => '2022-02-25 19:00:00',
         ]);
     }
 }

@@ -15,20 +15,23 @@
 
             <table class="table table-striped">
                 <tr>
-                    <!-- <th>Actividad</th> -->
-                    <th>Fechas</th>
-                    <th>Hora de inicio</th>
-                    <th>Hora final</th>
+                    <th>Actividad</th>
+                    <th>Fecha de inicio</th>
+                    <th>Fecha final</th>
                     <th class="text-center">Opciones</th>
                 </tr>
                 @forelse ($sesions as $sesion)
                 <tr>
-                    <!-- <td>{{$sesion->name}} </td> -->
-                    <td>{{$sesion->fechaSesion}} </td>
-                    <td>{{$sesion->horaInicio}} </td>
-                    <td>{{$sesion->horaFinal}} </td>
+                    <td>
+                        @foreach  ($activities as $activity)
+                            @if ($sesion->activity_id == $activity->id)
+                                {{$activity->name}}
+                            @endif
+                        @endforeach 
+                    </td>
+                    <td>{{$sesion->date_start}} </td>
+                    <td>{{$sesion->date_end}} </td>
                     <td class="text-center">
-                        <!-- <a class="btn btn-danger" href="/sesions/{{$sesion->id}}">Borrar</a> -->
                         <form method="POST" action="/sesions/{{$sesion->id}}">
                             @csrf
                             <a class="btn btn-primary" href="/sesions/{{$sesion->id}}">Ver</a>

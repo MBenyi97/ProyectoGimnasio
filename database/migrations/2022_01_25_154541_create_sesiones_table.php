@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSesionsTable extends Migration
+class CreateSesionesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSesionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sesions', function (Blueprint $table) {
+        Schema::create('sesiones', function (Blueprint $table) {
             $table->id();
             $table->dateTime('date_start');
             $table->dateTime('date_end');
@@ -30,6 +30,6 @@ class CreateSesionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sesions');
+        Schema::dropIfExists('sesiones');
     }
 }

@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Editar actividad') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="/activities/{{$activity->id}}">
+                    <form method="POST" action="/activities/{{$activity ?? ''->id}}">
                         @csrf
                         <input type="hidden" name="_method" value="PUT">
 
@@ -17,7 +17,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Actividad') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$activity->name}}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$activity ?? ''->name}}" required autocomplete="name" autofocus>
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -32,7 +32,7 @@
                             <label for="description" class="col-md-4 col-form-label text-md-end">{{ __('Descripción') }}</label>
 
                             <div class="col-md-6">
-                                <input id="description" type="text" class="form-control @error('name') is-invalid @enderror" name="description" value="{{$activity->description}}" required autocomplete="description" autofocus>
+                                <input id="description" type="text" class="form-control @error('name') is-invalid @enderror" name="description" value="{{$activity ?? ''->description}}" required autocomplete="description" autofocus>
 
                                 @error('description')
                                 <span class="invalid-feedback" role="alert">
@@ -47,7 +47,7 @@
                             <label for="duration" class="col-md-4 col-form-label text-md-end">{{ __('Duración') }}</label>
 
                             <div class="col-md-6">
-                                <input id="duration" type="number" class="form-control @error('name') is-invalid @enderror" name="duration" value="{{$activity->duration}}" required autocomplete="duration" autofocus>
+                                <input id="duration" type="number" class="form-control @error('name') is-invalid @enderror" name="duration" value="{{$activity ?? ''->duration}}" required autocomplete="duration" autofocus>
 
                                 @error('duration')
                                 <span class="invalid-feedback" role="alert">
@@ -62,7 +62,7 @@
                             <label for="capacity" class="col-md-4 col-form-label text-md-end">{{ __('Capacidad') }}</label>
 
                             <div class="col-md-6">
-                                <input id="capacity" type="number" class="form-control @error('name') is-invalid @enderror" name="capacity" value="{{$activity->capacity}}" required autocomplete="capacity" autofocus>
+                                <input id="capacity" type="number" class="form-control @error('name') is-invalid @enderror" name="capacity" value="{{$activity ?? ''->capacity}}" required autocomplete="capacity" autofocus>
 
                                 @error('capacity')
                                 <span class="invalid-feedback" role="alert">
