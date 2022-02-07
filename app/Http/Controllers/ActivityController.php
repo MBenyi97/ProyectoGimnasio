@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Sesion;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
@@ -64,7 +65,8 @@ class ActivityController extends Controller
      */
     public function show(Activity $activity)
     {
-        return view('activity.show', ['activity' => $activity]);
+        $sesions = Sesion::all();
+        return view('activity.show', ['activity' => $activity], ['sesions' => $sesions]);
     }
 
     /**
@@ -94,9 +96,8 @@ class ActivityController extends Controller
 
         //version corta
         $activity->fill($request->all());
-
         $activity->save();
-        return redirect('/activity');
+        return redirect('/activities');
     }
 
     /**

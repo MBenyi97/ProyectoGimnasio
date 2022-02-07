@@ -13,7 +13,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-    <!-- Fonts -->
+    <!-- Fonts CDN -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
@@ -23,8 +23,11 @@
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
-    <!-- Bootstrap Icons -->
+    <!-- Bootstrap Icons CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
+    <!-- Sweet Alert CDN -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
@@ -57,6 +60,10 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/sesions">Sesiones</a>
                         </li>
+                        <!-- Gym Reservations -->
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/reservations">Reservas</a>
+                        </li>
                     </ul>
                     @endif
 
@@ -82,8 +89,8 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item logout-user" href="{{ route('logout') }}" onclick="event.preventDefault();">
+                                    <!-- document.getElementById('logout-form').submit(); -->
                                     {{ __('Logout') }}
                                 </a>
 
@@ -105,5 +112,17 @@
 </body>
 
 @yield('js')
+<script>
+    $(".logout-user").click(function(event) {
+        event.preventDefault();
+        Swal.fire(
+            'Hasta luego!',
+            'Has cerrado sesión correctamente.',
+            'success'
+        ).then(function() {
+            $("#logout-form").submit();
+        });
+    });
+</script>
 
 </html>

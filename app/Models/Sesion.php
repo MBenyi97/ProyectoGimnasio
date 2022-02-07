@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Sesion extends Model
 {
@@ -17,12 +18,22 @@ class Sesion extends Model
         return "" . $this->id;
     }
 
-    // public function __call($method, $arguments)
-    // {
-    //     if (method_exists($this, $method)) {
-    //         $this->$method = $this->$method();
-    //         return $this->$method;
-    //     }
-    // }
+    public static function findByDate($date)
+    {
+        $sesions = Sesion::all();
+        $id = "";
+        foreach ($sesions as $sesion) {
+            ($sesion->date_start == $date) ? $id = $sesion->id : false;
+        }
+        return Sesion::find($id);
+    }
 
+    public static function destroyIfDayNotExists($id, $weekDaysSelected)
+    {
+        $sesion = Sesion::find($id);
+        $sesionCarbonDate = Carbon::parse($sesion->date_start);
+        foreach ($weekDaysSelected as $weekDay) {
+            ($weekDay != $sesionCarbonDate->englishDayOfWeek) ? Sesion::destroy($sesion) : false;
+        }
+    }
 }

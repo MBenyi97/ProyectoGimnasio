@@ -3,6 +3,8 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\SesionController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,14 +25,19 @@ Route::get('/', function () {
 Route::resource('users', UserController::class);
 Route::resource('activities', ActivityController::class);
 Route::resource('sesions', SesionController::class);
-// Route::get('member', [MemberController::class, 'index']);
-// Route::get('member/create', [MemberController::class, 'create']);
-// Route::get('member/{id}', [MemberController::class, 'show']);
-// Route::post('member', [MemberController::class, 'store']);
-// Route::get('member/{id}/edit', [MemberController::class, 'edit']);
-// Route::put('member/{id}', [MemberController::class, 'update']);
-// Route::delete('member/{id}', [MemberController::class, 'destroy']);
+Route::resource('reservations', ReservationController::class);
+Route::get('reservations/create/{id}', [ReservationController::class, 'create']);
+
+// Route::get('method', [IndexController::class, 'index']);
+// Route::get('method/create', [IndexController::class, 'create']);
+// Route::get('method/{id}', [IndexController::class, 'show']);
+// Route::post('method', [IndexController::class, 'store']);
+// Route::get('method/{id}/edit', [IndexController::class, 'edit']);
+// Route::put('method/{id}', [IndexController::class, 'update']);
+// Route::delete('method/{id}', [IndexController::class, 'destroy']);
+
+Route::get('img/{filename}', [ImageController::class, 'showJobImage']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');   
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

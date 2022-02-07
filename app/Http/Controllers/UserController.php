@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('auth.register');
     }
 
     /**
@@ -36,7 +36,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -47,7 +46,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('user.show', ['user' => $user]);
     }
 
     /**
@@ -58,7 +57,15 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $genders = [
+            'Hombre' => '',
+            'Mujer' => '',
+            'Otro' => ''
+        ];
+        foreach ($genders as $key => $value) {
+            ($key == $user->gender) ? $genders[$key] = 'selected' : false;
+        }
+        return view('user.edit', ['user' => $user], ['genders' => $genders]);
     }
 
     /**
@@ -70,7 +77,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user->fill($request->all());
+        $user->save();
+        return redirect('/users');
     }
 
     /**
@@ -81,6 +90,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect('/users');
     }
 }

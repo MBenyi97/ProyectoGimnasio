@@ -17,6 +17,7 @@ class SesionSeeder extends Seeder
         DB::table('sesions')->insert([
             'date_start' => '2022-02-25 18:00:00',
             'date_end' => '2022-02-25 19:00:00',
+            'activity_id' => '1'
         ]);
     }
 }

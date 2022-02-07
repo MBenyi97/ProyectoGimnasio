@@ -8,16 +8,27 @@
                 <div class="card-header">{{ __('Editar actividad') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="/activities/{{$activity ?? ''->id}}">
+                    <form method="POST" action="/sesions/{{$sesion->id}}">
                         @csrf
-                        <input type="hidden" name="_method" value="PUT">
+                        @method('PUT')
+
+                        <input type="hidden" name="sesion_id" value="{{$sesion->id}}">
 
                         <!-- ACTIVITY -->
                         <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Actividad') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$activity ?? ''->name}}" required autocomplete="name" autofocus>
+                                <select class="form-select" aria-label="Default select example" name="activity_id" for="activity_id">
+                                    @foreach ($activities_dates['activities'] as $activity)
+                                    @if ($activity->id==$sesion->activity_id)
+                                    <option value="{{$activity->id}}" selected>{{$activity->name}}</option>
+                                    @else
+                                    <option value="{{$activity->id}}">{{$activity->name}}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -27,14 +38,14 @@
                             </div>
                         </div>
 
-                        <!-- DESCRIPTION -->
+                        <!-- DATE -->
                         <div class="row mb-3">
-                            <label for="description" class="col-md-4 col-form-label text-md-end">{{ __('Descripción') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Fecha') }}</label>
 
                             <div class="col-md-6">
-                                <input id="description" type="text" class="form-control @error('name') is-invalid @enderror" name="description" value="{{$activity ?? ''->description}}" required autocomplete="description" autofocus>
+                                <input value="{{$activities_dates['date']}}" type="date" class="form-control @error('name') is-invalid @enderror" name="date" value="{{$sesion->date_start}} required autocomplete=" fecha" autofocus>
 
-                                @error('description')
+                                @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -42,14 +53,25 @@
                             </div>
                         </div>
 
-                        <!-- DURATION -->
+                        <!-- WEEK DAYS -->
                         <div class="row mb-3">
-                            <label for="duration" class="col-md-4 col-form-label text-md-end">{{ __('Duración') }}</label>
+                            <label for="diaSemana" class="col-md-4 col-form-label text-md-end">{{ __('Días de la semana') }}</label>
 
                             <div class="col-md-6">
-                                <input id="duration" type="number" class="form-control @error('name') is-invalid @enderror" name="duration" value="{{$activity ?? ''->duration}}" required autocomplete="duration" autofocus>
 
-                                @error('duration')
+                                <div class="form-check">
+                                    @foreach ($activities_dates['daysChecked'] as $days => $check)
+                                    @if ($check=="checked")
+                                    <input class="form-check-input" {{$check}} type="checkbox" value="{{$days}}" name="weekDays[]">
+                                    <label class="form-check-label">{{$days}}</label><br>
+                                    @else
+                                    <input class="form-check-input" type="checkbox" value="{{$days}}" name="weekDays[]">
+                                    <label class="form-check-label">{{$days}}</label><br>
+                                    @endif
+                                    @endforeach
+                                </div>
+
+                                @error('diaSemana')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -57,14 +79,37 @@
                             </div>
                         </div>
 
-                        <!-- CAPACITY -->
+                        <!-- START TIME -->
                         <div class="row mb-3">
-                            <label for="capacity" class="col-md-4 col-form-label text-md-end">{{ __('Capacidad') }}</label>
+                            <label for="horaInicio" class="col-md-4 col-form-label text-md-end">{{ __('Hora de inicio') }}</label>
 
                             <div class="col-md-6">
-                                <input id="capacity" type="number" class="form-control @error('name') is-invalid @enderror" name="capacity" value="{{$activity ?? ''->capacity}}" required autocomplete="capacity" autofocus>
+                                @foreach($activities_dates['arrHours'] as $type => $time)
+                                @if ($type == 'hourStart')
+                                <input value="{{$time}}" type="time" class="form-control @error('name') is-invalid @enderror" name="hour_start" required autocomplete="hour_start" autofocus>
+                                @endif
+                                @endforeach
 
-                                @error('capacity')
+                                @error('horaInicio')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- END TIME -->
+                        <div class="row mb-3">
+                            <label for="horaFinal" class="col-md-4 col-form-label text-md-end">{{ __('Hora final') }}</label>
+
+                            <div class="col-md-6">
+                                @foreach($activities_dates['arrHours'] as $type => $time)
+                                @if ($type == 'hourStart')
+                                <input value="{{$time}}" type="time" class="form-control @error('name') is-invalid @enderror" name="hour_end" required autocomplete="hour_end" autofocus>
+                                @endif
+                                @endforeach
+
+                                @error('horaFinal')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -74,9 +119,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Editar') }}
-                                </button>
+                                <a class="btn btn-primary edit-sesion">Editar</a>
                                 <a href="/activities" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
@@ -86,4 +129,18 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(".edit-sesion").click(function(event) {
+        var form = $(this).closest("form");
+        var name = $(this).data("name");
+        event.preventDefault();
+        Swal.fire(
+            'Editado!',
+            'La sesión ha sido editada.',
+            'success'
+        ).then(function() {
+            form.submit();
+        });
+    });
+</script>
 @endsection

@@ -8,11 +8,11 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" id="register-form">
                         @csrf
                         <!-- DNI -->
                         <div class="row mb-3">
-                            <label for="dni" class="col-md-4 col-form-label text-md-end">{{ __('ID Card') }}</label>
+                            <label for="dni" class="col-md-4 col-form-label text-md-end">{{ __('DNI') }}</label>
 
                             <div class="col-md-6">
                                 <input id="dni" type="text" class="form-control @error('name') is-invalid @enderror" name="dni" value="{{ old('dni') }}" required autocomplete="dni" autofocus>
@@ -42,7 +42,7 @@
 
                         <!-- E-MAIL -->
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('E-Mail Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('E-Mail') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
@@ -106,9 +106,9 @@
 
                             <div class="col-md-6">
                                 <select id="gender" type="select" class="form-control @error('name') is-invalid @enderror" name="gender" value="{{ old('gender') }}" required autocomplete="gender" autofocus>
-                                    <option selected>Female</option>
-                                    <option>Male</option>
-                                    <option>Other</option>
+                                    <option value="Mujer">Mujer</option>
+                                    <option value="Hombre">Hombre</option>
+                                    <option value="Otro" selected>Otro</option>
                                 </select>
 
                                 @error('gender')
@@ -145,9 +145,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
+                                <a class="btn btn-primary register-user">Register</a>
                             </div>
                         </div>
                     </form>
@@ -156,4 +154,18 @@
         </div>
     </div>
 </div>
+<script>
+    $(".register-user").click(function(event) {
+        var form = $("#register-form");
+        var name = $(this).data("name");
+        event.preventDefault();
+        Swal.fire(
+            'Registrad@!',
+            'Ahora ya puedes iniciar sesión.',
+            'success'
+        ).then(function() {
+            form.submit();
+        });
+    });
+</script>
 @endsection

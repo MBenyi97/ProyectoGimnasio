@@ -5,13 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-
             <h1>Lista de usuarios
-                <a href="/sesions/create" class="btn btn-success btn-lg float-right" role="button">
-                <i class="bi bi-person-plus-fill"></i>
+                <a href="/users/create" class="btn btn-success btn-lg float-right" role="button">
+                    <i class="bi bi-person-plus-fill"></i>
                 </a>
             </h1>
-
 
             <table class="table table-striped">
                 <tr>
@@ -36,27 +34,55 @@
                     <td class="text-center">
                         <form method="POST" action="/users/{{$user->id}}">
                             @csrf
+                            @method('DELETE')
                             <a class="btn btn-primary" href="/users/{{$user->id}}"><i class="bi bi-eye"></i></a>
                             <a class="btn btn-warning" href="/users/{{$user->id}}/edit"><i class="bi bi-pencil-square"></i></a>
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="btn btn-danger">
-                            <i class="bi bi-trash"></i>
-                            </button>
+                            <a class="btn btn-danger remove-user"><i class="bi bi-trash"></i></a>
                         </form>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="text-center fw-bold">No hay usuarios registrados</td>
+                    <td colspan="8" class="text-center fw-bold">No hay usuarios registrados</td>
                 </tr>
                 @endforelse
             </table>
 
-
-
-
-
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(".remove-user").click(function(event) {
+        var form = $(this).closest("form");
+        var name = $(this).data("name");
+        event.preventDefault();
+        Swal.fire({
+            title: 'Estás seguro?',
+            text: "No podrás revertir los cambios!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminalo!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isDismissed) {
+                Swal.fire(
+                    'Cancelado',
+                    'El usuario no ha sido eliminado',
+                    'error'
+                );
+            }
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Borrado!',
+                    'El usuario ha sido eliminado.',
+                    'success'
+                ).then(function() {
+                    form.submit();
+                });
+            }
+        });
+    });
+</script>
 @endsection
