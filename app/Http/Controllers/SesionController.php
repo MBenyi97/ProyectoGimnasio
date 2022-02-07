@@ -48,15 +48,7 @@ class SesionController extends Controller
         $activityId = $request->activity_id;
         $weekDays[] = $request->weekDays;
 
-<<<<<<< HEAD
-        //version larga, comentada
-        // sesion = new Sesion;
-        // sesion->code = $request->code;
-        // sesion->name = $request->name;
-        // sesion->abreviation = $request->abreviation;
-        // sesion->save();
-=======
-        $daysInMonth = $hour_start->daysInMonth;
+        $daysInMonth = $date->daysInMonth;
         for ($i = 1; $i < $daysInMonth; ++$i) {
             $hourStart = Carbon::create($date->year, $date->month, $i, $hour_start->hour, $hour_start->minute, $hour_start->second);
             $hourEnd = Carbon::create($date->year, $date->month, $i, $hour_end->hour, $hour_end->minute, $hour_end->second);
@@ -70,7 +62,6 @@ class SesionController extends Controller
                 $sesion->save();
             }
         }
->>>>>>> master
 
         // header('Location .....');
         return redirect('/sesions');
