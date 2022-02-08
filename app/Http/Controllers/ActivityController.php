@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Sesion;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
@@ -14,11 +15,11 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $activities= Activity::all();
-        
-        return view('activity.index',['activities'=>$activities]);
-        dd($activities);
-        return $activities;
+        $activities = Activity::all();
+
+        return view('activity.index', ['activities' => $activities]);
+        // dd($activities);
+        // return $activities;
     }
 
     /**
@@ -53,7 +54,7 @@ class ActivityController extends Controller
         return redirect('/activities');
 
         // INSERT INTO studies('code', 'name', 'abreviation')
-        
+
     }
 
     /**
@@ -64,7 +65,8 @@ class ActivityController extends Controller
      */
     public function show(Activity $activity)
     {
-        return view('activity.show', ['activity' => $activity]);
+        $sesions = Sesion::all();
+        return view('activity.show', ['activity' => $activity], ['sesions' => $sesions]);
     }
 
     /**
@@ -91,10 +93,9 @@ class ActivityController extends Controller
         // $activity->code = $request->code;
         // $activity->name = $request->name;
         // $activity->abreviation = $request->abreviation;
-        
+
         //version corta
         $activity->fill($request->all());
-
         $activity->save();
         return redirect('/activities');
     }

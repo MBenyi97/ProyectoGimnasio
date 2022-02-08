@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <form method="POST" action="/activities/{{$activity->id}}">
                         @csrf
-                        <input type="hidden" name="_method" value="PUT">
+                        @method('PUT')
 
                         <!-- ACTIVITY -->
                         <div class="row mb-3">
@@ -74,10 +74,8 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Editar') }}
-                                </button>
-                                <a href="/activities" class="btn btn-danger">Atrás</a>
+                                <a type="submit" class="btn btn-primary edit-sesion">Editar</a>
+                                <a href="/sesions" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
                     </form>
@@ -86,4 +84,18 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(".edit-sesion").click(function(event) {
+        var form = $(this).closest("form");
+        var name = $(this).data("name");
+        event.preventDefault();
+        Swal.fire(
+            'Editado!',
+            'La sesión ha sido editada.',
+            'success'
+        ).then(function() {
+            form.submit();
+        });
+    });
+</script>
 @endsection

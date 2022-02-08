@@ -24,7 +24,7 @@ class User extends Authenticatable
         'weight',
         'height',
         'birthdate',
-        'sex',
+        'gender',
         'password',
     ];
 

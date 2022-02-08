@@ -8,10 +8,9 @@
 
             <h1>Lista de actividades
                 <a href="/activities/create" class="btn btn-success btn-lg float-right" role="button">
-                    Nuevo
+                    <i class="bi bi-plus-lg"></i>
                 </a>
             </h1>
-
 
             <table class="table table-striped">
                 <tr>
@@ -28,29 +27,56 @@
                     <td>{{$activity->duration}} </td>
                     <td>{{$activity->capacity}} </td>
                     <td class="text-center">
-                        <!-- <a class="btn btn-danger" href="/activities/{{$activity->id}}">Borrar</a> -->
-                        <form method="POST" action="/activities/{{$activity->id}}">
+                        <form method="POST" action="/activities/{{$activity->id}}" id="form-delete">
                             @csrf
-                            
-                            <input type="hidden" name="_m ethod" value="DELETE">
-                            <button type="submit" class="btn btn-danger">
-                                {{ __('Eliminar') }}
-                            </button>
+                            @method('DELETE')
+                            <a class="btn btn-primary" href="/activities/{{$activity->id}}"><i class="bi bi-collection"></i></a>
+                            <a class="btn btn-warning" href="/activities/{{$activity->id}}/edit"><i class="bi bi-pencil-square"></i></a>
+                            <a class="btn btn-danger remove-activity"><i class="bi bi-trash"></i></a>
                         </form>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="3">No hay acticidades registradas</td>
+                    <td colspan="5" class="text-center fw-bold"><strong>No hay actividades registradas</strong></td>
                 </tr>
                 @endforelse
             </table>
-
-
-
-
-
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(".remove-activity").click(function(event) {
+        var form = $(this).closest("form");
+        var name = $(this).data("name");
+        event.preventDefault();
+        Swal.fire({
+            title: 'Estás seguro?',
+            text: "No podrás revertir los cambios!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminalo!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isDismissed) {
+                Swal.fire(
+                    'Cancelado',
+                    'Tu actividad no ha sido eliminada',
+                    'error'
+                );
+            }
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Borrado!',
+                    'La actividad ha sido eliminada.',
+                    'success'
+                ).then(function() {
+                    form.submit();
+                });
+            }
+        });
+    });
+</script>
 @endsection

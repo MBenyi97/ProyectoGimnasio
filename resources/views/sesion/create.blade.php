@@ -16,7 +16,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Actividad') }}</label>
 
                             <div class="col-md-6">
-                            <select class="form-select" aria-label="Default select example" name="activityId">
+                                <select class="form-select" aria-label="Default select example" name="activity_id" for="activity_id">
                                     @foreach ($activities as $activity)
                                     <option value="{{$activity->id}}" selected>{{$activity->name}}</option>
                                     @endforeach
@@ -115,9 +115,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Crear') }}
-                                </button>
+                                <a class="btn btn-primary create-sesion">Crear</a>
                                 <a href="/sesions" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
@@ -130,6 +128,19 @@
 @endsection
 @section('js')
 <script>
+    $(".create-sesion").click(function(event) {
+        var form = $(this).closest("form");
+        var name = $(this).data("name");
+        event.preventDefault();
+        Swal.fire(
+            'Creada!',
+            'La sesión ha sido creada.',
+            'success'
+        ).then(function() {
+            form.submit();
+        });
+    });
+    
     $(document).ready(function() {
         $("#datepicker").datepicker({
             format: "mm-yyyy",

@@ -31,7 +31,9 @@
                             <label for="description" class="col-md-4 col-form-label text-md-end">{{ __('Descripción') }}</label>
 
                             <div class="col-md-6">
-                                <input id="description" type="text" class="form-control @error('name') is-invalid @enderror" name="description" required autocomplete="description" autofocus>
+                                <!-- <input id="description" type="text" class="form-control @error('name') is-invalid @enderror" name="description" required autocomplete="description" autofocus> -->
+
+                                <textarea class="form-control" id="description" class="form-control @error('name') is-invalid @enderror" name="description" required autocomplete="description" autofocus rows="3"></textarea>
 
                                 @error('description')
                                 <span class="invalid-feedback" role="alert">
@@ -61,7 +63,7 @@
                             <label for="capacity" class="col-md-4 col-form-label text-md-end">{{ __('Capacidad') }}</label>
 
                             <div class="col-md-6">
-                                <input id="capacity" type="text" class="form-control @error('name') is-invalid @enderror" name="capacity" required autocomplete="capacity" autofocus>
+                                <input id="capacity" type="number" class="form-control @error('name') is-invalid @enderror" name="capacity" required autocomplete="capacity" autofocus>
 
                                 @error('capacity')
                                 <span class="invalid-feedback" role="alert">
@@ -73,9 +75,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Crear') }}
-                                </button>
+                                <a class="btn btn-primary create-activity">Crear</a>
                                 <a href="/activities" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
@@ -85,4 +85,18 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(".create-activity").click(function(event) {
+        var form = $(this).closest("form");
+        var name = $(this).data("name");
+        event.preventDefault();
+        Swal.fire(
+            'Creada!',
+            'La actividad ha sido creada.',
+            'success'
+        ).then(function() {
+            form.submit();
+        });
+    });
+</script>
 @endsection
