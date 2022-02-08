@@ -17,6 +17,7 @@ class CreateSesionsTable extends Migration
             $table->id();
             $table->dateTime('date_start');
             $table->dateTime('date_end');
+            $table->string('weekDay');
             $table->unsignedBigInteger('activity_id')->default(1);
             $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
             $table->timestamps();

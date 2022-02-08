@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/home">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Sesiones</li>
-  </ol>
-</nav>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Sesiones</li>
+                </ol>
+            </nav>
             <h1>Lista de sesiones
                 <a href="/sesions/create" class="btn btn-success btn-lg float-right" role="button">
                     <i class="bi bi-plus-lg"></i>
@@ -27,9 +27,7 @@
                 @forelse ($sesions as $sesion)
                 <tr>
                     <td>
-                        @if ($sesion->activity_id == $sesion->activity->id)
                         {{$sesion->activity->name}}
-                        @endif
                     </td>
                     <td>{{$sesion->date_start}} </td>
                     <td>{{$sesion->date_end}} </td>

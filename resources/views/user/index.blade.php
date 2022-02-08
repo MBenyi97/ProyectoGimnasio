@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/home">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
-  </ol>
-</nav>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+              </ol>
+            </nav>
 
             <h1>Lista de usuarios
                 <a href="/users/create" class="btn btn-success btn-lg float-right" role="button">

@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/home">Home</a></li>
-    <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Reservas</li>
-  </ol>
-</nav>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Reservas</li>
+              </ol>
+            </nav>
             <h1>
                 Sesiones reservadas por el usuario <strong>{{$user->name}}</strong>
                 <a href="/users" class="btn btn-danger">Atrás</a>

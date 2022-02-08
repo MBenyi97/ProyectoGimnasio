@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<nav aria-label="breadcrumb" >
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/home">Home</a></li>
-    <li class="breadcrumb-item"><a href="/activities">Actividades</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Sesiones</li>
-  </ol>
-</nav>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <nav aria-label="breadcrumb" >
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                <li class="breadcrumb-item"><a href="/activities">Actividades</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Sesiones</li>
+              </ol>
+            </nav>
 
             <h1>
                 <strong>{{$activity->name}}</strong>
@@ -44,22 +44,22 @@
             <table class="table table-striped">
                 <tr>
                     <th>Actividad</th>
+                    <th>Dia de la semana</th>
                     <th>Fecha de inicio</th>
                     <th>Fecha final</th>
                 </tr>
-                @foreach($activity->sesions as $sesion)
-                @if ($sesion->activity_id==$activity->id)
+                @forelse($activity->sesions as $sesion)
                 <tr>
                     <td>{{$activity->name}}</td>
+                    <td>{{$sesion->weekDay}} </td>
                     <td>{{$sesion->date_start}} </td>
                     <td>{{$sesion->date_end}} </td>
                 </tr>
-                @else
+                @empty
                 <tr>
                     <td colspan="3" class="text-center fw-bold">No hay sesiones registradas</td>
                 </tr>
-                @endif
-                @endforeach
+                @endforelse
             </table>
 
         </div>

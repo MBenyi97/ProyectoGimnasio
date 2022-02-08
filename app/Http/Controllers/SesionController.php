@@ -16,6 +16,9 @@ class SesionController extends Controller
      */
     public function index()
     {
+        // también podemos recuperar todas las entradas de las sesiones y actividades asociadas mediante el método ->get
+        // $sesions = Sesion::with('activity')->get();
+        // return $sesions;
         $sesions = Sesion::all();
         return view('sesion.index', ['sesions' => $sesions]);
     }
@@ -59,6 +62,7 @@ class SesionController extends Controller
                 $sesion = new Sesion;
                 $sesion->date_start = $hourStart->format('Y-m-d H:i:s');
                 $sesion->date_end = $hourEnd->format('Y-m-d H:i:s');
+                $sesion->weekDay = $sesion->englishWeekDay($hourStart->englishDayOfWeek);
                 $sesion->activity_id = $activityId;
                 $sesion->save();
             }
@@ -69,6 +73,17 @@ class SesionController extends Controller
         // INSERT INTO studies('code', 'name', 'abreviation')
     }
 
+    public function englishWeekDay($englishDay)
+    {
+        ($englishDay == 'Monday') ? $weekDay = 'Lunes' : false;
+        ($englishDay == 'Tuesday') ? $weekDay = 'Martes' : false;
+        ($englishDay == 'Wednesday') ? $weekDay = 'Miércoles' : false;
+        ($englishDay == 'Thursday') ? $weekDay = 'Jueves' : false;
+        ($englishDay == 'Friday') ? $weekDay = 'Viernes' : false;
+        ($englishDay == 'Saturday') ? $weekDay = 'Sábado' : false;
+        ($englishDay == 'Sunday') ? $weekDay = 'Domingo' : false;
+        return $weekDay;
+    }
 
     /**
      * Display the specified resource.
