@@ -7,10 +7,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Sesion;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    public function sesions()
+    {
+        return $this->belongsToMany(Sesion::class)
+            ->withPivot('created_at')
+            ->as('reservations')
+            ->withTimestamps();
+    }
 
     /**
      * The attributes that are mass assignable.

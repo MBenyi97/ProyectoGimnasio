@@ -1,11 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Clases inscritas</li>
+  </ol>
+</nav>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-
-            <h1>Lista de sesiones reservadas por el usuario <strong>{{$data['user']->name}}</strong></h1>
+            <h1>Lista de sesiones reservadas por el usuario <strong>{{$user->name}}</strong></h1>
 
             <table class="table table-striped">
                 <tr>
@@ -15,24 +20,14 @@
                     <th>Fecha de la reserva</th>
                     <th class="text-center">Opciones</th>
                 </tr>
-                @forelse ($reservations as $reservation)
+                @forelse ($user->sesions as $sesion)
                 <tr>
-                    @foreach ($data['activities'] as $activity)
-                    @foreach ($data['activityNames'] as $activityName)
-                    @if ($activity->name == $activityName)
-                    <td>{{$activityName}} </td>
-                    @endif
-                    @endforeach
-                    @endforeach
-                    @foreach ($data['sesions'] as $sesion)
-                    @if ($sesion->id == $reservation->sesion_id)
+                    <td>{{$sesion->activity->name}} </td>
                     <td>{{$sesion->date_start}} </td>
                     <td>{{$sesion->date_end}} </td>
-                    @endif
-                    @endforeach
-                    <td>{{$reservation->date}} </td>
+                    <td>{{$sesion->reservations->created_at}}</td>
                     <td class="text-center">
-                        <form method="POST" action="/reservations/{{$reservation->id}}">
+                        <form method="POST" action="/reservations/{{$sesion->id}}">
                             @csrf
                             @method('DELETE')
                             <a class="btn btn-danger remove-reservation"><i class="bi bi-trash"></i></a>

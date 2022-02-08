@@ -17,10 +17,7 @@ class SesionController extends Controller
     public function index()
     {
         $sesions = Sesion::all();
-        $activities = Activity::all();
-
-        // dd($sesions);
-        return view('sesion.index', ['sesions' => $sesions], ['activities' => $activities]);
+        return view('sesion.index', ['sesions' => $sesions]);
     }
 
     /**
@@ -92,9 +89,6 @@ class SesionController extends Controller
      */
     public function edit(Sesion $sesion)
     {
-
-
-
         // getting whole activities list
         $activities = Activity::all();
         // parsing the start and ending date of the sesion
