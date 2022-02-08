@@ -17,13 +17,23 @@
                 </tr>
                 @forelse ($reservations as $reservation)
                 <tr>
-                    @foreach ($data['activities'] as $activity)
-                    @foreach ($data['activityNames'] as $activityName)
-                    @if ($activity->name == $activityName)
-                    <td>{{$activityName}} </td>
+                    $val=count($data['activityNames']);
+                    for($i=0;$i<$val;$i++){
+                        if($data['activities']==$data['activityNames']){
+                               
+                                <td>{{$data['activities']}} </td>
+                    
+                        }
+                    }
+                  
+                   
+                    <!-- @foreach ($data['activities'] as $activity)
+                     @foreach ($data['activityNames'] as $activityName) -->
+                    <!-- @if ($activity->name == $data['activityNames'])
+                    <td>{{$activity->name}} </td>
                     @endif
-                    @endforeach
-                    @endforeach
+                    @endforeach --> -
+                    <!-- @endforeach -->
                     @foreach ($data['sesions'] as $sesion)
                     @if ($sesion->id == $reservation->sesion_id)
                     <td>{{$sesion->date_start}} </td>
