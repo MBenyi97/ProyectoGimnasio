@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
-use App\Models\Activity;
+use App\Models\User;
 use App\Models\Sesion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->only('create');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,22 +23,7 @@ class ReservationController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $activities = Activity::all();
-        $sesions = Sesion::all();
-        $reservations = Reservation::all();
-        $arrActivityNames = [];
-        $arrSesionDates = [];
-        foreach ($reservations as $reservation) {
-            array_push($arrActivityNames, Reservation::getActivityName($reservation));
-            array_push($arrSesionDates, Reservation::getSesionDates($reservation));
-        }
-        $data = [
-            'user' => $user,
-            'activities' => $activities,
-            'activityNames' => $arrActivityNames,
-            'sesions' => $sesions,
-        ];
-        return view('reservation.index', ['data' => $data], ['reservations' => $reservations]);
+        return view('reservation.index', ['user' => $user]);
     }
 
     /**
@@ -43,13 +33,11 @@ class ReservationController extends Controller
      */
     public function create($id)
     {
+
         $user = auth()->user();
         $sesion = Sesion::find($id);
-        $reservation = new Reservation;
-        $reservation->user_id = $user->id;
-        $reservation->sesion_id = $sesion->id;
-        $reservation->date = Carbon::now();
-        $reservation->save();
+        // $sesion->users()->attach($user); 
+        $sesion->users()->save($user, ['created_at' => Carbon::now()]);
         return redirect('/sesions');
     }
 
@@ -104,9 +92,11 @@ class ReservationController extends Controller
      * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reservation $reservation)
+    public function destroy($id)
     {
-        $reservation->delete();
+        $user = auth()->user();
+        $sesion = Sesion::find($id);
+        $sesion->users()->detach($user);
         return redirect('/reservations');
     }
 }
