@@ -25,8 +25,11 @@ Route::get('/', function () {
 Route::resource('users', UserController::class);
 Route::resource('activities', ActivityController::class);
 Route::resource('sesions', SesionController::class);
-Route::resource('reservations', ReservationController::class);
-Route::get('reservations/create/{id}', [ReservationController::class, 'create']);
+Route::controller(ReservationController::class)->group(function () {
+    Route::get('reservations', 'index');
+    Route::get('reservations/create/{id}', 'create');
+    Route::delete('reservations/{id}', 'destroy');
+});
 
 // Route::get('method', [IndexController::class, 'index']);
 // Route::get('method/create', [IndexController::class, 'create']);

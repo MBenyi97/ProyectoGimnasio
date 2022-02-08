@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+@if (!Auth::guest())
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/home">Home</a></li>
+        <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Crear</li>
+    </ol>
+</nav>
+@endif
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -146,6 +155,9 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <a class="btn btn-primary register-user">Register</a>
+                                @if(!Auth::guest())
+                                <a href="/users" class="btn btn-danger">Atrás</a>
+                                @endif
                             </div>
                         </div>
                     </form>

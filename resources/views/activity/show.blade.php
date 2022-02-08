@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+    <li class="breadcrumb-item"><a href="/activities">Actividades</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Sesiones</li>
+  </ol>
+</nav>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -40,7 +47,7 @@
                     <th>Fecha de inicio</th>
                     <th>Fecha final</th>
                 </tr>
-                @foreach($sesions as $sesion)
+                @foreach($activity->sesions as $sesion)
                 @if ($sesion->activity_id==$activity->id)
                 <tr>
                     <td>{{$activity->name}}</td>

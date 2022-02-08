@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+    <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Editar</li>
+  </ol>
+</nav>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -130,6 +137,7 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <a class="btn btn-primary edit-user">Editar</a>
+                                <a href="/users" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
                     </form>
