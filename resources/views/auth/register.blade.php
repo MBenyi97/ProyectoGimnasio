@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-@if (!Auth::guest())
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/home">Home</a></li>
-        <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Crear</li>
-    </ol>
-</nav>
-@endif
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if (!Auth::guest())
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Crear</li>
+                </ol>
+            </nav>
+            @endif
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 

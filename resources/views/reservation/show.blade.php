@@ -7,19 +7,14 @@
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Reservas</li>
+                <li class="breadcrumb-item active" aria-current="page">Clases inscritas</li>
               </ol>
             </nav>
-            <h1>
-                Sesiones reservadas por el usuario <strong>{{$user->name}}</strong>
-                <a href="/users" class="btn btn-danger">Atrás</a>
-            </h1>
+            <h1>Lista de sesiones reservadas por el usuario <strong>{{$user->name}}</strong></h1>
 
             <table class="table table-striped">
                 <tr>
                     <th>Actividad</th>
-                    <th>Día de la semana</th>
                     <th>Fecha y hora inicial</th>
                     <th>Fecha y hora final</th>
                     <th>Fecha de la reserva</th>
@@ -27,8 +22,7 @@
                 </tr>
                 @forelse ($user->sesions as $sesion)
                 <tr>
-                    <td>{{$sesion->activity->name}}</td>
-                    <td>{{$sesion->weekDay}}</td>
+                    <td>{{$sesion->activity->name}} </td>
                     <td>{{$sesion->date_start}} </td>
                     <td>{{$sesion->date_end}} </td>
                     <td>{{$sesion->reservations->created_at}}</td>
@@ -42,10 +36,11 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="text-center fw-bold"><strong>No hay reservas</strong></td>
+                    <td colspan="5" class="text-center fw-bold"><strong>No hay reservas</strong></td>
                 </tr>
                 @endforelse
             </table>
+
         </div>
     </div>
 </div>

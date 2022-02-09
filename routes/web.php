@@ -27,16 +27,11 @@ Route::resource('activities', ActivityController::class);
 Route::resource('sesions', SesionController::class);
 Route::controller(ReservationController::class)
     ->group(function () {
+        Route::get('reservations', 'index');
+        Route::get('reservations/filter', 'filter');
         Route::get('reservations/create/{id}', 'create');
         Route::delete('reservations/{id}', 'destroy');
-        Route::get('reservations', 'index');
     });
-
-
-
-// Route::get('/reservations', 'index');
-// Route::get('/reservations/create/{id}', 'create');
-// Route::delete('/reservations/{id}', 'destroy');
 
 
 // Route::get('method', [IndexController::class, 'index']);

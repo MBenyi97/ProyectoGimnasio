@@ -20,24 +20,26 @@
             <table class="table table-striped">
                 <tr>
                     <th>Actividad</th>
+                    <th>Día de la semana</th>
                     <th>Fecha de inicio</th>
                     <th>Fecha final</th>
                     <th class="text-center">Opciones</th>
                 </tr>
                 @forelse ($sesions as $sesion)
                 <tr>
-                    <td>
-                        {{$sesion->activity->name}}
-                    </td>
+                    <td>{{$sesion->activity->name}}</td>
+                    <td>{{$sesion->weekDay}}</td>
                     <td>{{$sesion->date_start}} </td>
                     <td>{{$sesion->date_end}} </td>
                     <td class="text-center">
                         <form method="POST" action="/sesions/{{$sesion->id}}">
                             @csrf
                             @method('DELETE')
-                            <a class="btn btn-primary add-reservation" href="/reservations/create/{{$sesion->id}}" data-id="{{$sesion->id}}"><i class="bi bi-bookmark-plus"></i></a>
-                            <a class="btn btn-warning" href="/sesions/{{$sesion->id}}/edit"><i class="bi bi-pencil-square"></i></a>
-                            <a class="btn btn-danger remove-sesion"><i class="bi bi-trash"></i></a>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a class="btn btn-primary add-reservation" href="/reservations/create/{{$sesion->id}}" data-id="{{$sesion->id}}"><i class="bi bi-bookmark-plus"></i></a>
+                                <a class="btn btn-warning" href="/sesions/{{$sesion->id}}/edit"><i class="bi bi-pencil-square"></i></a>
+                                <a class="btn btn-danger remove-sesion"><i class="bi bi-trash"></i></a>
+                            </div>
                         </form>
                     </td>
                 </tr>

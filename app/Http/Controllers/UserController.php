@@ -12,10 +12,31 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('user.index', ['users' => $users]);
+        // $users = User::all();
+        // return view('user.index', ['users' => $users]);
+
+        $user = auth()->user();
+        $users = User::paginate(5);
+        $name = $request->name;
+        $role = $request->role;
+
+        if ($name) {
+            $users = User::where('name', 'like', "%$name%")->paginate(5);
+        }
+
+        if ($role) {
+            $users = User::where('role_id', $role)->paginate(5);
+        }
+
+        $users->withPath("/users?name=$name&role=$role");
+        return view('user.index', [
+            'users' => $users,
+            'user' => $user,
+            'name' => $name,
+            'role' => $role
+        ]);
     }
 
     /**
@@ -24,7 +45,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    { 
+    {
         return view('auth.register');
     }
 

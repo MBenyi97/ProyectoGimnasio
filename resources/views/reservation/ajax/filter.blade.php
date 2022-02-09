@@ -5,47 +5,34 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Reservas</li>
-              </ol>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Clases inscritas</li>
+                </ol>
             </nav>
-            <h1>
-                Sesiones reservadas por el usuario <strong>{{$user->name}}</strong>
-                <a href="/users" class="btn btn-danger">Atrás</a>
-            </h1>
+            <h1>Sesiones</h1>
 
             <table class="table table-striped">
                 <tr>
                     <th>Actividad</th>
-                    <th>Día de la semana</th>
-                    <th>Fecha y hora inicial</th>
-                    <th>Fecha y hora final</th>
-                    <th>Fecha de la reserva</th>
-                    <th class="text-center">Opciones</th>
+                    <th>Dia de la semana</th>
+                    <th>Fecha de inicio</th>
+                    <th>Fecha final</th>
                 </tr>
-                @forelse ($user->sesions as $sesion)
+                @forelse($activity->sesions as $sesion)
                 <tr>
-                    <td>{{$sesion->activity->name}}</td>
-                    <td>{{$sesion->weekDay}}</td>
+                    <td>{{$activity->name}}</td>
+                    <td>{{$sesion->weekDay}} </td>
                     <td>{{$sesion->date_start}} </td>
                     <td>{{$sesion->date_end}} </td>
-                    <td>{{$sesion->reservations->created_at}}</td>
-                    <td class="text-center">
-                        <form method="POST" action="/reservations/{{$sesion->id}}">
-                            @csrf
-                            @method('DELETE')
-                            <a class="btn btn-danger remove-reservation"><i class="bi bi-trash"></i></a>
-                        </form>
-                    </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="text-center fw-bold"><strong>No hay reservas</strong></td>
+                    <td colspan="3" class="text-center fw-bold">No hay sesiones registradas</td>
                 </tr>
                 @endforelse
             </table>
+
         </div>
     </div>
 </div>

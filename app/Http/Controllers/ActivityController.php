@@ -65,8 +65,7 @@ class ActivityController extends Controller
      */
     public function show(Activity $activity)
     {
-        $sesions = Sesion::all();
-        return view('activity.show', ['activity' => $activity], ['sesions' => $sesions]);
+        return view('activity.show', ['activity' => $activity]);
     }
 
     /**

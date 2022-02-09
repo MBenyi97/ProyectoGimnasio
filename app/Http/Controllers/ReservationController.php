@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
-use App\Models\User;
+use App\Models\Activity;
 use App\Models\Sesion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use DB;
 
 class ReservationController extends Controller
 {
@@ -15,6 +16,18 @@ class ReservationController extends Controller
     {
         $this->middleware('auth')->only('create');
     }
+
+    public function filter(Request $request)
+    {
+        $filter = $request->filter;
+        $activity = Activity::where('name', 'like', "%$filter%")->get();
+        // $activity = Activity::find($singleActivity->id);
+        // Devuelve JSON
+        return $activity;
+        // Devuelve HTML
+        // return view('reservation.ajax.filter', ['activity' => $activity]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,8 +35,8 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        return view('reservation.index', ['user' => $user]);
+        $activities = Activity::with('sesions')->get();
+        return view('reservation.index', ['activities' => $activities]);
     }
 
     /**
@@ -97,6 +110,6 @@ class ReservationController extends Controller
         $user = auth()->user();
         $sesion = Sesion::find($id);
         $sesion->users()->detach($user);
-        return redirect('/reservations');
+        return redirect('/users');
     }
 }

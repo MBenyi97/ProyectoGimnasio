@@ -1,50 +1,56 @@
-g@extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Clases inscritas</li>
-              </ol>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Reservas</li>
+                </ol>
             </nav>
-            <h1>Lista de sesiones reservadas por el usuario <strong>{{$user->name}}</strong></h1>
+            <div class="card">
+                <div class="card-header">Introduce el nombre de la clase a la que te gustaría unirte</div>
+                <div class="card-body">
+                    @csrf
+                    <!-- ACTIVITY -->
+                    <div class="row ms-auto">
+                        <div class="btn-toolbar d-flex justify-content-center" role="toolbar">
+                            <form class="d-flex form" action="">
+                                <div class="input-group me-3">
+                                    <div class="input-group-text" id="btnGroupAddon">Actividad</div>
+                                    <input type="text" class="form-control filter" placeholder="Escribe aquí" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                                </div>
 
-            <table class="table table-striped">
-                <tr>
-                    <th>Actividad</th>
-                    <th>Fecha y hora inicial</th>
-                    <th>Fecha y hora final</th>
-                    <th>Fecha de la reserva</th>
-                    <th class="text-center">Opciones</th>
-                </tr>
-                @forelse ($user->sesions as $sesion)
-                <tr>
-                    <td>{{$sesion->activity->name}} </td>
-                    <td>{{$sesion->date_start}} </td>
-                    <td>{{$sesion->date_end}} </td>
-                    <td>{{$sesion->reservations->created_at}}</td>
-                    <td class="text-center">
-                        <form method="POST" action="/reservations/{{$sesion->id}}">
-                            @csrf
-                            @method('DELETE')
-                            <a class="btn btn-danger remove-reservation"><i class="bi bi-trash"></i></a>
-                        </form>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="5" class="text-center fw-bold"><strong>No hay reservas</strong></td>
-                </tr>
-                @endforelse
-            </table>
-
+                                <div class="btn-group me-2" role="group">
+                                    <input class="btn btn-primary btn-form" type="submit" value="Buscar">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ajax-loader">
+            </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
+    $(document).ready(function() {
+        $('.btn-form').click(function(e) {
+            e.preventDefault();
+            data = $('.filter').val();
+            // $.get("/reservations/filter?filter=" + data);
+
+            $.get("/reservations/filter?filter=" + data, function(data, status) {
+                console.log("Data: " + data + " \nStatus: " + status);
+                var json = JSON.stringify(data, undefined, 4);
+                $('.ajax-loader').html(json);
+            });
+        });
+    });
+
     $(".remove-reservation").click(function(event) {
         var form = $(this).closest("form");
         var name = $(this).data("name");

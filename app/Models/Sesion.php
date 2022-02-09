@@ -26,7 +26,7 @@ class Sesion extends Model
     use HasFactory;
     //lista de atributos "necesario" para rellenar al crear 
     //un objeto
-    protected $fillable = ['date_start', 'date_end'];
+    protected $fillable = ['date_start', 'date_end', 'weekDay'];
 
     public function __toString()
     {

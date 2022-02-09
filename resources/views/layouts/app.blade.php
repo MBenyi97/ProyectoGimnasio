@@ -37,9 +37,14 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <!-- <a class="navbar-brand" href="{{ url('/') }}">
+                    {{ config('app.name', 'Laravel') }}
+                </a> -->
+                <a class="btn btn-primary" type="button" href="{{ url('/') }}">
+                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                     {{ config('app.name', 'Laravel') }}
                 </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -50,19 +55,19 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Gym Users -->
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/users">Usuarios</a>
+                            <a class="nav-link" href="/users">Usuarios</a>
                         </li>
                         <!-- Gym Activities -->
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/activities">Actividades</a>
+                            <a class="nav-link" href="/activities">Actividades</a>
                         </li>
                         <!-- Gym Sessions -->
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/sesions">Sesiones</a>
+                            <a class="nav-link" href="/sesions">Sesiones</a>
                         </li>
                         <!-- Gym Reservations -->
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/reservations">Reservas</a>
+                            <a class="nav-link" href="/reservations">Reservas</a>
                         </li>
                     </ul>
                     @endif

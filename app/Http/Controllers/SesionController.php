@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Sesion;
 use App\Models\Activity;
 use Illuminate\Http\Request;
+use DB;
 
 class SesionController extends Controller
 {
@@ -19,7 +20,10 @@ class SesionController extends Controller
         // también podemos recuperar todas las entradas de las sesiones y actividades asociadas mediante el método ->get
         // $sesions = Sesion::with('activity')->get();
         // return $sesions;
-        $sesions = Sesion::all();
+        // $sesions = Sesion::all();
+        $sesions = Sesion::with('activity')
+        ->orderBy('date_start','asc')
+        ->get();
         return view('sesion.index', ['sesions' => $sesions]);
     }
 
@@ -62,7 +66,7 @@ class SesionController extends Controller
                 $sesion = new Sesion;
                 $sesion->date_start = $hourStart->format('Y-m-d H:i:s');
                 $sesion->date_end = $hourEnd->format('Y-m-d H:i:s');
-                $sesion->weekDay = $sesion->englishWeekDay($hourStart->englishDayOfWeek);
+                $sesion->weekDay = $this->englishWeekDay($hourStart->englishDayOfWeek);
                 $sesion->activity_id = $activityId;
                 $sesion->save();
             }
@@ -82,6 +86,7 @@ class SesionController extends Controller
         ($englishDay == 'Friday') ? $weekDay = 'Viernes' : false;
         ($englishDay == 'Saturday') ? $weekDay = 'Sábado' : false;
         ($englishDay == 'Sunday') ? $weekDay = 'Domingo' : false;
+        // $weekDay = "index";
         return $weekDay;
     }
 
