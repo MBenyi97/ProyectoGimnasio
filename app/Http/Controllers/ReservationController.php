@@ -20,12 +20,8 @@ class ReservationController extends Controller
     public function filter(Request $request)
     {
         $filter = $request->filter;
-        $activity = Activity::where('name', 'like', "%$filter%")->get();
-        // $activity = Activity::find($singleActivity->id);
-        // Devuelve JSON
-        return $activity;
-        // Devuelve HTML
-        // return view('reservation.ajax.filter', ['activity' => $activity]);
+        $activityJSON = Activity::where('name', 'like', "%$filter%")->get();
+        return $activityJSON;
     }
 
     /**

@@ -23,32 +23,56 @@
                                     <input type="text" class="form-control filter" placeholder="Escribe aquí" aria-label="Input group example" aria-describedby="btnGroupAddon">
                                 </div>
 
-                                <div class="btn-group me-2" role="group">
+                                <!-- <div class="btn-group me-2" role="group">
                                     <input class="btn btn-primary btn-form" type="submit" value="Buscar">
-                                </div>
+                                </div> -->
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="ajax-loader">
-            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12" id="table">
+
         </div>
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('.btn-form').click(function(e) {
+        $('.filter').on('keyup', function(e) {
             e.preventDefault();
-            data = $('.filter').val();
-            // $.get("/reservations/filter?filter=" + data);
-
-            $.get("/reservations/filter?filter=" + data, function(data, status) {
-                console.log("Data: " + data + " \nStatus: " + status);
-                var json = JSON.stringify(data, undefined, 4);
-                $('.ajax-loader').html(json);
-            });
+            key = $(this).val();
+            (key == '') ? emptyTable(): request(key);
         });
+
+        function request(data) {
+            $.get("/reservations/filter?filter=" + data, function(data, status) {
+                loadTable(data);
+            });
+        }
+
+        function loadTable(data) {
+            var entry_data, sesion, activity_name, weekDay, date_start, date_end;
+            data.forEach((activity) => {
+                activity_name = '<td>' + activity.name + '</td>';
+                activity.sesions.forEach(function(sesion) {
+                    weekDay = '<td>' + sesion.weekDay + '</td>';
+                    date_start = '<td>' + sesion.date_start + '</td>';
+                    date_end = '<td>' + sesion.date_end + '</td>';
+                    entry_data += '<tr id="entry-row">' + activity_name + weekDay + date_start + date_end + '</tr>';
+                });
+            });
+            $('#table').html('<table class="table table-striped" id="table-data"><tr><th>Actividad</th><th>Día de la semana</th><th>Fecha y hora inicial</th><th>Fecha y hora final</th></tr></table>');
+            $('#table-data').append(entry_data);
+        }
+
+        function emptyTable() {
+            $('#table').html('');
+        }
     });
 
     $(".remove-reservation").click(function(event) {
