@@ -26,13 +26,14 @@ Route::resource('users', UserController::class);
 Route::resource('activities', ActivityController::class);
 Route::resource('sesions', SesionController::class);
 Route::controller(ReservationController::class)
+    ->middleware('auth')
     ->group(function () {
         Route::get('reservations', 'index');
         Route::get('reservations/filter', 'filter');
         Route::get('reservations/create/{id}', 'create');
         // General destroy route
         Route::delete('reservations/{id}', 'destroy');
-        // Destroy route with user id
+        // Destroy route and redirect to user id
         Route::delete('reservations/{userId}/{sesionId}', 'userSesionDestroy');
     });
 
