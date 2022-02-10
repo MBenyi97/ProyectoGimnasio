@@ -1,4 +1,4 @@
-g@extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <nav aria-label="breadcrumb">
