@@ -3,13 +3,20 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Sesion;
 use App\Models\Activity;
 use Illuminate\Http\Request;
+use Illuminate\Http\Middleware\CheckRole;
+use Illuminate\Support\Facades\Auth;
 use DB;
 
 class SesionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role')->except(['show,destroy']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -26,8 +33,11 @@ class SesionController extends Controller
 
         if ($name) {
             $activities = Activity::where('name', 'like', "%$name%")->with('sesions')->paginate(5);
-        }
 
+            // $activities = User::where('users', function ($q) use ($user) {
+            //     $q->where('id', $user->id);              
+            // })->with('sesions')->get();
+        }
         $activities->withPath("/sesions?activity=$name");
         return view('sesion.index', [
             'activities' => $activities,
@@ -101,9 +111,16 @@ class SesionController extends Controller
      * @param  \App\Models\Sesion  $sesion
      * @return \Illuminate\Http\Response
      */
-    public function show(Sesion $sesion)
+    public function show()
     {
-        return view('sesion.show', ['sesion' => $sesion]);
+        $user = Auth::user();
+        $sesions = Sesion::whereHas('users', function ($q) {
+            $q->where('user_id', 1);
+        })->get();
+        return view('sesion.show', [
+            'sesions' => $sesions,
+            'user' => $user
+        ]);
     }
 
     /**
@@ -207,7 +224,12 @@ class SesionController extends Controller
      */
     public function destroy(Sesion $sesion)
     {
-        $sesion->delete();
+
+        $user = Auth::user();
+        $sesion->users()->detach($user);
+        if ($user->id != 1) {
+            return redirect('/sesions/show');
+        }
         return redirect('/sesions');
     }
 }

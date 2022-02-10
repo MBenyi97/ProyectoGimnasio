@@ -52,10 +52,12 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/users">Usuarios</a>
                         </li>
+                        @if(Auth::user()->role_id==1)
                         <!-- Gym Activities -->
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/activities">Actividades</a>
                         </li>
+                        @endif
                         <!-- Gym Sessions -->
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/sesions">Sesiones</a>

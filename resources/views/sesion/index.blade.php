@@ -45,8 +45,8 @@
                 <tr>
                     <td>{{$sesion->activity->name}}</td>
                     <td>{{$sesion->weekDay}}</td>
-                    <td>{{$sesion->hour_start}} </td>
-                    <td>{{$sesion->hour_end}} </td>
+                    <td>{{Carbon\Carbon::parse($sesion->hour_start)->format('H:i')}}</td>
+                    <td>{{Carbon\Carbon::parse($sesion->hour_end)->format('H:i')}}</td>
                     <td>{{$sesion->date}} </td>
                     <td>
                         <form method="POST" action="/sesions/{{$sesion->id}}">

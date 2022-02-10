@@ -60,10 +60,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/users">Usuarios</a>
                         </li>
+                        @if(Auth::user()->role_id==1)
                         <!-- Gym Activities -->
                         <li class="nav-item">
                             <a class="nav-link" href="/activities">Actividades</a>
                         </li>
+                        @endif
                         <!-- Gym Sessions -->
                         <li class="nav-item">
                             <a class="nav-link" href="/sesions">Sesiones</a>

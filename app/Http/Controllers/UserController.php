@@ -6,13 +6,15 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\CheckRole;
 
 class UserController extends Controller
 {
 
-    public function __contrusct()
+    public function __construct()
     {
-        $this->middleware('role')->only('index');
+        $this->middleware('role')->except('showUser');
     }
 
     /**
@@ -45,6 +47,12 @@ class UserController extends Controller
             'name' => $name,
             'role' => $role
         ]);
+    }
+
+    public function showUser()
+    {
+        $user = Auth::user();
+        return view('user.show', ['user' => $user]);
     }
 
     /**
