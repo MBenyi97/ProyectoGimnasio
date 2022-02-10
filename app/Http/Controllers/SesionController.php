@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Sesion;
 use App\Models\Activity;
 use Illuminate\Http\Request;
+use DB;
 
 class SesionController extends Controller
 {
@@ -14,10 +15,24 @@ class SesionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sesions = Sesion::all();
-        return view('sesion.index', ['sesions' => $sesions]);
+        // también podemos recuperar todas las entradas de las sesiones y actividades asociadas mediante el método ->get
+        // $sesions = Sesion::with('activity')->get();
+        // return $sesions;
+        // $sesions = Sesion::all();
+        $activities = Activity::paginate(5);
+        $name = $request->name;
+
+        if ($name) {
+            $activities = Activity::where('name', 'like', "%$name%")->with('sesions')->paginate(5);
+        }
+
+        $activities->withPath("/sesions?activity=$name");
+        return view('sesion.index', [
+            'activities' => $activities,
+            'name' => $name
+        ]);
     }
 
     /**
@@ -39,17 +54,17 @@ class SesionController extends Controller
      */
     public function store(Request $request)
     {
-        // fecha creada con carbon
+        // Date created with Carbon
         $dt = Carbon::now();
-        // array que recoge las horas de comienzo
+        // Array getting the start hour
         $arrHoraStart = explode(":", $request->hour_start);
-        // array que recoge las horas del final
+        // Array getting the end hour
         $arrHoraEnd = explode(":", $request->hour_end);
-        // fecha pasada por el formulario y parseada a carbon
+        // Date from form and parsed by Carbon
         $dateCarbon = Carbon::parse($request->date);
-        // id de la actividad seleccionada
+        // Activity ID
         $activityId = $request->activity_id;
-        // array de los dias de la semana seleccionados
+        // Week days selected
         $weekDays = $request->weekDays;
         for ($i = 1; $i < $dateCarbon->daysInMonth + 1; ++$i) {
             $hourStart = Carbon::create($dateCarbon->year, $dateCarbon->month, $i, $arrHoraStart[0], $arrHoraStart[1], 00);
@@ -57,18 +72,28 @@ class SesionController extends Controller
 
             if (in_array($hourStart->englishDayOfWeek, $weekDays, false)) {
                 $sesion = new Sesion;
-                $sesion->date_start = $hourStart->format('Y-m-d H:i:s');
-                $sesion->date_end = $hourEnd->format('Y-m-d H:i:s');
+                $sesion->date = $hourStart->format('Y-m-d');
+                $sesion->hour_start = $hourStart->format('H:i');
+                $sesion->hour_end = $hourEnd->format('H:i');
+                $sesion->weekDay = $this->englishWeekDay($hourStart->englishDayOfWeek);
                 $sesion->activity_id = $activityId;
                 $sesion->save();
             }
         }
-        // header('Location .....');
         return redirect('/sesions');
-
-        // INSERT INTO studies('code', 'name', 'abreviation')
     }
 
+    public function englishWeekDay($englishDay)
+    {
+        $englishDay == 'Monday' ? $weekDay = 'Lunes' : false;
+        $englishDay == 'Tuesday' ? $weekDay = 'Martes' : false;
+        $englishDay == 'Wednesday' ? $weekDay = 'Miércoles' : false;
+        $englishDay == 'Thursday' ? $weekDay = 'Jueves' : false;
+        $englishDay == 'Friday' ? $weekDay = 'Viernes' : false;
+        $englishDay == 'Saturday' ? $weekDay = 'Sábado' : false;
+        $englishDay == 'Sunday' ? $weekDay = 'Domingo' : false;
+        return $weekDay;
+    }
 
     /**
      * Display the specified resource.
@@ -89,27 +114,21 @@ class SesionController extends Controller
      */
     public function edit(Sesion $sesion)
     {
-        // getting whole activities list
         $activities = Activity::all();
-        // parsing the start and ending date of the sesion
+        // Function to load the weekDays selected
+        $daysChecked = $this->loadWeekDays($sesion);
+        return view('sesion.edit', [
+            'sesion' => $sesion,
+            'activities' => $activities,
+            'daysChecked' => $daysChecked
+        ]);
+    }
+
+    public function loadWeekDays(Sesion $sesion)
+    {
+        // Parsing the start date of the sesion
         $dtStart = Carbon::parse($sesion->date_start);
-        $dtEnd = Carbon::parse($sesion->date_end);
-        // checking if days are shorter than 1 digit and adding a 0
-        (strlen($dtStart->day) < 2) ? $day = "0" . $dtStart->day : $day = $dtStart->day;
-        // checking if months are shorter than 1 digit and adding a 0
-        (strlen($dtStart->month) < 2) ? $month = "0" . $dtStart->month : $month = $dtStart->month;
-        // variable holding the date for the date input in the form
-        $dateForm = $dtStart->year . "-" . $month . "-" . $day;
-        // checking if minutes are shorter than 1 digit and adding a 0
-        (strlen($dtStart->minute) < 2) ? $dtStartMinute = "0" . $dtStart->minute : $dtStartMinute = $dtStart->minute;
-        // checking if hours are shorter than 1 digit and adding a 0
-        (strlen($dtEnd->minute) < 2) ? $dtEndMinute = "0" . $dtEnd->minute : $dtEndMinute = $dtEnd->minute;
-        // array holding the start and ending hours
-        $arrHours = [
-            'hourStart' => $dtStart->hour . ":" . $dtStartMinute,
-            'hourEnd' => $dtEnd->hour . ":" . $dtEndMinute
-        ];
-        // array holding the days
+        // Array holding the days
         $daysChecked = [
             'Monday' => '',
             'Tuesday' => '',
@@ -119,18 +138,11 @@ class SesionController extends Controller
             'Saturday' => '',
             'Sunday' => '',
         ];
-        // array holding the days and loading the ones checked
+        // Loading the array with the checked week days
         foreach ($daysChecked as $key => $val) {
             ($key == $dtStart->englishDayOfWeek) ? $daysChecked[$key] = 'checked' : '';
         }
-        // array carrying activities, starting/ending hours and the days checked
-        $activities_dates = [
-            'activities' => $activities,
-            'arrHours' => $arrHours,
-            'daysChecked' => $daysChecked,
-            'date' => $dateForm
-        ];
-        return view('sesion.edit', ['sesion' => $sesion], ['activities_dates' => $activities_dates]);
+        return $daysChecked;
     }
 
     /**
@@ -142,32 +154,49 @@ class SesionController extends Controller
      */
     public function update(Request $request, Sesion $sesion)
     {
-        // array that picks the starting hours
+        // Array getting the start hour
         $arrHoraStart = explode(":", $request->hour_start);
-        // array that picks the ending hours
+        // Array getting the end hour
         $arrHoraEnd = explode(":", $request->hour_end);
-        // date selected from the form and parsed into carbon
+        // Date from form and parsed by Carbon
         $dateCarbon = Carbon::parse($request->date);
-        // id of the selected activity
-        $activityId = $request->activity_id;
-        // array holding the week days selected on the form
-        $weekDays = $request->weekDays;
-        // method for checking if the week of day is no longer selected it will delete the sesion
-        $WeekDayNotExists = new Sesion;
-        $WeekDayNotExists::destroyIfDayNotExists($request->sesion_id, $weekDays);
+        // Function if the weekDay is not checked it is deleted
+        $this->destroyIfDayNotExists($request->sesion_id, $request->weekDays);
         for ($i = 1; $i < $dateCarbon->daysInMonth + 1; ++$i) {
             $hourStart = Carbon::create($dateCarbon->year, $dateCarbon->month, $i, $arrHoraStart[0], $arrHoraStart[1], 00);
             $hourEnd = Carbon::create($dateCarbon->year, $dateCarbon->month, $i, $arrHoraEnd[0], $arrHoraEnd[1], 00);
 
-            if (in_array($hourStart->englishDayOfWeek, $weekDays, false)) {
-                (Sesion::findByDate($hourStart)) ? $sesion = Sesion::find($request->sesion_id) : $sesion = new Sesion;
-                $sesion->date_start = $hourStart->format('Y-m-d H:i:s');
-                $sesion->date_end = $hourEnd->format('Y-m-d H:i:s');
-                $sesion->activity_id = $activityId;
+            if (in_array($hourStart->englishDayOfWeek, $request->weekDays, false)) {
+                ($this->findByDate($hourStart)) ? $sesion = Sesion::find($request->sesion_id) : $sesion = new Sesion;
+                $sesion->date = $hourStart->format('Y-m-d');
+                $sesion->hour_start = $hourStart->format('H:i');
+                $sesion->hour_end = $hourEnd->format('H:i');
+                $sesion->weekDay = $this->englishWeekDay($hourStart->englishDayOfWeek);
+                $sesion->activity_id = $request->activity_id;
                 $sesion->save();
             }
         }
         return redirect('/sesions');
+    }
+
+
+    public static function findByDate($date)
+    {
+        $sesions = Sesion::all();
+        $id = "";
+        foreach ($sesions as $sesion) {
+            ($sesion->date_start == $date) ? $id = $sesion->id : false;
+        }
+        return Sesion::find($id);
+    }
+
+    public static function destroyIfDayNotExists($id, $weekDaysSelected)
+    {
+        $sesion = Sesion::find($id);
+        $sesionCarbonDate = Carbon::parse($sesion->date_start);
+        foreach ($weekDaysSelected as $weekDay) {
+            ($weekDay != $sesionCarbonDate->englishDayOfWeek) ? Sesion::destroy($sesion) : false;
+        }
     }
 
     /**

@@ -1,25 +1,43 @@
 @extends('layouts.app')
 
 @section('content')
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/home">Home</a></li>
-    <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Editar</li>
-  </ol>
-</nav>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Editar</li>
+                </ol>
+            </nav>
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
 
                     <form method="POST" action="/users/{{$user->id}}" id="edit-form">
-                        <!-- <form method="POST" action="{{ route('register') }}" id="register-form"> -->
                         @csrf
                         @method('PUT')
+
+                        <!-- ROLE -->
+                        <div class="row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Role') }}</label>
+
+                            <div class="col-md-6">
+                                <select class="form-select" aria-label="Default select example" name="role" for="role">
+                                    @foreach($roles as $role)
+                                    <option value="{{$role->id}}" {{ $role->id == $user->role->id ? 'selected' : '' }}>{{$role->name}}</option>
+                                    @endforeach
+                                </select>
+
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
 
                         <!-- DNI -->
                         <div class="row mb-3">

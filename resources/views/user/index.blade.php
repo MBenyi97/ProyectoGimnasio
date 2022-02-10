@@ -1,24 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/home">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
-  </ol>
-</nav>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-9">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+                </ol>
+            </nav>
 
-            <h1>Lista de usuarios
-                <a href="/users/create" class="btn btn-success btn-lg float-right" role="button">
-                    <i class="bi bi-person-plus-fill"></i>
-                </a>
-            </h1>
+            <div class="btn-toolbar d-flex justify-content-between" role="toolbar">
+                <h1>Lista de usuarios
+                    <a href="/users/create" class="btn btn-success btn float-right" role="button">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </a>
+                </h1>
+                <div class="input-group">
+                    <div class="container-fluid">
+                        <form class="d-flex form-filter" action="/users" method="get">
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">@</span>
+                                <input type="text" class="form-control filter-by-name" placeholder="Filtrar por nombre" aria-label="Usuario" name="name" value="{{$name}}" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control filter-by-role" placeholder="Filtrar por role" aria-label="Role" name="role" value="{{$role}}" aria-describedby="basic-addon1">
+                                <input class="btn btn-primary" type="submit" value="Filtrar">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
 
             <table class="table table-striped">
                 <tr>
+                    <th>Role</th>
                     <th>DNI</th>
                     <th>Nombre</th>
                     <th>Correo</th>
@@ -28,8 +44,10 @@
                     <th>Genero</th>
                     <th class="text-center">Opciones</th>
                 </tr>
+
                 @forelse ($users as $user)
                 <tr>
+                    <td>{{$user->role->name}} </td>
                     <td>{{$user->dni}} </td>
                     <td>{{$user->name}} </td>
                     <td>{{$user->email}} </td>
@@ -41,9 +59,11 @@
                         <form method="POST" action="/users/{{$user->id}}">
                             @csrf
                             @method('DELETE')
-                            <a class="btn btn-primary" href="/users/{{$user->id}}"><i class="bi bi-eye"></i></a>
-                            <a class="btn btn-warning" href="/users/{{$user->id}}/edit"><i class="bi bi-pencil-square"></i></a>
-                            <a class="btn btn-danger remove-user"><i class="bi bi-trash"></i></a>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a class="btn btn-primary" href="/users/{{$user->id}}"><i class="bi bi-eye"></i></a>
+                                <a class="btn btn-warning" href="/users/{{$user->id}}/edit"><i class="bi bi-pencil-square"></i></a>
+                                <a class="btn btn-danger remove-user"><i class="bi bi-trash"></i></a>
+                            </div>
                         </form>
                     </td>
                 </tr>
@@ -53,7 +73,7 @@
                 </tr>
                 @endforelse
             </table>
-
+            {{$users->links("pagination::bootstrap-4")}}
         </div>
     </div>
 </div>

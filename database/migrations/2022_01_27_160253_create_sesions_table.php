@@ -15,8 +15,10 @@ class CreateSesionsTable extends Migration
     {
         Schema::create('sesions', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('date_start');
-            $table->dateTime('date_end');
+            $table->string('weekDay');
+            $table->date('date')->format('d-m-Y');
+            $table->time('hour_start')->format('H:i');
+            $table->time('hour_end')->format('H:i');
             $table->unsignedBigInteger('activity_id')->default(1);
             $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
             $table->timestamps();
