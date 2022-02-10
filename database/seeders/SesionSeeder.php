@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class SesionSeeder extends Seeder
 {
@@ -15,18 +15,24 @@ class SesionSeeder extends Seeder
     public function run()
     {
         DB::table('sesions')->insert([
-            'date_start' => '2022-02-25 18:00:00',
-            'date_end' => '2022-02-25 19:00:00',
+            'weekDay' => 'Viernes',
+            'date' => '2022-02-25',
+            'hour_start' => '18:00',
+            'hour_end' => '19:00',
             'activity_id' => '1'
         ]);
         DB::table('sesions')->insert([
-            'date_start' => '2022-03-30 21:00:00',
-            'date_end' => '2022-03-30 22:00:00',
+            'weekDay' => 'Jueves',
+            'date' => '2022-02-03',
+            'hour_start' => '21:00',
+            'hour_end' => '22:00',
             'activity_id' => '1'
         ]);
         DB::table('sesions')->insert([
-            'date_start' => '2022-05-12 12:00:00',
-            'date_end' => '2022-05-12 13:00:00',
+            'weekDay' => 'Sábado',
+            'date' => '2022-02-12',
+            'hour_start' => '12:00',
+            'hour_end' => '13:00',
             'activity_id' => '1'
         ]);
     }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -12,10 +14,31 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('user.index', ['users' => $users]);
+        // $users = User::all();
+        // return view('user.index', ['users' => $users]);
+
+        $user = auth()->user();
+        $users = User::paginate(5);
+        $name = $request->name;
+        $role = $request->role;
+
+        if ($name) {
+            $users = User::where('name', 'like', "%$name%")->paginate(5);
+        }
+
+        if ($role) {
+            $users = User::where('role_id', $role)->paginate(5);
+        }
+
+        $users->withPath("/users?name=$name&role=$role");
+        return view('user.index', [
+            'users' => $users,
+            'user' => $user,
+            'name' => $name,
+            'role' => $role
+        ]);
     }
 
     /**
@@ -25,7 +48,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+        $roles = Role::all();
+        return view('user.create', ['roles' => $roles]);
     }
 
     /**
@@ -36,6 +60,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $user = User::create([
+            'role_id' => $request->role_id,
+            'dni' => $request->dni,
+            'name' => $request->name,
+            'email' => $request->email,
+            'weight' => $request->weight,
+            'height' => $request->height,
+            'birthdate' => $request->birthdate,
+            'gender' => $request->gender,
+            'password' => Hash::make($request->password),
+        ]);
+        return redirect('/users');
     }
 
     /**
@@ -46,7 +82,6 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $users = User::all();
         return view('user.show', ['user' => $user]);
     }
 
@@ -58,6 +93,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $roles = Role::all();
         $genders = [
             'Hombre' => '',
             'Mujer' => '',
@@ -66,7 +102,11 @@ class UserController extends Controller
         foreach ($genders as $key => $value) {
             ($key == $user->gender) ? $genders[$key] = 'selected' : false;
         }
-        return view('user.edit', ['user' => $user], ['genders' => $genders]);
+        return view('user.edit', [
+            'user' => $user,
+            'genders' => $genders,
+            'roles' => $roles
+        ]);
     }
 
     /**

@@ -17,8 +17,27 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}" id="register-form">
+                    <form method="POST" action="/users" id="register-form">
                         @csrf
+                        <!-- ROLE -->
+                        <div class="row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Role') }}</label>
+
+                            <div class="col-md-6">
+                                <select class="form-select" aria-label="Default select example" name="role_id" for="role_id">
+                                    @foreach ($roles as $role)
+                                    <option value="{{$role->id}}" selected>{{$role->name}}</option>
+                                    @endforeach
+                                </select>
+
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
                         <!-- DNI -->
                         <div class="row mb-3">
                             <label for="dni" class="col-md-4 col-form-label text-md-end">{{ __('DNI') }}</label>
@@ -154,10 +173,8 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <a class="btn btn-primary register-user">Register</a>
-                                @if(!Auth::guest())
+                                <a class="btn btn-primary register-user">Registrar</a>
                                 <a href="/users" class="btn btn-danger">Atrás</a>
-                                @endif
                             </div>
                         </div>
                     </form>
@@ -172,8 +189,8 @@
         var name = $(this).data("name");
         event.preventDefault();
         Swal.fire(
-            'Registrad@!',
-            'Ahora ya puedes iniciar sesión.',
+            'Creado!',
+            'Usuario registrado.',
             'success'
         ).then(function() {
             form.submit();
