@@ -23,15 +23,15 @@ class ReservationController extends Controller
         $filter = $request->filter;
         // Checks if the filter value are numbers or letters
         if (ctype_alpha($filter)) {
-            // $data = Activity::where('name', 'like', "%$filter%")
-            //     ->with('sesions')
-            //     ->get();
+            $data = Activity::where('name', 'like', "%$filter%")
+                ->with('sesions')
+                ->get();
 
-            $data = Sesion::whereHas('name', function ($q) use ($filter) {
-                $q->where('name', 'like', "%$filter%");
-            })->with('activity');
+            // $data = Sesion::whereHas('name', function ($q) use ($filter) {
+            //     $q->where('name', 'like', "%$filter%");
+            // })->with('activity');
         } else {
-            $data = Sesion::where('date', "$filter")->with('activity')->get();
+            $data = Sesion::where('date', $filter)->with('activity')->get();
 
             // $data = Activity::whereHas('sesions', function ($q) use ($filter) {
             //     $q->where('date', $filter);              

@@ -23,9 +23,5 @@ class RoleSeeder extends Seeder
             'name' => 'usuario',
             'created_at' => Carbon::now()
         ]);
-        DB::table('roles')->insert([
-            'name' => 'registrado',
-            'created_at' => Carbon::now()
-        ]);
     }
 }
