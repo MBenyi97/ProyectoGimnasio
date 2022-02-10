@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Reservation;
 use App\Models\Activity;
 use App\Models\Sesion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
@@ -20,8 +21,24 @@ class ReservationController extends Controller
     public function filter(Request $request)
     {
         $filter = $request->filter;
-        $activityJSON = Activity::where('name', 'like', "%$filter%")->get();
-        return $activityJSON;
+        // Checks if the filter value are numbers or letters
+        if (ctype_alpha($filter)) {
+            // $data = Activity::where('name', 'like', "%$filter%")
+            //     ->with('sesions')
+            //     ->get();
+
+            $data = Sesion::whereHas('name', function ($q) use ($filter) {
+                $q->where('name', 'like', "%$filter%");
+            })->with('activity');
+        } else {
+            $data = Sesion::where('date', "$filter")->with('activity')->get();
+
+            // $data = Activity::whereHas('sesions', function ($q) use ($filter) {
+            //     $q->where('date', $filter);              
+            // })->with('sesions')->get();
+        }
+        return $data;
+        // return view('reservation.ajax.filter', ['activity' => $activity]);
     }
 
     /**
@@ -107,5 +124,13 @@ class ReservationController extends Controller
         $sesion = Sesion::find($id);
         $sesion->users()->detach($user);
         return redirect('/users');
+    }
+
+    public function userSesionDestroy($userId, $sesionId)
+    {
+        $user = User::find($userId);
+        $sesion = Sesion::find($sesionId);
+        $sesion->users()->detach($user);
+        return view('user.show', ['user' => $user]);
     }
 }

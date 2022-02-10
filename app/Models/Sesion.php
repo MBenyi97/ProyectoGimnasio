@@ -33,22 +33,4 @@ class Sesion extends Model
         return "" . $this->id;
     }
 
-    public static function findByDate($date)
-    {
-        $sesions = Sesion::all();
-        $id = "";
-        foreach ($sesions as $sesion) {
-            ($sesion->date_start == $date) ? $id = $sesion->id : false;
-        }
-        return Sesion::find($id);
-    }
-
-    public static function destroyIfDayNotExists($id, $weekDaysSelected)
-    {
-        $sesion = Sesion::find($id);
-        $sesionCarbonDate = Carbon::parse($sesion->date_start);
-        foreach ($weekDaysSelected as $weekDay) {
-            ($weekDay != $sesionCarbonDate->englishDayOfWeek) ? Sesion::destroy($sesion) : false;
-        }
-    }
 }

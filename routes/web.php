@@ -30,7 +30,10 @@ Route::controller(ReservationController::class)
         Route::get('reservations', 'index');
         Route::get('reservations/filter', 'filter');
         Route::get('reservations/create/{id}', 'create');
+        // General destroy route
         Route::delete('reservations/{id}', 'destroy');
+        // Destroy route with user id
+        Route::delete('reservations/{userId}/{sesionId}', 'userSesionDestroy');
     });
 
 

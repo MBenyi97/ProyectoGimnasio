@@ -7,7 +7,6 @@ use  Database\Seeders\UserSeeder;
 use  Database\Seeders\SesionSeeder;
 use  Database\Seeders\ReservationSeeder;
 use Illuminate\Database\Seeder;
-use DB;
 
 class DatabaseSeeder extends Seeder
 {

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/home">Home</a></li>
@@ -13,17 +13,17 @@
 
             <div class="btn-toolbar d-flex justify-content-between" role="toolbar">
                 <h1>Lista de usuarios
-                    <!-- <a href="/users/create" class="btn btn-success btn-lg float-right" role="button">
+                    <a href="/users/create" class="btn btn-success btn float-right" role="button">
                         <i class="bi bi-person-plus-fill"></i>
-                    </a> -->
+                    </a>
                 </h1>
                 <div class="input-group">
                     <div class="container-fluid">
-                        <form class="d-flex" action="/users" method="get">
+                        <form class="d-flex form-filter" action="/users" method="get">
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">@</span>
-                                <input type="text" class="form-control" placeholder="Filtrar por nombre" aria-label="Usuario" name="name" value="{{$name}}" aria-describedby="basic-addon1">
-                                <input type="text" class="form-control" placeholder="Filtrar por role" aria-label="Role" name="role" value="{{$role}}" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control filter-by-name" placeholder="Filtrar por nombre" aria-label="Usuario" name="name" value="{{$name}}" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control filter-by-role" placeholder="Filtrar por role" aria-label="Role" name="role" value="{{$role}}" aria-describedby="basic-addon1">
                                 <input class="btn btn-primary" type="submit" value="Filtrar">
                             </div>
                         </form>

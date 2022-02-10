@@ -20,8 +20,9 @@
                 <tr>
                     <th>Actividad</th>
                     <th>Día de la semana</th>
-                    <th>Fecha y hora inicial</th>
-                    <th>Fecha y hora final</th>
+                    <th>Hora inicial</th>
+                    <th>Hora final</th>
+                    <th>Fecha</th>
                     <th>Fecha de la reserva</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -29,11 +30,12 @@
                 <tr>
                     <td>{{$sesion->activity->name}}</td>
                     <td>{{$sesion->weekDay}}</td>
-                    <td>{{$sesion->date_start}} </td>
-                    <td>{{$sesion->date_end}} </td>
+                    <td>{{$sesion->hour_start}} </td>
+                    <td>{{$sesion->hour_end}} </td>
+                    <td>{{$sesion->date}} </td>
                     <td>{{$sesion->reservations->created_at}}</td>
                     <td class="text-center">
-                        <form method="POST" action="/reservations/{{$sesion->id}}">
+                        <form method="POST" action="/reservations/{{$user->id}}/{{$sesion->id}}">
                             @csrf
                             @method('DELETE')
                             <a class="btn btn-danger remove-reservation"><i class="bi bi-trash"></i></a>

@@ -40,21 +40,8 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        //version corta
         $activity = Activity::create($request->all());
-
-        //version larga, comentada
-        // $activity = new Activity;
-        // $activity->code = $request->code;
-        // $activity->name = $request->name;
-        // $activity->abreviation = $request->abreviation;
-        // $activity->save();
-
-        // header('Location .....');
         return redirect('/activities');
-
-        // INSERT INTO studies('code', 'name', 'abreviation')
-
     }
 
     /**

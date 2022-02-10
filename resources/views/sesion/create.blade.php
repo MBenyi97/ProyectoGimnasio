@@ -5,11 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                <li class="breadcrumb-item"><a href="/sesions">Sesiones</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Crear</li>
-              </ol>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/sesions">Sesiones</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Crear</li>
+                </ol>
             </nav>
             <div class="card">
                 <div class="card-header">{{ __('Nueva sesión') }}</div>
@@ -147,13 +147,5 @@
             form.submit();
         });
     });
-    
-    $(document).ready(function() {
-        $("#datepicker").datepicker({
-            format: "mm-yyyy",
-            viewMode: "months",
-            minViewMode: "months"
-        });
-    })
 </script>
 @endsection

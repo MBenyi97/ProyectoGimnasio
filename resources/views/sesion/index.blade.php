@@ -10,45 +10,65 @@
                     <li class="breadcrumb-item active" aria-current="page">Sesiones</li>
                 </ol>
             </nav>
-            <h1>Lista de sesiones
-                <a href="/sesions/create" class="btn btn-success btn-lg float-right" role="button">
-                    <i class="bi bi-plus-lg"></i>
-                </a>
-            </h1>
+
+            <div class="btn-toolbar d-flex justify-content-between align-middle" role="toolbar">
+                <h1>Lista de sesiones
+                    <a href="/sesions/create" class="btn btn-success btn-lg float-right" role="button">
+                        <i class="bi bi-plus-lg"></i>
+                    </a>
+                </h1>
+                <div class="input-group">
+                    <div class="container-fluid">
+                        <form class="d-flex form-filter" action="/sesions" method="get">
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">@</span>
+                                <input type="text" class="form-control filter-by-name" placeholder="Filtrar por actividad" name="name" value="{{$name}}">
+                                <input class="btn btn-primary" type="submit" value="Filtrar">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
 
-            <table class="table table-striped">
+            <table class="table table-striped table-hover text-center">
                 <tr>
                     <th>Actividad</th>
                     <th>Día de la semana</th>
-                    <th>Fecha de inicio</th>
-                    <th>Fecha final</th>
-                    <th class="text-center">Opciones</th>
+                    <th>Hora inicial</th>
+                    <th>Hora final</th>
+                    <th>Fecha</th>
+                    <th>Opciones</th>
                 </tr>
-                @forelse ($sesions as $sesion)
+                @forelse ($activities as $activity)
+                @foreach ($activity->sesions as $sesion)
                 <tr>
                     <td>{{$sesion->activity->name}}</td>
                     <td>{{$sesion->weekDay}}</td>
-                    <td>{{$sesion->date_start}} </td>
-                    <td>{{$sesion->date_end}} </td>
-                    <td class="text-center">
+                    <td>{{$sesion->hour_start}} </td>
+                    <td>{{$sesion->hour_end}} </td>
+                    <td>{{$sesion->date}} </td>
+                    <td>
                         <form method="POST" action="/sesions/{{$sesion->id}}">
                             @csrf
                             @method('DELETE')
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <a class="btn btn-primary add-reservation" href="/reservations/create/{{$sesion->id}}" data-id="{{$sesion->id}}"><i class="bi bi-bookmark-plus"></i></a>
+                            <div class="btn-group" role="group">
+                                <!-- <a class="btn btn-primary add-reservation" href="/reservations/create/{{$sesion->id}}" data-id="{{$sesion->id}}"><i class="bi bi-bookmark-plus"></i></a> -->
                                 <a class="btn btn-warning" href="/sesions/{{$sesion->id}}/edit"><i class="bi bi-pencil-square"></i></a>
                                 <a class="btn btn-danger remove-sesion"><i class="bi bi-trash"></i></a>
                             </div>
                         </form>
                     </td>
                 </tr>
+                @endforeach
                 @empty
                 <tr>
                     <td colspan="4" class="text-center fw-bold">No hay sesiones registradas</td>
                 </tr>
                 @endforelse
             </table>
+            {{$activities->links("pagination::bootstrap-4")}}
+
         </div>
     </div>
 </div>
