@@ -33,7 +33,7 @@ Route::controller(ReservationController::class)
     ->group(function () {
         Route::get('reservations', 'index');
         Route::get('reservations/filter', 'filter');
-        Route::get('reservations/create/{id}', 'create');
+        Route::post('reservations/create/{id}', 'create');
         // General destroy route
         Route::delete('reservations/{id}', 'destroy');
         // Destroy route and redirect to user id

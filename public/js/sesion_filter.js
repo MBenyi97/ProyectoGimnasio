@@ -43,15 +43,34 @@ function loadTable(data) {
         hour_start.innerHTML = sesion.hour_start;
         hour_end.innerHTML = sesion.hour_end;
         link_btn.innerHTML = "<i class='bi bi-bookmark-plus'></i>";
-        link_btn.setAttribute('class', 'btn btn-primary add-reservation')
-        link_btn.setAttribute('href', `/reservations/create/${sesion.id}`);
+        link_btn.setAttribute('class', 'btn btn-primary');
+        link_btn.setAttribute('onclick', `addReservation(${sesion.id})`);
         join_btn.appendChild(link_btn);
         table_row.setAttribute('class', 'entry-row');
         table_row.append(activity_name, weekDay, hour_start, hour_end, date, join_btn);
         entry_data += table_row.outerHTML;
+
     });
     $('.table-data').append(entry_data);
 }
+
+// Adds the reservations
+function addReservation(id) {
+    console.log(id);
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        method: 'POST',
+        url: `/reservations/create/${id}`,
+    }).then((data) => {
+        console.log(data);
+        location.replace('/reservations/');
+    }).catch((err) => {
+        console.log(`Ha ocurrido un error realizando la petición ${err.message}.`);
+    });
+}
+
 
 // Function to clear the table
 function emptyTable() {
