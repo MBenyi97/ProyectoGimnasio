@@ -55,7 +55,7 @@
                     <td>{{$sesion->weekDay}} </td>
                     <td>{{$sesion->hour_start}} </td>
                     <td>{{$sesion->hour_end}} </td>
-                    <td>{{$sesion->date}} </td>
+                    <td>{{Carbon\Carbon::parse($sesion->date)->format('d-m-Y')}} </td>
                 </tr>
                 @empty
                 <tr>

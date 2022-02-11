@@ -24,10 +24,10 @@ Route::get('/', function () {
 });
 
 // Shows user data if not admin
-Route::get('users/show', [UserController::class, 'showUser']);
-Route::resource('users', UserController::class);
-Route::resource('activities', ActivityController::class);
-Route::resource('sesions', SesionController::class);
+Route::get('users/show', [UserController::class, 'showUser'])->middleware('auth');
+Route::resource('users', UserController::class)->middleware('auth');
+Route::resource('activities', ActivityController::class)->middleware('auth');
+Route::resource('sesions', SesionController::class)->middleware('auth');
 Route::controller(ReservationController::class)
     ->middleware('auth')
     ->group(function () {

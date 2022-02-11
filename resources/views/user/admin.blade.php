@@ -3,56 +3,83 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-11">
             <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Reservas</li>
-              </ol>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+                </ol>
             </nav>
-            <h1>
-                Sesiones reservadas por el usuario <strong>{{$user->name}}</strong>
-                <a href="/users" class="btn btn-danger">Atrás</a>
-            </h1>
 
-            <table class="table table-striped">
+            <div class="btn-toolbar d-flex justify-content-between" role="toolbar">
+                <h1>Lista de usuarios
+                    <a href="/users/create" class="btn btn-success btn float-right" role="button">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </a>
+                </h1>
+                <div class="input-group">
+                    <div class="container-fluid">
+                        <form class="d-flex form-filter" action="/users" method="get">
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">@</span>
+                                <input type="text" class="form-control filter-by-name" placeholder="Filtrar por nombre" aria-label="Usuario" name="name" value="{{$name}}" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control filter-by-role" placeholder="Filtrar por role" aria-label="Role" name="role" value="{{$role}}" aria-describedby="basic-addon1">
+                                <input class="btn btn-primary" type="submit" value="Filtrar">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <table class="table table-striped text-center">
                 <tr>
-                    <th>Actividad</th>
-                    <th>Día de la semana</th>
-                    <th>Hora inicial</th>
-                    <th>Hora final</th>
-                    <th>Fecha</th>
-                    <th>Fecha de la reserva</th>
+                    <th>Role</th>
+                    <th>DNI</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Peso</th>
+                    <th>Altura</th>
+                    <th>Fecha de nacimiento</th>
+                    <th>Genero</th>
                     <th class="text-center">Opciones</th>
                 </tr>
-                @forelse ($user->sesions as $sesion)
+
+                @forelse ($users as $user)
                 <tr>
-                    <td>{{$sesion->activity->name}}</td>
-                    <td>{{$sesion->weekDay}}</td>
-                    <td>{{$sesion->hour_start}} </td>
-                    <td>{{$sesion->hour_end}} </td>
-                    <td>{{$sesion->date}} </td>
-                    <td>{{$sesion->reservations->created_at}}</td>
+                    <td>{{$user->role->name}} </td>
+                    <td>{{$user->dni}} </td>
+                    <td>{{$user->name}} </td>
+                    <td>{{$user->email}} </td>
+                    <td>{{$user->weight}} </td>
+                    <td>{{$user->height}} </td>
+                    <td>{{$user->birthdate}} </td>
+                    <td>{{$user->gender}} </td>
                     <td class="text-center">
-                        <form method="POST" action="/reservations/{{$user->id}}/{{$sesion->id}}">
+                        <form method="POST" action="/users/{{$user->id}}">
                             @csrf
                             @method('DELETE')
-                            <a class="btn btn-danger remove-reservation"><i class="bi bi-trash"></i></a>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a class="btn btn-dark" href="/users/{{$user->id}}"><i class="bi bi-bookmarks"></i></a>
+                                <!-- <a class="btn btn-primary" href="/users/{{$user->id}}"><i class="bi bi-eye"></i></a> -->
+                                <a class="btn btn-warning" href="/users/{{$user->id}}/edit"><i class="bi bi-pencil-square"></i></a>
+                                <a class="btn btn-danger remove-user"><i class="bi bi-trash"></i></a>
+                            </div>
                         </form>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="text-center fw-bold"><strong>No hay reservas</strong></td>
+                    <td colspan="9" class="text-center fw-bold">No hay usuarios registrados</td>
                 </tr>
                 @endforelse
             </table>
+            {{$users->links("pagination::bootstrap-4")}}
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    $(".remove-reservation").click(function(event) {
+    $(".remove-user").click(function(event) {
         var form = $(this).closest("form");
         var name = $(this).data("name");
         event.preventDefault();
@@ -69,14 +96,14 @@
             if (result.isDismissed) {
                 Swal.fire(
                     'Cancelado',
-                    'La reserva no ha sido eliminada',
+                    'El usuario no ha sido eliminado',
                     'error'
                 );
             }
             if (result.isConfirmed) {
                 Swal.fire(
                     'Borrado!',
-                    'La reserva ha sido eliminada.',
+                    'El usuario ha sido eliminado.',
                     'success'
                 ).then(function() {
                     form.submit();

@@ -46,7 +46,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Fecha') }}</label>
 
                             <div class="col-md-6">
-                                <input value="{{$sesion->date}}" type="date" class="form-control @error('name') is-invalid @enderror" name="date" value="{{$sesion->date_start}} required autocomplete=" fecha" autofocus>
+                                <input value="{{Carbon\Carbon::parse($sesion->date)->format('d-m-Y')}}" type="date" class="form-control @error('name') is-invalid @enderror" name="date" value="{{$sesion->date_start}} required autocomplete=" fecha" autofocus>
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">

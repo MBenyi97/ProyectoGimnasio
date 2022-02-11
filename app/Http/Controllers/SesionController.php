@@ -8,6 +8,7 @@ use App\Models\Sesion;
 use App\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Http\Middleware\CheckRole;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
@@ -15,7 +16,7 @@ class SesionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role')->except(['show,destroy']);
+        $this->middleware('role')->except('index');
     }
     /**
      * Display a listing of the resource.
@@ -24,23 +25,16 @@ class SesionController extends Controller
      */
     public function index(Request $request)
     {
-        // también podemos recuperar todas las entradas de las sesiones y actividades asociadas mediante el método ->get
-        // $sesions = Sesion::with('activity')->get();
-        // return $sesions;
-        // $sesions = Sesion::all();
-        $activities = Activity::paginate(5);
+        $sesions = Sesion::paginate(10);
         $name = $request->name;
-
-        if ($name) {
-            $activities = Activity::where('name', 'like', "%$name%")->with('sesions')->paginate(5);
-
-            // $activities = User::where('users', function ($q) use ($user) {
-            //     $q->where('id', $user->id);              
-            // })->with('sesions')->get();
-        }
-        $activities->withPath("/sesions?activity=$name");
-        return view('sesion.index', [
-            'activities' => $activities,
+        ($name) ? $sesions = Sesion::with('activity')
+            ->whereHas('activity', function (Builder $query) use ($name) {
+                $query->where('name', 'like', "%$name%");
+            })->paginate(10) : null;
+        $sesions->withPath("/sesions?name=$name");
+        (Auth::user()->role_id == 1) ? $view = 'admin' : $view = 'index';
+        return view("sesion.$view", [
+            'sesions' => $sesions,
             'name' => $name
         ]);
     }
@@ -64,8 +58,6 @@ class SesionController extends Controller
      */
     public function store(Request $request)
     {
-        // Date created with Carbon
-        $dt = Carbon::now();
         // Array getting the start hour
         $arrHoraStart = explode(":", $request->hour_start);
         // Array getting the end hour
@@ -82,9 +74,9 @@ class SesionController extends Controller
 
             if (in_array($hourStart->englishDayOfWeek, $weekDays, false)) {
                 $sesion = new Sesion;
-                $sesion->date = $hourStart->format('Y-m-d');
-                $sesion->hour_start = $hourStart->format('H:i');
-                $sesion->hour_end = $hourEnd->format('H:i');
+                $sesion->date = $hourStart;
+                $sesion->hour_start = $hourStart;
+                $sesion->hour_end = $hourEnd;
                 $sesion->weekDay = $this->englishWeekDay($hourStart->englishDayOfWeek);
                 $sesion->activity_id = $activityId;
                 $sesion->save();

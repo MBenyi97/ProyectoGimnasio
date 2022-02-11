@@ -5,21 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\Sesion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role')->except('index');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $activities = Activity::all();
-
-        return view('activity.index', ['activities' => $activities]);
-        // dd($activities);
-        // return $activities;
+        $activities = Activity::paginate(10);
+        $name = $request->name;
+        ($name) ? $activities = Activity::where('name', 'like', "%$name%")->with('sesions')->paginate(10) : null;
+        $activities->withPath("/activities?name=$name");
+        (Auth::user()->role_id == 1) ? $view = 'admin' : $view = 'index';
+        return view("activity.$view", [
+            'activities' => $activities,
+            'name' => $name
+        ]);
     }
 
     /**

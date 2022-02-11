@@ -7,16 +7,14 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 use App\Http\Middleware\CheckRole;
 
 class UserController extends Controller
 {
-
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('role')->except('showUser');
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -24,24 +22,18 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        // $users = User::all();
-        // return view('user.index', ['users' => $users]);
-
-        $user = auth()->user();
-        $users = User::paginate(5);
+        $user = Auth::user();
+        $users = User::paginate(10);
         $name = $request->name;
         $role = $request->role;
-
-        if ($name) {
-            $users = User::where('name', 'like', "%$name%")->paginate(5);
-        }
-
-        if ($role) {
-            $users = User::where('role_id', $role)->paginate(5);
-        }
-
+        ($name || $role) ?
+            $users = User::with('role')
+            ->where('name', 'like', "%$name%")
+            ->whereHas('role', function (Builder $query) use ($role) {
+                $query->where('name', 'like', "%$role%");
+            })->paginate(10) : null;
         $users->withPath("/users?name=$name&role=$role");
-        return view('user.index', [
+        return view('user.admin', [
             'users' => $users,
             'user' => $user,
             'name' => $name,
@@ -134,7 +126,11 @@ class UserController extends Controller
     {
         $user->fill($request->all());
         $user->save();
-        return redirect('/users');
+        if (Auth::user()->role_id == 1) {
+            return redirect('/users');
+        } else {
+            return redirect('/users/show');
+        }
     }
 
     /**
