@@ -1,27 +1,25 @@
-@extends('layouts.background')
+@extends('layouts.app')
 
 @section('content')
-<!-- <div class="container">
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Página de inicio') }}</div>
-                
+            <div class="card justify-content-center text-center">
+                <div class="card-header blockquote">
+                    "Los récords están para ser superados" <strong>Michael Schumacher</strong>
+                </div>
                 <div class="card-body">
-                    @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                    @endif
-                    {{ __('Has iniciado sesión corrrectamente!') }}
+                    <h3 class="card-title"> {{ Auth::user()->name }}, Bienvenido a la página de nuestro gimnasio</h3>
+                    <p class="card-text">El botón de abajo te mostrará tu datos y tus sesiones</p>
+                    <a href="/users/show" class="btn btn-primary">Panel de control</a>
+                </div>
+                <div class="card-footer text-muted">
+                    <i>Made by Arthur & Mike</i>
                 </div>
             </div>
         </div>
     </div>
-</div> -->
-<h1 id="title">
-    MUSCLE PLANET
-</h1>
+</div>
 <!-- <img alt="gimnasio" src="{{ asset('img/portada.jpg') }}" class="img-fluid"> -->
 
 

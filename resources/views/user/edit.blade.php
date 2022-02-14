@@ -4,6 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if ($user->role == 'admin')
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/home">Home</a></li>
@@ -11,6 +12,7 @@
                     <li class="breadcrumb-item active" aria-current="page">Editar</li>
                 </ol>
             </nav>
+            @endif
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 
@@ -20,15 +22,15 @@
                         @csrf
                         @method('PUT')
 
+                        @if(Auth::user()->role_id == 1)
                         <!-- ROLE -->
                         <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Role') }}</label>
 
                             <div class="col-md-6">
                                 <select class="form-select" aria-label="Default select example" name="role" for="role">
-                                    @foreach($roles as $role)
-                                    <option value="{{$role->id}}" {{ $role->id == $user->role->id ? 'selected' : '' }}>{{$role->name}}</option>
-                                    @endforeach
+                                    <option value="1" {{ $user->role_id == 'administrador'? 'selected' : '' }}>Administrador</option>
+                                    <option value="2" {{ $user->role_id == 'usuario' ? 'selected' : '' }}>Usuario</option>
                                 </select>
 
                                 @error('name')
@@ -38,6 +40,7 @@
                                 @enderror
                             </div>
                         </div>
+                        @endif
 
                         <!-- DNI -->
                         <div class="row mb-3">
@@ -135,13 +138,9 @@
 
                             <div class="col-md-6">
                                 <select id="gender" type="select" class="form-control @error('name') is-invalid @enderror" name="gender" value="{{ old('gender') }}" required autocomplete="gender" autofocus>
-                                    @foreach ($genders as $gender => $select)
-                                    @if ($select == 'selected')
-                                    <option value="{{$gender}}" {{$select}}>{{$gender}}</option>
-                                    @else
-                                    <option value="{{$gender}}">{{$gender}}</option>
-                                    @endif
-                                    @endforeach
+                                    <option value="Mujer" {{$user->gender=='Mujer' ? 'selected' : '' }}>Mujer</option>
+                                    <option value="Hombre" {{$user->gender=='Hombre' ? 'selected' : '' }}>Hombre</option>
+                                    <option value="Otro">Otro</option>
                                 </select>
 
                                 @error('gender')
@@ -155,7 +154,7 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <a class="btn btn-primary edit-user">Editar</a>
-                                <a href="/users" class="btn btn-danger">Atrás</a>
+                                <a href="{{Auth::user()->role_id==1?'/users':'/users/show'}}" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
                     </form>

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-9">
+        <div class="col-md-11">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/home">Home</a></li>
@@ -32,7 +32,7 @@
             </div>
 
 
-            <table class="table table-striped">
+            <table class="table table-striped text-center table-hover">
                 <tr>
                     <th>Role</th>
                     <th>DNI</th>
@@ -60,7 +60,8 @@
                             @csrf
                             @method('DELETE')
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <a class="btn btn-primary" href="/users/{{$user->id}}"><i class="bi bi-eye"></i></a>
+                                <a class="btn btn-dark" href="/users/{{$user->id}}"><i class="bi bi-bookmarks"></i></a>
+                                <!-- <a class="btn btn-primary" href="/users/{{$user->id}}"><i class="bi bi-eye"></i></a> -->
                                 <a class="btn btn-warning" href="/users/{{$user->id}}/edit"><i class="bi bi-pencil-square"></i></a>
                                 <a class="btn btn-danger remove-user"><i class="bi bi-trash"></i></a>
                             </div>
@@ -69,7 +70,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="text-center fw-bold">No hay usuarios registrados</td>
+                    <td colspan="9" class="text-center fw-bold">No hay usuarios registrados</td>
                 </tr>
                 @endforelse
             </table>
