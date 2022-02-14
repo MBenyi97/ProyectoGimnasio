@@ -8,37 +8,40 @@ use App\Models\Activity;
 use App\Models\Sesion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth')->only('create');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('role');
+    // }
 
     public function filter(Request $request)
     {
+        // $sesions = Sesion::paginate(10);
+        $userId = Auth::user()->id;
         $filter = $request->filter;
-        // Checks if the filter value are numbers or letters
-        if (ctype_alpha($filter)) {
-            $data = Activity::where('name', 'like', "%$filter%")
-                ->with('sesions')
-                ->get();
+        $query = Sesion::with('activity')
+            ->whereHas('activity', function (Builder $q) use ($filter) {
+                $q->where('name', $filter);
+            })->with('users')->orWhere('date', $filter)->get();
 
-            // $data = Sesion::whereHas('name', function ($q) use ($filter) {
-            //     $q->where('name', 'like', "%$filter%");
-            // })->with('activity');
-        } else {
-            $data = Sesion::where('date', $filter)->with('activity')->get();
-
-            // $data = Activity::whereHas('sesions', function ($q) use ($filter) {
-            //     $q->where('date', $filter);              
-            // })->with('sesions')->get();
+        // Checks if the user alredy has the sesion
+        $sesions = [];
+        foreach ($query as $sesion) {
+            $state = true;
+            foreach ($sesion->users as $user) {
+                if ($user->id == $userId) {
+                    $state = false;
+                    break;
+                }
+            }
+            ($state) ? array_push($sesions, $sesion) : null;
         }
-        return $data;
-        // return view('reservation.ajax.filter', ['activity' => $activity]);
+        return $sesions;
     }
 
     /**
@@ -59,12 +62,11 @@ class ReservationController extends Controller
      */
     public function create($id)
     {
-
         $user = auth()->user();
         $sesion = Sesion::find($id);
         // $sesion->users()->attach($user); 
         $sesion->users()->save($user, ['created_at' => Carbon::now()]);
-        return redirect('/sesions');
+        return redirect('/reservations');
     }
 
     /**
@@ -131,6 +133,6 @@ class ReservationController extends Controller
         $user = User::find($userId);
         $sesion = Sesion::find($sesionId);
         $sesion->users()->detach($user);
-        return view('user.show', ['user' => $user]);
+        return redirect('/users/show');
     }
 }

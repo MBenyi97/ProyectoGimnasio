@@ -47,12 +47,20 @@
 <!-- Container holding the AJAX table -->
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-8 table-container">
+        <div class="col-md-9 table-container">
             <!-- Table generated with JavaScript and AJAX -->
-            @yield('table')
+            <table class="table table-striped table-data text-center">
+                <tr>
+                    <th>Actividad</th>
+                    <th>Dia de la semana</th>
+                    <th>Hora inicial</th>
+                    <th>Hora final</th>
+                    <th>Fecha</th>
+                    <th>Añadir</th>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="{{ URL::asset('js/sesions_filters/by_activity_name.js') }}"></script>
-<script type="text/javascript" src="{{ URL::asset('js/sesions_filters/by_sesion_date.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/sesion_filter.js') }}"></script>
 @endsection

@@ -5,6 +5,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\SesionController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ReservationController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,15 +23,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('users', UserController::class);
-Route::resource('activities', ActivityController::class);
-Route::resource('sesions', SesionController::class);
+// Shows user data if not admin
+Route::get('users/show', [UserController::class, 'showUser'])->middleware('auth');
+Route::resource('users', UserController::class)->middleware('auth');
+Route::resource('activities', ActivityController::class)->middleware('auth');
+Route::resource('sesions', SesionController::class)->middleware('auth');
 Route::controller(ReservationController::class)
     ->middleware('auth')
     ->group(function () {
         Route::get('reservations', 'index');
         Route::get('reservations/filter', 'filter');
-        Route::get('reservations/create/{id}', 'create');
+        Route::post('reservations/create/{id}', 'create');
         // General destroy route
         Route::delete('reservations/{id}', 'destroy');
         // Destroy route and redirect to user id
@@ -50,4 +53,4 @@ Route::get('img/{filename}', [ImageController::class, 'showJobImage']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');

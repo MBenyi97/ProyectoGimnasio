@@ -38,45 +38,54 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ url('/home') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <!-- <a class="btn btn-primary" type="button" href="{{ url('/') }}">
-                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                    {{ config('app.name', 'Laravel') }}
-                </a> -->
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    @if (!Auth::guest())
-                    <!-- Center Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Gym Users -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="/users">Usuarios</a>
-                        </li>
-                        <!-- Gym Activities -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="/activities">Actividades</a>
-                        </li>
-                        <!-- Gym Sessions -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="/sesions">Sesiones</a>
-                        </li>
-                        <!-- Gym Reservations -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="/reservations">Reservar</a>
-                        </li>
+                <div class="collapse navbar-collapse" id="navbarsExample04">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        @guest
+                        @else
+                        @if (Auth::user()->role_id==1)
+                        <!-- Center Side Of Navbar -->
+                        <ul class="navbar-nav">
+                            <!-- Gym Users -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users">Usuarios</a>
+                            </li>
+                            <!-- Gym Activities -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/activities">Actividades</a>
+                            </li>
+                            <!-- Gym Sessions -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/sesions">Sesiones</a>
+                            </li>
+                        </ul>
+                        @else
+                        <ul class="navbar-nav">
+                            <!-- Gym Activities -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/activities">Actividades</a>
+                            </li>
+                            <!-- Gym Sessions -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/sesions">Sesiones</a>
+                            </li>
+                            <!-- Gym Reservations -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/reservations">Reservar</a>
+                            </li>
+                        </ul>
+                        @endif
+                        @endguest
                     </ul>
-                    @endif
-
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav">
                         <!-- Authentication Links -->
                         @guest
                         @if (Route::has('login'))
@@ -91,25 +100,25 @@
                         </li>
                         @endif
                         @else
-                        <li class="nav-item dropdown">
+
+                        <!-- Dropdown list -->
+                        <li class="nav-item dropdown dropstart">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
                             </a>
 
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu dropdown-menu-right " aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item logout-user" href="{{ route('logout') }}" onclick="event.preventDefault();">
                                     <!-- document.getElementById('logout-form').submit(); -->
                                     {{ __('Logout') }}
                                 </a>
-
-                                <a class="dropdown-item logout-user" href="" onclick="event.preventDefault();">
-                                    <!-- document.getElementById('logout-form').submit(); -->
-                                    {{ __('Mis reservas') }}
-                                </a>
-
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
+                                <!-- <a class="dropdown-item logout-user" href="" onclick="event.preventDefault();">
+                                    document.getElementById('logout-form').submit();
+                                    {{ __('Mis reservas') }}
+                                </a> -->
                             </div>
                         </li>
                         @endguest
@@ -117,7 +126,6 @@
                 </div>
             </div>
         </nav>
-
         <main class="py-4">
             @yield('content')
         </main>

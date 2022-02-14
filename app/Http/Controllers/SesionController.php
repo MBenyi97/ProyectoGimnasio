@@ -3,13 +3,22 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Sesion;
 use App\Models\Activity;
 use Illuminate\Http\Request;
+use Illuminate\Http\Middleware\CheckRole;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use DB;
+
 
 class SesionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role')->except('index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,20 +26,16 @@ class SesionController extends Controller
      */
     public function index(Request $request)
     {
-        // también podemos recuperar todas las entradas de las sesiones y actividades asociadas mediante el método ->get
-        // $sesions = Sesion::with('activity')->get();
-        // return $sesions;
-        // $sesions = Sesion::all();
-        $activities = Activity::paginate(5);
+        $sesions = Sesion::paginate(10);
         $name = $request->name;
-
-        if ($name) {
-            $activities = Activity::where('name', 'like', "%$name%")->with('sesions')->paginate(5);
-        }
-
-        $activities->withPath("/sesions?activity=$name");
-        return view('sesion.index', [
-            'activities' => $activities,
+        ($name) ? $sesions = Sesion::with('activity')
+            ->whereHas('activity', function (Builder $query) use ($name) {
+                $query->where('name', 'like', "%$name%");
+            })->paginate(10) : null;
+        $sesions->withPath("/sesions?name=$name");
+        (Auth::user()->role_id == 1) ? $view = 'admin' : $view = 'index';
+        return view("sesion.$view", [
+            'sesions' => $sesions,
             'name' => $name
         ]);
     }
@@ -54,8 +59,6 @@ class SesionController extends Controller
      */
     public function store(Request $request)
     {
-        // Date created with Carbon
-        $dt = Carbon::now();
         // Array getting the start hour
         $arrHoraStart = explode(":", $request->hour_start);
         // Array getting the end hour
@@ -72,9 +75,9 @@ class SesionController extends Controller
 
             if (in_array($hourStart->englishDayOfWeek, $weekDays, false)) {
                 $sesion = new Sesion;
-                $sesion->date = $hourStart->format('Y-m-d');
-                $sesion->hour_start = $hourStart->format('H:i');
-                $sesion->hour_end = $hourEnd->format('H:i');
+                $sesion->date = $hourStart;
+                $sesion->hour_start = $hourStart;
+                $sesion->hour_end = $hourEnd;
                 $sesion->weekDay = $this->englishWeekDay($hourStart->englishDayOfWeek);
                 $sesion->activity_id = $activityId;
                 $sesion->save();
@@ -101,9 +104,16 @@ class SesionController extends Controller
      * @param  \App\Models\Sesion  $sesion
      * @return \Illuminate\Http\Response
      */
-    public function show(Sesion $sesion)
+    public function show()
     {
-        return view('sesion.show', ['sesion' => $sesion]);
+        $user = Auth::user();
+        $sesions = Sesion::whereHas('users', function ($q) {
+            $q->where('user_id', 1);
+        })->get();
+        return view('sesion.show', [
+            'sesions' => $sesions,
+            'user' => $user
+        ]);
     }
 
     /**
@@ -127,7 +137,7 @@ class SesionController extends Controller
     public function loadWeekDays(Sesion $sesion)
     {
         // Parsing the start date of the sesion
-        $dtStart = Carbon::parse($sesion->date_start);
+        $dtStart = Carbon::parse($sesion->date);
         // Array holding the days
         $daysChecked = [
             'Monday' => '',
@@ -185,7 +195,7 @@ class SesionController extends Controller
         $sesions = Sesion::all();
         $id = "";
         foreach ($sesions as $sesion) {
-            ($sesion->date_start == $date) ? $id = $sesion->id : false;
+            ($sesion->date == $date) ? $id = $sesion->id : false;
         }
         return Sesion::find($id);
     }
@@ -193,7 +203,7 @@ class SesionController extends Controller
     public static function destroyIfDayNotExists($id, $weekDaysSelected)
     {
         $sesion = Sesion::find($id);
-        $sesionCarbonDate = Carbon::parse($sesion->date_start);
+        $sesionCarbonDate = Carbon::parse($sesion->date);
         foreach ($weekDaysSelected as $weekDay) {
             ($weekDay != $sesionCarbonDate->englishDayOfWeek) ? Sesion::destroy($sesion) : false;
         }
@@ -207,7 +217,12 @@ class SesionController extends Controller
      */
     public function destroy(Sesion $sesion)
     {
-        $sesion->delete();
+
+        $user = Auth::user();
+        $sesion->users()->detach($user);
+        if ($user->id != 1) {
+            return redirect('/sesions/show');
+        }
         return redirect('/sesions');
     }
 }

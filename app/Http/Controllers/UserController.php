@@ -6,15 +6,16 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Middleware\CheckRole;
 
 class UserController extends Controller
 {
-
-    public function __contrusct()
+    public function __construct()
     {
-        $this->middleware('role')->only('index');
+        $this->middleware('role')->except('showUser');
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -22,29 +23,29 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        // $users = User::all();
-        // return view('user.index', ['users' => $users]);
-
-        $user = auth()->user();
-        $users = User::paginate(5);
+        $user = Auth::user();
+        $users = User::paginate(10);
         $name = $request->name;
         $role = $request->role;
-
-        if ($name) {
-            $users = User::where('name', 'like', "%$name%")->paginate(5);
-        }
-
-        if ($role) {
-            $users = User::where('role_id', $role)->paginate(5);
-        }
-
+        ($name || $role) ?
+            $users = User::with('role')
+            ->where('name', 'like', "%$name%")
+            ->whereHas('role', function (Builder $query) use ($role) {
+                $query->where('name', 'like', "%$role%");
+            })->paginate(10) : null;
         $users->withPath("/users?name=$name&role=$role");
-        return view('user.index', [
+        return view('user.admin', [
             'users' => $users,
             'user' => $user,
             'name' => $name,
             'role' => $role
         ]);
+    }
+
+    public function showUser()
+    {
+        $user = Auth::user();
+        return view('user.show', ['user' => $user]);
     }
 
     /**
@@ -66,17 +67,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::create([
-            'role_id' => $request->role_id,
-            'dni' => $request->dni,
-            'name' => $request->name,
-            'email' => $request->email,
-            'weight' => $request->weight,
-            'height' => $request->height,
-            'birthdate' => $request->birthdate,
-            'gender' => $request->gender,
-            'password' => Hash::make($request->password),
-        ]);
+        // $user = User::create([
+        //     'role_id' => $request->role_id,
+        //     'dni' => $request->dni,
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'weight' => $request->weight,
+        //     'height' => $request->height,
+        //     'birthdate' => $request->birthdate,
+        //     'gender' => $request->gender,
+        //     'password' => Hash::make($request->password),
+        // ]);
+
+        $user = User::create($request->all());
         return redirect('/users');
     }
 
@@ -99,20 +102,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = Role::all();
-        $genders = [
-            'Hombre' => '',
-            'Mujer' => '',
-            'Otro' => ''
-        ];
-        foreach ($genders as $key => $value) {
-            ($key == $user->gender) ? $genders[$key] = 'selected' : false;
-        }
-        return view('user.edit', [
-            'user' => $user,
-            'genders' => $genders,
-            'roles' => $roles
-        ]);
+        return view('user.edit', ['user' => $user]);
     }
 
     /**
@@ -126,7 +116,8 @@ class UserController extends Controller
     {
         $user->fill($request->all());
         $user->save();
-        return redirect('/users');
+        (Auth::user()->role_id == 1) ? $route = '/users' : $route = '/users/show';
+        return redirect($route);
     }
 
     /**
