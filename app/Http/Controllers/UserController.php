@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
-    public function __contrusct()
+    public function __construct()
     {
         $this->middleware('role')->only('index');
     }

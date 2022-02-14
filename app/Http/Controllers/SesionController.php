@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Sesion;
 use App\Models\Activity;
+use App\Models\User;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class SesionController extends Controller
 {
@@ -23,10 +25,11 @@ class SesionController extends Controller
         // $sesions = Sesion::all();
         $activities = Activity::paginate(5);
         $name = $request->name;
-
+        $user=Auth::user();
         if ($name) {
             $activities = Activity::where('name', 'like', "%$name%")->with('sesions')->paginate(5);
         }
+        $activities=User::where('id',$user->id)->with('sesions')->paginate(5);
 
         $activities->withPath("/sesions?activity=$name");
         return view('sesion.index', [
