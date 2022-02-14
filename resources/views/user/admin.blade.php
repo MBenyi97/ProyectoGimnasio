@@ -32,7 +32,7 @@
             </div>
 
 
-            <table class="table table-striped text-center">
+            <table class="table table-striped text-center table-hover">
                 <tr>
                     <th>Role</th>
                     <th>DNI</th>

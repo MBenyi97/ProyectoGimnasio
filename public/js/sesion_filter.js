@@ -19,6 +19,7 @@ $(document).ready(function () {
     // Sends the get request to obtain the sesions
     function request(data) {
         $.get("/reservations/filter?filter=" + data, function (data, status) {
+            emptyTable();
             (data != '') ? loadTable(data) : false;
         });
     }
@@ -26,6 +27,7 @@ $(document).ready(function () {
 
 // Loads the table with the sesions input
 function loadTable(data) {
+    emptyTable();
     $('.table-container').show();
     var table_row = document.createElement('tr');
     var link_btn = document.createElement('a');
@@ -44,7 +46,7 @@ function loadTable(data) {
         hour_end.innerHTML = sesion.hour_end;
         link_btn.innerHTML = "<i class='bi bi-bookmark-plus'></i>";
         link_btn.setAttribute('class', 'btn btn-primary');
-        link_btn.setAttribute('onclick', `addReservation(${sesion.id})`);
+        link_btn.setAttribute('onclick', `sweetAlert(${sesion.id})`);
         join_btn.appendChild(link_btn);
         table_row.setAttribute('class', 'entry-row');
         table_row.append(activity_name, weekDay, hour_start, hour_end, date, join_btn);
@@ -56,7 +58,6 @@ function loadTable(data) {
 
 // Adds the reservations
 function addReservation(id) {
-    console.log(id);
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -71,9 +72,39 @@ function addReservation(id) {
     });
 }
 
+// Sweet alert confirmation message
+function sweetAlert(id) {
+    Swal.fire({
+        title: 'Confirmar',
+        text: "Quieres unirte a esta clase?",
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, unirme!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isDismissed) {
+            Swal.fire(
+                'Cancelado',
+                'No te has unido a esta clase',
+                'error'
+            );
+        }
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Reservada!',
+                'Te has unido a la clase.',
+                'success'
+            ).then(function () {
+                addReservation(id);
+            });
+        }
+    });
+}
 
 // Function to clear the table
 function emptyTable() {
-    $('.table-container').hide();
     $('.entry-row').remove();
+    $('.table-container').hide();
 }

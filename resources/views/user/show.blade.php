@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            @if ($user->role_id == 1)
+            @if (Auth::user()->role_id == 1)
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/home">Home</a></li>
@@ -19,12 +19,12 @@
                         <h1>Tus datos</h1>
                     </div>
                 </div>
-                @if($user->role->name == 'admin')
-                <div class="input-group">
+                @if(Auth::user()->role_id == 1)
+                <!-- <div class="input-group">
                     <div class="container-fluid">
                         <a class="btn btn-info" href="/users/{{$user->id}}/edit">Modificar</a>
                     </div>
-                </div>
+                </div> -->
                 @endif
             </div>
 

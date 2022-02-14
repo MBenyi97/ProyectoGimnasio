@@ -12,7 +12,8 @@ use App\Http\Middleware\CheckRole;
 
 class UserController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware('role')->except('showUser');
     }
     /**
@@ -66,17 +67,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::create([
-            'role_id' => $request->role_id,
-            'dni' => $request->dni,
-            'name' => $request->name,
-            'email' => $request->email,
-            'weight' => $request->weight,
-            'height' => $request->height,
-            'birthdate' => $request->birthdate,
-            'gender' => $request->gender,
-            'password' => Hash::make($request->password),
-        ]);
+        // $user = User::create([
+        //     'role_id' => $request->role_id,
+        //     'dni' => $request->dni,
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'weight' => $request->weight,
+        //     'height' => $request->height,
+        //     'birthdate' => $request->birthdate,
+        //     'gender' => $request->gender,
+        //     'password' => Hash::make($request->password),
+        // ]);
+
+        $user = User::create($request->all());
         return redirect('/users');
     }
 
@@ -99,20 +102,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = Role::all();
-        $genders = [
-            'Hombre' => '',
-            'Mujer' => '',
-            'Otro' => ''
-        ];
-        foreach ($genders as $key => $value) {
-            ($key == $user->gender) ? $genders[$key] = 'selected' : false;
-        }
-        return view('user.edit', [
-            'user' => $user,
-            'genders' => $genders,
-            'roles' => $roles
-        ]);
+        return view('user.edit', ['user' => $user]);
     }
 
     /**
@@ -126,11 +116,8 @@ class UserController extends Controller
     {
         $user->fill($request->all());
         $user->save();
-        if (Auth::user()->role_id == 1) {
-            return redirect('/users');
-        } else {
-            return redirect('/users/show');
-        }
+        (Auth::user()->role_id == 1) ? $route = '/users' : $route = '/users/show';
+        return redirect($route);
     }
 
     /**

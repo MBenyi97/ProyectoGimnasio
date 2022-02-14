@@ -136,7 +136,7 @@ class SesionController extends Controller
     public function loadWeekDays(Sesion $sesion)
     {
         // Parsing the start date of the sesion
-        $dtStart = Carbon::parse($sesion->date_start);
+        $dtStart = Carbon::parse($sesion->date);
         // Array holding the days
         $daysChecked = [
             'Monday' => '',
@@ -194,7 +194,7 @@ class SesionController extends Controller
         $sesions = Sesion::all();
         $id = "";
         foreach ($sesions as $sesion) {
-            ($sesion->date_start == $date) ? $id = $sesion->id : false;
+            ($sesion->date == $date) ? $id = $sesion->id : false;
         }
         return Sesion::find($id);
     }
@@ -202,7 +202,7 @@ class SesionController extends Controller
     public static function destroyIfDayNotExists($id, $weekDaysSelected)
     {
         $sesion = Sesion::find($id);
-        $sesionCarbonDate = Carbon::parse($sesion->date_start);
+        $sesionCarbonDate = Carbon::parse($sesion->date);
         foreach ($weekDaysSelected as $weekDay) {
             ($weekDay != $sesionCarbonDate->englishDayOfWeek) ? Sesion::destroy($sesion) : false;
         }

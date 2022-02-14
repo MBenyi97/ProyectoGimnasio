@@ -154,7 +154,7 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <a class="btn btn-primary edit-user">Editar</a>
-                                <a href="{{$user->role_id==1?'/users':'/users/show'}}" class="btn btn-danger">Atrás</a>
+                                <a href="{{Auth::user()->role_id==1?'/users':'/users/show'}}" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
                     </form>

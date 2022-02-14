@@ -5,26 +5,28 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Clases inscritas</li>
-              </ol>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Clases inscritas</li>
+                </ol>
             </nav>
             <h1>Lista de sesiones reservadas por el usuario <strong>{{$user->name}}</strong></h1>
 
             <table class="table table-striped">
                 <tr>
                     <th>Actividad</th>
-                    <th>Fecha y hora inicial</th>
-                    <th>Fecha y hora final</th>
+                    <th>Hora inicial</th>
+                    <th>Hora final</th>
+                    <th>Fecha</th>
                     <th>Fecha de la reserva</th>
                     <th class="text-center">Opciones</th>
                 </tr>
                 @forelse ($user->sesions as $sesion)
                 <tr>
                     <td>{{$sesion->activity->name}} </td>
-                    <td>{{$sesion->date_start}} </td>
-                    <td>{{$sesion->date_end}} </td>
+                    <td>{{Carbon\Carbon::parse($sesion->date)->format('d-m-Y')}} </td>
+                    <td>{{Carbon\Carbon::parse($sesion->hour_start)->format('H:i')}}</td>
+                    <td>{{Carbon\Carbon::parse($sesion->hour_end)->format('H:i')}}</td>
                     <td>{{$sesion->reservations->created_at}}</td>
                     <td class="text-center">
                         <form method="POST" action="/reservations/{{$sesion->id}}">
