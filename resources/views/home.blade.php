@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h3 class="card-title"> {{ Auth::user()->name }}, Bienvenido a la página de nuestro gimnasio</h3>
                     <p class="card-text">El botón de abajo te mostrará tu datos y tus sesiones</p>
-                    <a href="/users/show" class="btn btn-primary">Panel de control</a>
+                    <a href="/users" class="btn btn-primary">Panel de control</a>
                 </div>
                 <div class="card-footer text-muted">
                     <i>Made by Arthur & Mike</i>

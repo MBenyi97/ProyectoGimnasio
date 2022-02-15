@@ -24,14 +24,16 @@
                     <th>Nombre</th>
                     <th>Descripción</th>
                     <th>Duración</th>
-                    <th>Capacidad</th>
+                    <th>Capacidad total</th>
                 </tr>
                 @forelse ($activities as $activity)
                 <tr>
                     <td>{{$activity->name}} </td>
                     <td>{{$activity->description}} </td>
                     <td>{{$activity->duration}} </td>
-                    <td>{{$activity->capacity}} </td>
+                    <td>
+                        /{{(count($activity->sesions)==0 ? '1' : count($activity->sesions)) * $activity->capacity}} 
+                    </td>
                 </tr>
                 @empty
                 <tr>

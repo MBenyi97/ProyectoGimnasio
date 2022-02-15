@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role')->except('showUser');
+        $this->middleware('role')->except('show');
     }
     /**
      * Display a listing of the resource.
@@ -40,12 +40,6 @@ class UserController extends Controller
             'name' => $name,
             'role' => $role
         ]);
-    }
-
-    public function showUser()
-    {
-        $user = Auth::user();
-        return view('user.show', ['user' => $user]);
     }
 
     /**
