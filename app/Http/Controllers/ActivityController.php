@@ -13,6 +13,7 @@ class ActivityController extends Controller
     {
         $this->middleware('role')->except('index');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -49,7 +50,11 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        $activity = Activity::create($request->all());
+        $rules = $request->validate([
+            'name' => ['required', 'unique:activities', 'max:255'],
+            'body' => ['required', ''],
+        ]);
+        $activity = Activity::create($request->validate($rules));
         return redirect('/activities');
     }
 

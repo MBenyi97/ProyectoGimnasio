@@ -24,55 +24,30 @@ class ReservationController extends Controller
         $userId = Auth::id();
         $filter = $request->filter;
 
-        // SQL Query
-        // select *
-        // from sesions as FirstQuery left join sesion_user on FirstQuery.id = sesion_user.sesion_id join activities on FirstQuery.activity_id = activities.id
-        // where (name like 'boxeo') or (date like '2022-02-15')
-        // group by FirstQuery.id
-        // having (FirstQuery.id != (select Subquery.id from sesions as Subquery join sesion_user on Subquery.id = sesion_user.sesion_id where user_id = 4));
+        $sesions = Sesion::with('users')->whereNotIn('id', function ($query) {
+            $query
+                ->where('user_id', 4)
+                ->select('sesion_id');
+        })->get();
 
-        // Sub query
-        // $discardSesions = DB::table('sesions')
-        //     ->Join('sesion_user', 'sesion_user.sesion_id', '=', 'sesions.id')
-        //     ->where('user_id', '=', 4)
-        //     ->select('sesions.id')
-        //     ->get();
+        // $query = Sesion::with('activity')
+        //     ->whereHas('activity', function (Builder $q) use ($filter) {
+        //         $q->where('name', $filter);
+        //     })->with('users')->orWhere('date', $filter)->get();
 
-        // Main query
-        // $sesions = DB::table('sesions')
-        //     ->leftJoin('sesion_user', 'sesion_user.sesion_id', '=', 'sesions.id')
-        //     ->Join('activities', 'activities.id', '=', 'sesions.activity_id')
-        //     ->orWhere(function ($query) use ($filter) {
-        //         $query->where('activities.name', $filter)
-        //             ->orWhere('sesions.date', $filter);
-        //     })
-        //     ->select('sesions.id', 'sesions.weekDay', 'sesions.hour_start', 'sesions.hour_end', 'sesions.date', 'activities.name')
-        //     ->groupBy('sesions.id')
-        //     ->having(function ($query) use ($discardSesions) {
-        //         $query->where('sesions.id', '!=', $discardSesions);
-        //     })
-        //     ->get();
+        // // Checks if the user alredy has the sesion
+        // $sesions = [];
+        // foreach ($query as $sesion) {
+        //     $state = true;
+        //     foreach ($sesion->users as $user) {
+        //         if ($user->id == $userId) {
+        //             $state = false;
+        //             break;
+        //         }
+        //     }
+        //     ($state) ? array_push($sesions, $sesion) : null;
+        // }
 
-        // $sesions = Sesion::paginate(10);
-        $userId = Auth::user()->id;
-        $filter = $request->filter;
-        $query = Sesion::with('activity')
-            ->whereHas('activity', function (Builder $q) use ($filter) {
-                $q->where('name', $filter);
-            })->with('users')->orWhere('date', $filter)->get();
-
-        // Checks if the user alredy has the sesion
-        $sesions = [];
-        foreach ($query as $sesion) {
-            $state = true;
-            foreach ($sesion->users as $user) {
-                if ($user->id == $userId) {
-                    $state = false;
-                    break;
-                }
-            }
-            ($state) ? array_push($sesions, $sesion) : null;
-        }
         return $sesions;
     }
 

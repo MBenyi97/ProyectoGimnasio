@@ -37,6 +37,24 @@
                             <!-- <div class="btn-group me-2" role="group">
                                 <input class="btn btn-primary btn-form" type="submit" value="Buscar">
                             </div> -->
+                            <!-- Container holding the AJAX table -->
+                            <div class="container mt-5">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-12 table-container">
+                                        <!-- Table generated with JavaScript and AJAX -->
+                                        <table class="table table-striped table-data text-center">
+                                            <tr>
+                                                <th>Actividad</th>
+                                                <th>Dia de la semana</th>
+                                                <th>Hora inicial</th>
+                                                <th>Hora final</th>
+                                                <th>Fecha</th>
+                                                <th>Añadir</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,23 +62,6 @@
         </div>
     </div>
 </div>
-<!-- Container holding the AJAX table -->
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-9 table-container">
-            <!-- Table generated with JavaScript and AJAX -->
-            <table class="table table-striped table-data text-center">
-                <tr>
-                    <th>Actividad</th>
-                    <th>Dia de la semana</th>
-                    <th>Hora inicial</th>
-                    <th>Hora final</th>
-                    <th>Fecha</th>
-                    <th>Añadir</th>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
+
 <script type="text/javascript" src="{{ URL::asset('js/sesion_filter.js') }}"></script>
 @endsection
