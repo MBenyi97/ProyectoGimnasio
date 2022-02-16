@@ -4,6 +4,12 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Sesiones</li>
+                </ol>
+            </nav>
             <div class="btn-toolbar d-flex justify-content-between align-middle" role="toolbar">
                 <h1>Lista de sesiones</h1>
                 <div class="input-group">
@@ -34,7 +40,12 @@
                     <td>{{$sesion->activity->name}}</td>
                     <td>{{$sesion->weekDay}}</td>
                     <td>{{$sesion->activity->duration}} mins</td>
-                    <td>{{$sesion->activity->capacity}}</td>
+                    <td>
+                        @php
+                        $users=count($sesion->users);
+                        @endphp
+                        {{$users}}/{{$sesion->activity->capacity}}
+                    </td>
                     <td>{{Carbon\Carbon::parse($sesion->hour_start)->format('H:i')}}</td>
                     <td>{{Carbon\Carbon::parse($sesion->date)->format('d-m-Y')}} </td>
                 </tr>

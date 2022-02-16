@@ -36,7 +36,6 @@ class UserController extends Controller
         $users->withPath("/users?name=$name&role=$role");
         return view('user.admin', [
             'users' => $users,
-            'user' => $user,
             'name' => $name,
             'role' => $role
         ]);
@@ -110,8 +109,7 @@ class UserController extends Controller
     {
         $user->fill($request->all());
         $user->save();
-        (Auth::user()->role_id == 1) ? $route = '/users' : $route = '/users/show';
-        return redirect($route);
+        return redirect('/users');
     }
 
     /**

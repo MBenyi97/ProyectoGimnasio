@@ -30,13 +30,11 @@ Route::resource('sesions', SesionController::class)->middleware('auth');
 Route::controller(ReservationController::class)
     ->middleware('auth')
     ->group(function () {
-        Route::get('reservations', 'index');
         Route::get('reservations/filter', 'filter');
         Route::post('reservations/create/{id}', 'create');
-        // General destroy route
-        Route::delete('reservations/{id}', 'destroy');
         // Destroy route and redirect to user id
         Route::delete('reservations/{userId}/{sesionId}', 'userSesionDestroy');
+        Route::resource('reservations', ReservationController::class);
     });
 
 

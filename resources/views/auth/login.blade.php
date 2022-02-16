@@ -53,7 +53,9 @@
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <a class="btn btn-primary login-user">Login</a>
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Login') }}
+                                </button>
 
                                 @if (Route::has('password.request'))
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
@@ -68,7 +70,7 @@
         </div>
     </div>
 </div>
-<script>
+<!-- <script>
     $(".login-user").click(function(event) {
         var form = $(this).closest("form");
         var name = $(this).data("name");
@@ -81,5 +83,5 @@
             form.submit();
         });
     });
-</script>
+</script> -->
 @endsection

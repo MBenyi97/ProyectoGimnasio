@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h3 class="card-title"> {{ Auth::user()->name }}, Bienvenido a la página de nuestro gimnasio</h3>
                     <p class="card-text">El botón de abajo te mostrará tu datos y tus sesiones</p>
-                    <a href="/users" class="btn btn-primary">Panel de control</a>
+                    <a href="/users/{{Auth::id()}}" class="btn btn-primary">Panel de control</a>
                 </div>
                 <div class="card-footer text-muted">
                     <i>Made by Arthur & Mike</i>
@@ -20,21 +20,13 @@
         </div>
     </div>
 </div>
-<!-- <img alt="gimnasio" src="{{ asset('img/portada.jpg') }}" class="img-fluid"> -->
-
-
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
-
-    #title {
-        font-family: 'Anton', sans-serif;
-        color: white;
-        text-shadow: 20px 20px 20px black;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 100px;
-    }
-</style>
+@if(Session::has('message'))
+<script type="text/javascript">
+    Swal.fire(
+        'Bienvenido!',
+        'Has iniciado sesión.',
+        'success'
+    );
+</script>
+@endif
 @endsection

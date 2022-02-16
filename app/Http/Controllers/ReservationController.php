@@ -24,11 +24,23 @@ class ReservationController extends Controller
         $userId = Auth::id();
         $filter = $request->filter;
 
-        $sesions = Sesion::with('users')->whereNotIn('id', function ($query) {
-            $query
-                ->where('user_id', 4)
-                ->select('sesion_id');
-        })->get();
+        if (ctype_alpha($filter) && !empty($filter)) {
+            $sesions = Sesion::whereNotIn('id', function ($q) use ($userId) {
+                $q->select('sesion_id')
+                    ->from('sesion_user')
+                    ->where('sesion_user.user_id', $userId);
+            })->where('activity_id', function ($q) use ($filter) {
+                $q->select('id')
+                    ->from('activities')
+                    ->where('name', $filter);
+            })->with('activity')->get();
+        } else if (!empty($filter)) {
+            $sesions = Sesion::whereNotIn('id', function ($q) use ($userId) {
+                $q->select('sesion_id')
+                    ->from('sesion_user')
+                    ->where('sesion_user.user_id', $userId);
+            })->where('date', $filter)->with('activity')->get();
+        }
 
         // $query = Sesion::with('activity')
         //     ->whereHas('activity', function (Builder $q) use ($filter) {

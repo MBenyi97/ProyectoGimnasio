@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\Sesion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
@@ -23,7 +24,7 @@ class ActivityController extends Controller
     {
         $activities = Activity::paginate(10);
         $name = $request->name;
-        ($name) ? $activities = Activity::where('name', 'like', "%$name%")->with('sesions')->paginate(10) : null;
+        ($name) ? $activities = Activity::where('name', 'like', "%$name%")->paginate(10) : null;
         $activities->withPath("/activities?name=$name");
         (Auth::user()->role_id == 1) ? $view = 'admin' : $view = 'index';
         return view("activity.$view", [
@@ -50,11 +51,17 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = $request->validate([
-            'name' => ['required', 'unique:activities', 'max:255'],
-            'body' => ['required', ''],
+
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'unique:activities', 'max:255'],
+            'duration' => ['required', 'numeric', 'max:255'],
         ]);
-        $activity = Activity::create($request->validate($rules));
+        if ($validator->fails()) {
+            return redirect('/activities/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        Activity::create($request->all());
         return redirect('/activities');
     }
 
@@ -66,7 +73,7 @@ class ActivityController extends Controller
      */
     public function show(Activity $activity)
     {
-        return view('activity.show', ['activity' => $activity]);
+        return view('activity.show', ['activity' => $activity, 'users', $users = 0]);
     }
 
     /**
@@ -89,13 +96,13 @@ class ActivityController extends Controller
      */
     public function update(Request $request, Activity $activity)
     {
-        //version larga, comentada
-        // $activity->code = $request->code;
-        // $activity->name = $request->name;
-        // $activity->abreviation = $request->abreviation;
-
-        //version corta
-        $activity->fill($request->all());
+        $request->validate([
+            'name' => ['required', 'unique:activities', 'max:255'] . $this->activity->id,
+            'description' => ['required', 'string', 'max:255'],
+            'duration' => ['required', 'integer', 'max:255'],
+            'capacity' => ['required', 'integer', 'max:255']
+        ]);
+        $activity->fill($request->validated());
         $activity->save();
         return redirect('/activities');
     }
