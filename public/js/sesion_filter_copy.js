@@ -1,50 +1,59 @@
 $('.table-container').hide();
+$('.entry-row').remove();
 $(document).ready(function () {
-    // Filter by activity name
+    // Cuando el usuario presiona una tecla, carga las actividades que tengan ese nombre
     $('.filter-by-activity').on('keyup', function (e) {
         e.preventDefault();
-        key = $(this).val();
-        const regLetters = /^[A-Z]|[a-z]/;
-        (key.match(regLetters)) ? request(key) : emptyTable();
+        // Recogemos el valor de la tecla presionada
+        key = ($(this).val());
+        // Borramos las entradas de la tabla, por si el usuario escribe otro nombre de actividad
+        $('.entry-row').remove();
+        // Realizamos la petición get, con el nombre de actividad que el usuario ha escrito
+        $.get("/reservations/filter?filter=" + key, function (data) {
+            // Función que carga la tabla
+            loadTable(data);
+        });
     });
 
-    // Filter by sesion date
+    // Cuando el usuario presiona una tecla, carga las sesiones que tengan esa fecha
     $('.filter-by-date').on('keyup', function (e) {
         e.preventDefault();
-        key = $(this).val();
-        const regLetters = /^\d{4}\-\d{2}\-\d{2}$/;
-        (key.match(regLetters)) ? request(key) : emptyTable();
-    });
-
-    // Sends the get request to obtain the sesions
-    function request(data) {
-        $.get("/reservations/filter?filter=" + data, function (data) {
-            console.log(data);
-            emptyTable();
-            (data != '') ? loadTable(data) : false;
+        // Recogemos el valor de la tecla presionada
+        key = ($(this).val());
+        // Borramos las entradas de la tabla, por si el usuario escribe otro nombre de actividad
+        $('.entry-row').remove();
+        // Realizamos la petición get, con el nombre de actividad que el usuario ha escrito
+        $.get("/reservations/filter?filter=" + key, function (data) {
+            // Función que carga la tabla
+            loadTable(data);
         });
-    }
+    });
 });
 
-// Loads the table with the sesions input
 function loadTable(data) {
-    emptyTable();
-    $('.table-container').show();
-    var table_row;
+    // Borramos las entradas de la tabla, por si el usuario escribe otro nombre de actividad
+    $('.entry-row').remove();
+    // Función forEach que recorre los datos de las sesiones pasados por la petición GET
     data.forEach((sesion) => {
-        table_row.innerHTML(`<tr><td class="activity_name"></td><td class="weekDay"></td><td class="hour_start"></td><td class="hour_end"></td><td class="date"></td><td class="join_btn"></td></tr>`);
-        $('.table-row').next(table_row);
-        $('.activity_name').append(sesion.activity.name);
-        $('.weekDay').append(sesion.weekDay);
-        $('.date').append(sesion.date);
-        $('.hour_start').append(sesion.hour_start);
-        $('.hour_end').append(sesion.hour_end);
-        $('.join_btn').append(`<a class="btn btn-primary" onclick="sweetAlert(${sesion.id})"><i class='bi bi-bookmark-plus'></i></a>`);
+        let activity_name = sesion.activity.name;
+        let weekDay = sesion.weekDay;
+        let date = sesion.date;
+        let hour_start = sesion.hour_start;
+        let hour_end = sesion.hour_end;
+        // Botón que tiene una función onclick para que cuando hagas click añada la sesión
+        let join_btn = `<a class="btn btn-primary" onclick="addReservation(${sesion.id})"><i class='bi bi-bookmark-plus'></i></a>`;
+        // Carga las filas de la tabla cada sesión
+        $('.table-data').append(
+            `<tr class="entry-row"><td>${activity_name}</td><td>${weekDay}</td><td>${date}</td><td>${hour_start}</td><td>${hour_end}</td><td>${join_btn}</td></tr>`
+        );
     });
+    // Mostramos la tabla con las nuevas entradas
+    $('.table-container').show();
 }
 
-// Adds the reservations
+// Función para añadir la reserva cuando el usuario haga click
 function addReservation(id) {
+    // Función AJAX con petición POST para añadir la sesión
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -52,46 +61,13 @@ function addReservation(id) {
         method: 'POST',
         url: `/reservations/create/${id}`,
     }).then((data) => {
-        console.log(data);
+        // Cuando la petición se ha reliza, te redirige de nuevo a la página de las reservas
         location.replace('/reservations/');
     }).catch((err) => {
+        // Si la petición falla te devuelve por consola un error
         console.log(`Ha ocurrido un error realizando la petición ${err.message}.`);
+    }).done(() => {
+        // Cuando la petición se realiza con exito, devuelve un mensaje de exito
+        console.log('La reserva ha sido realizada!');
     });
-}
-
-// Sweet alert confirmation message
-function sweetAlert(id) {
-    Swal.fire({
-        title: 'Confirmar',
-        text: "Quieres unirte a esta clase?",
-        icon: 'info',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, unirme!',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isDismissed) {
-            Swal.fire(
-                'Cancelado',
-                'No te has unido a esta clase',
-                'error'
-            );
-        }
-        if (result.isConfirmed) {
-            Swal.fire(
-                'Reservada!',
-                'Te has unido a la clase.',
-                'success'
-            ).then(function () {
-                addReservation(id);
-            });
-        }
-    });
-}
-
-// Function to clear the table
-function emptyTable() {
-    $('.entry-row').remove();
-    $('.table-container').hide();
 }

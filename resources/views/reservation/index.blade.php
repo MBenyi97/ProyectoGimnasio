@@ -48,7 +48,7 @@
                     <div class="col-md-12 table-container">
                         <!-- Table generated with JavaScript and AJAX -->
                         <table class="table table-striped table-data text-center">
-                            <tr class="table-row">
+                            <tr>
                                 <th>Actividad</th>
                                 <th>Dia de la semana</th>
                                 <th>Hora inicial</th>
