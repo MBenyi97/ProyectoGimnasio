@@ -48,7 +48,7 @@
                     <div class="col-md-12 table-container">
                         <!-- Table generated with JavaScript and AJAX -->
                         <table class="table table-striped table-data text-center">
-                            <tr>
+                            <tr class="table-row">
                                 <th>Actividad</th>
                                 <th>Dia de la semana</th>
                                 <th>Hora inicial</th>
@@ -63,5 +63,5 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="{{ URL::asset('js/sesion_filter.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/sesion_filter_copy.js') }}"></script>
 @endsection
