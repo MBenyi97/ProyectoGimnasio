@@ -15,8 +15,8 @@ class CreateSesionUserTable extends Migration
     {
         Schema::create('sesion_user', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->default(1);
-            $table->unsignedBigInteger('sesion_id')->default(1);
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('sesion_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('sesion_id')->references('id')->on('sesions')->onDelete('cascade');
             $table->timestamps();

@@ -18,7 +18,8 @@ $(document).ready(function () {
 
     // Sends the get request to obtain the sesions
     function request(data) {
-        $.get("/reservations/filter?filter=" + data, function (data, status) {
+        $.get("/reservations/filter?filter=" + data, function (data) {
+            console.log(data);
             emptyTable();
             (data != '') ? loadTable(data) : false;
         });

@@ -17,9 +17,11 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()->role_id == 1){
+        if (Auth::user()->role_id == 1) {
             return $next($request);
-        }else{
+        } elseif (Auth::check()) {
+            return redirect('/users/' . Auth::id());
+        } else {
             return redirect('/home');
         }
     }

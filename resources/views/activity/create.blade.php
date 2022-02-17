@@ -23,7 +23,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Actividad') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name" autofocus>
+                                <input id="name" type="text" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name" autofocus>
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -40,7 +40,7 @@
                             <div class="col-md-6">
                                 <!-- <input id="description" type="text" class="form-control @error('name') is-invalid @enderror" name="description" required autocomplete="description" autofocus> -->
 
-                                <textarea class="form-control" id="description" class="form-control @error('name') is-invalid @enderror" name="description" required autocomplete="description" autofocus rows="3"></textarea>
+                                <textarea class="form-control" id="description" value="{{ old('description') }}"  class="form-control @error('name') is-invalid @enderror" name="description" required autocomplete="description" autofocus rows="3"></textarea>
 
                                 @error('description')
                                 <span class="invalid-feedback" role="alert">
@@ -55,7 +55,7 @@
                             <label for="duration" class="col-md-4 col-form-label text-md-end">{{ __('Duración') }}</label>
 
                             <div class="col-md-6">
-                                <input id="duration" type="number" class="form-control @error('name') is-invalid @enderror" name="duration" required autocomplete="duration" autofocus>
+                                <input id="duration" type="number" value="{{ old('duration') }}"  class="form-control @error('name') is-invalid @enderror" name="duration" required autocomplete="duration" autofocus>
 
                                 @error('duration')
                                 <span class="invalid-feedback" role="alert">
@@ -70,7 +70,7 @@
                             <label for="capacity" class="col-md-4 col-form-label text-md-end">{{ __('Capacidad') }}</label>
 
                             <div class="col-md-6">
-                                <input id="capacity" type="number" class="form-control @error('name') is-invalid @enderror" name="capacity" required autocomplete="capacity" autofocus>
+                                <input id="capacity" type="number" value="{{ old('capacity') }}" class="form-control @error('name') is-invalid @enderror" name="capacity" required autocomplete="capacity" autofocus>
 
                                 @error('capacity')
                                 <span class="invalid-feedback" role="alert">

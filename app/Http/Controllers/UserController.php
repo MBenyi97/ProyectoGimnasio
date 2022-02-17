@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role')->except('showUser');
+        $this->middleware('role')->except('show');
     }
     /**
      * Display a listing of the resource.
@@ -36,16 +36,9 @@ class UserController extends Controller
         $users->withPath("/users?name=$name&role=$role");
         return view('user.admin', [
             'users' => $users,
-            'user' => $user,
             'name' => $name,
             'role' => $role
         ]);
-    }
-
-    public function showUser()
-    {
-        $user = Auth::user();
-        return view('user.show', ['user' => $user]);
     }
 
     /**
@@ -116,8 +109,7 @@ class UserController extends Controller
     {
         $user->fill($request->all());
         $user->save();
-        (Auth::user()->role_id == 1) ? $route = '/users' : $route = '/users/show';
-        return redirect($route);
+        return redirect('/users');
     }
 
     /**
