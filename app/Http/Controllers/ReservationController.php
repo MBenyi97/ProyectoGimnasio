@@ -41,25 +41,6 @@ class ReservationController extends Controller
                     ->where('sesion_user.user_id', $userId);
             })->where('date', $filter)->with('activity')->get();
         }
-
-        // $query = Sesion::with('activity')
-        //     ->whereHas('activity', function (Builder $q) use ($filter) {
-        //         $q->where('name', $filter);
-        //     })->with('users')->orWhere('date', $filter)->get();
-
-        // // Checks if the user alredy has the sesion
-        // $sesions = [];
-        // foreach ($query as $sesion) {
-        //     $state = true;
-        //     foreach ($sesion->users as $user) {
-        //         if ($user->id == $userId) {
-        //             $state = false;
-        //             break;
-        //         }
-        //     }
-        //     ($state) ? array_push($sesions, $sesion) : null;
-        // }
-
         return $sesions;
     }
 

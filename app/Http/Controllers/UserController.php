@@ -23,7 +23,6 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
         $users = User::paginate(10);
         $name = $request->name;
         $role = $request->role;

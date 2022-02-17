@@ -30,10 +30,16 @@ $(document).ready(function () {
 function loadTable(data) {
     emptyTable();
     $('.table-container').show();
-    var table_row;
     data.forEach((sesion) => {
-        table_row.innerHTML(`<tr><td class="activity_name"></td><td class="weekDay"></td><td class="hour_start"></td><td class="hour_end"></td><td class="date"></td><td class="join_btn"></td></tr>`);
-        $('.table-row').next(table_row);
+        $('.table-data').append(`
+        <tr>
+            <td>sesion.activity.name</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>`);
         $('.activity_name').append(sesion.activity.name);
         $('.weekDay').append(sesion.weekDay);
         $('.date').append(sesion.date);
