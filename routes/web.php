@@ -24,20 +24,17 @@ Route::get('/', function () {
 });
 
 // Shows user data if not admin
-Route::get('users/show', [UserController::class, 'showUser'])->middleware('auth');
 Route::resource('users', UserController::class)->middleware('auth');
 Route::resource('activities', ActivityController::class)->middleware('auth');
 Route::resource('sesions', SesionController::class)->middleware('auth');
 Route::controller(ReservationController::class)
     ->middleware('auth')
     ->group(function () {
-        Route::get('reservations', 'index');
         Route::get('reservations/filter', 'filter');
         Route::post('reservations/create/{id}', 'create');
-        // General destroy route
-        Route::delete('reservations/{id}', 'destroy');
         // Destroy route and redirect to user id
         Route::delete('reservations/{userId}/{sesionId}', 'userSesionDestroy');
+        Route::resource('reservations', ReservationController::class);
     });
 
 

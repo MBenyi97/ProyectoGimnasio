@@ -4,6 +4,12 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Activitidades</li>
+                </ol>
+            </nav>
             <div class="btn-toolbar d-flex justify-content-between align-middle" role="toolbar">
                 <h1>Lista de actividades</h1>
                 <div class="input-group">
@@ -24,14 +30,20 @@
                     <th>Nombre</th>
                     <th>Descripción</th>
                     <th>Duración</th>
-                    <th>Capacidad</th>
+                    <th>Capacidad total</th>
                 </tr>
                 @forelse ($activities as $activity)
                 <tr>
                     <td>{{$activity->name}} </td>
                     <td>{{$activity->description}} </td>
-                    <td>{{$activity->duration}} </td>
-                    <td>{{$activity->capacity}} </td>
+                    <td>{{$activity->duration}} mins</td>
+                    <td> @php
+                        $users = 0;
+                        foreach ($activity->sesions as $sesion){
+                        $users+=count($sesion->users);
+                        }@endphp
+                        {{$users}}/{{(count($activity->sesions)==0 ? '1' : count($activity->sesions)) * $activity->capacity}}
+                    </td>
                 </tr>
                 @empty
                 <tr>

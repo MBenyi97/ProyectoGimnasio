@@ -8,8 +8,15 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                    <li class="breadcrumb-item"><a href="/users">Users</a></li>
+                    <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{$user->name}}</li>
+                </ol>
+            </nav>
+            @else
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Usuario</li>
                 </ol>
             </nav>
             @endif

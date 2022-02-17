@@ -17,7 +17,7 @@
                 <a href="/activities" class="btn btn-danger">Atrás</a>
             </h1>
 
-            <table class="table table-striped text-center">
+            <table class="table table-striped table-hover text-center">
                 <tr>
                     <th>Nombre</th>
                     <th>Descripción</th>
@@ -25,37 +25,41 @@
                     <th>Capacidad</th>
                 </tr>
                 <tr>
-                    <td>{{$activity->name}} </td>
-                    <td>{{$activity->description}} </td>
-                    <td>{{$activity->duration}} </td>
-                    <td>{{$activity->capacity}} </td>
+                    <td>{{$activity->name}}</td>
+                    <td>{{$activity->description}}</td>
+                    <td>{{$activity->duration}}</td>
+                    <td> @php
+                        $users = 0;
+                        foreach ($activity->sesions as $sesion){
+                        $users+=count($sesion->users);
+                        }@endphp
+                        {{$users}}/{{(count($activity->sesions)==0 ? '1' : count($activity->sesions)) * $activity->capacity}}
+                    </td>
                 </tr>
             </table>
         </div>
     </div>
-</div>
 
-<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-
             <h1>Sesiones</h1>
-
-            <table class="table table-striped text-center">
+            <table class="table table-striped table-hover text-center">
                 <tr>
                     <th>Actividad</th>
                     <th>Dia de la semana</th>
                     <th>Hora inicial</th>
                     <th>Hora final</th>
                     <th>Fecha</th>
+                    
                 </tr>
                 @forelse($activity->sesions as $sesion)
                 <tr>
                     <td>{{$activity->name}}</td>
                     <td>{{$sesion->weekDay}} </td>
-                    <td>{{$sesion->hour_start}} </td>
-                    <td>{{$sesion->hour_end}} </td>
+                    <td>{{Carbon\Carbon::parse($sesion->hour_start)->format('H:i')}}</td>
+                    <td>{{Carbon\Carbon::parse($sesion->hour_end)->format('H:i')}}</td>
                     <td>{{Carbon\Carbon::parse($sesion->date)->format('d-m-Y')}} </td>
+                    
                 </tr>
                 @empty
                 <tr>
@@ -63,7 +67,6 @@
                 </tr>
                 @endforelse
             </table>
-
         </div>
     </div>
 </div>

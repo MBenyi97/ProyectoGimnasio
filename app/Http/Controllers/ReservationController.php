@@ -14,34 +14,40 @@ use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('role');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function filter(Request $request)
     {
-        // $sesions = Sesion::paginate(10);
-        $userId = Auth::user()->id;
+        $userId = Auth::id();
         $filter = $request->filter;
-        $query = Sesion::with('activity')
-            ->whereHas('activity', function (Builder $q) use ($filter) {
-                $q->where('name', $filter);
-            })->with('users')->orWhere('date', $filter)->get();
 
-        // Checks if the user alredy has the sesion
-        $sesions = [];
-        foreach ($query as $sesion) {
-            $state = true;
-            foreach ($sesion->users as $user) {
-                if ($user->id == $userId) {
-                    $state = false;
-                    break;
-                }
-            }
-            ($state) ? array_push($sesions, $sesion) : null;
+        if (ctype_alpha($filter) && !empty($filter)) {
+            $sesions = Sesion::whereNotIn('id', function ($q) use ($userId) {
+                $q->select('sesion_id')
+                    ->from('sesion_user')
+                    ->where('sesion_user.user_id', $userId);
+            })->where('activity_id', function ($q) use ($filter) {
+                $q->select('id')
+                    ->from('activities')
+                    ->where('name', $filter);
+            })->with('activity')->get();
+        } else if (!empty($filter)) {
+            $sesions = Sesion::whereNotIn('id', function ($q) use ($userId) {
+                $q->select('sesion_id')
+                    ->from('sesion_user')
+                    ->where('sesion_user.user_id', $userId);
+            })->where('date', $filter)->with('activity')->get();
         }
+
         return $sesions;
+        // $data = Sesion::select('sesion_user.user_id', 'sesions.activity_id',)
+        //     ->leftjoin('sesion_user', 'sesion_user.user_id', '!=', $userId)
+        //     ->get();
+
+        // return $data;
     }
 
     /**
@@ -62,7 +68,7 @@ class ReservationController extends Controller
      */
     public function create($id)
     {
-        $user = auth()->user();
+        $user = Auth::user();
         $sesion = Sesion::find($id);
         // $sesion->users()->attach($user); 
         $sesion->users()->save($user, ['created_at' => Carbon::now()]);
@@ -133,6 +139,6 @@ class ReservationController extends Controller
         $user = User::find($userId);
         $sesion = Sesion::find($sesionId);
         $sesion->users()->detach($user);
-        return redirect('/users/show');
+        return redirect('/users');
     }
 }
