@@ -24,24 +24,43 @@ class ReservationController extends Controller
         // $sesions = Sesion::paginate(10);
         $userId = Auth::user()->id;
         $filter = $request->filter;
-        $query = Sesion::with('activity')
-            ->whereHas('activity', function (Builder $q) use ($filter) {
-                $q->where('name', $filter);
-            })->with('users')->orWhere('date', $filter)->get();
+        // $query = Sesion::with('activity')
+        //     ->whereHas('activity', function (Builder $q) use ($filter) {
+        //         $q->where('name', $filter);
+        //     })->leftjoin('sesion_user', 'sesion_user.user_id', '!=', $userId)
+        //     ->orWhere('date', $filter)->get();
+
+        // $sesions = DB::table('sesions')
+        // ->leftjoin('users', function ($join) use ($userId) {
+        // $join->on('sesions.id', '=', 'users.id')
+        // ->where('users.id', '!=', $userId)->get();
+
+        $sesions = DB::table('sesions')
+        ->leftJoin('contacts', 'students.id', '=', 'contacts.student_id')
+        ->select('students.id','students.name','contacts.phone','contacts.email')
+        ->get();
+
+        
 
         // Checks if the user alredy has the sesion
-        $sesions = [];
-        foreach ($query as $sesion) {
-            $state = true;
-            foreach ($sesion->users as $user) {
-                if ($user->id == $userId) {
-                    $state = false;
-                    break;
-                }
-            }
-            ($state) ? array_push($sesions, $sesion) : null;
-        }
+        // $sesions = [];
+        // foreach ($query as $sesion) {
+        //     $state = true;
+        //     foreach ($sesion->users as $user) {
+        //         if ($user->id == $userId) {
+        //             $state = false;
+        //             break;
+        //         }
+        //     }
+        //     ($state) ? array_push($sesions, $sesion) : null;
+        // }
+        // return $sesions;
         return $sesions;
+        // $data = Sesion::select('sesion_user.user_id', 'sesions.activity_id',)
+        //     ->leftjoin('sesion_user', 'sesion_user.user_id', '!=', $userId)
+        //     ->get();
+
+        // return $data;
     }
 
     /**

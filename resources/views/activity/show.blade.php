@@ -48,6 +48,7 @@
                     <th>Hora inicial</th>
                     <th>Hora final</th>
                     <th>Fecha</th>
+                    
                 </tr>
                 @forelse($activity->sesions as $sesion)
                 <tr>
@@ -56,6 +57,7 @@
                     <td>{{$sesion->hour_start}} </td>
                     <td>{{$sesion->hour_end}} </td>
                     <td>{{Carbon\Carbon::parse($sesion->date)->format('d-m-Y')}} </td>
+                    
                 </tr>
                 @empty
                 <tr>

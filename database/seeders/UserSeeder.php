@@ -65,11 +65,7 @@ class UserSeeder extends Seeder
 
         DB::table('users')->insert([
             'role_id' => '2',
-<<<<<<< HEAD
-            'dni' => '87654321A',
-=======
             'dni' => '87880821A',
->>>>>>> 78a5c8abac5599f7273aa3d316b5a6cc6cdaab49
             'name' => 'Amador',
             'email' => 'amador@gmail.com',
             'weight' => '84',
