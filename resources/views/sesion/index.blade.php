@@ -30,24 +30,24 @@
                 <tr>
                     <th>Actividad</th>
                     <th>Día de la semana</th>
-                    <th>Duración</th>
-                    <th>Capacidad</th>
                     <th>Hora inicial</th>
+                    <th>Hora final</th>
                     <th>Fecha</th>
+                    <th>Capacidad</th>
                 </tr>
                 @forelse ($sesions as $sesion)
                 <tr>
                     <td>{{$sesion->activity->name}}</td>
                     <td>{{$sesion->weekDay}}</td>
-                    <td>{{$sesion->activity->duration}} mins</td>
+                    <td>{{Carbon\Carbon::parse($sesion->hour_start)->format('H:i')}}</td>
+                    <td>{{Carbon\Carbon::parse($sesion->hour_end)->format('H:i')}}</td>
+                    <td>{{Carbon\Carbon::parse($sesion->date)->format('d-m-Y')}} </td>
                     <td>
                         @php
                         $users=count($sesion->users);
                         @endphp
                         {{$users}}/{{$sesion->activity->capacity}}
                     </td>
-                    <td>{{Carbon\Carbon::parse($sesion->hour_start)->format('H:i')}}</td>
-                    <td>{{Carbon\Carbon::parse($sesion->date)->format('d-m-Y')}} </td>
                 </tr>
                 @empty
                 <tr>
@@ -59,4 +59,5 @@
         </div>
     </div>
 </div>
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection

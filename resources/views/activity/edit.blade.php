@@ -5,11 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                <li class="breadcrumb-item"><a href="/activities">Actividades</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Editar</li>
-              </ol>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/activities">Actividades</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Editar</li>
+                </ol>
             </nav>
             <div class="card">
                 <div class="card-header">{{ __('Editar actividad') }}</div>
@@ -81,7 +81,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <a type="submit" class="btn btn-primary edit-sesion">Editar</a>
+                                <button type="submit" class="btn btn-primary edit-sesion">Editar</button>
                                 <a href="/sesions" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
@@ -91,18 +91,5 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(".edit-sesion").click(function(event) {
-        var form = $(this).closest("form");
-        var name = $(this).data("name");
-        event.preventDefault();
-        Swal.fire(
-            'Editado!',
-            'La sesión ha sido editada.',
-            'success'
-        ).then(function() {
-            form.submit();
-        });
-    });
-</script>
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection

@@ -41,7 +41,6 @@ class ReservationController extends Controller
                     ->where('sesion_user.user_id', $userId);
             })->where('date', $filter)->with('activity')->get();
         }
-
         return $sesions;
     }
 
@@ -123,12 +122,17 @@ class ReservationController extends Controller
      */
     public function destroy($id)
     {
-        $user = auth()->user();
         $sesion = Sesion::find($id);
-        $sesion->users()->detach($user);
+        $sesion->users()->detach(Auth::id());
         return redirect('/users');
     }
 
+    /**
+     * Remove the specified sesion from the specified user from storage.
+     *
+     * @param  $userId, $sesionId
+     * @return \Illuminate\Http\Response
+     */
     public function userSesionDestroy($userId, $sesionId)
     {
         $user = User::find($userId);

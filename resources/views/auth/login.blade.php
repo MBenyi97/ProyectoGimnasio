@@ -84,4 +84,5 @@
         });
     });
 </script> -->
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection

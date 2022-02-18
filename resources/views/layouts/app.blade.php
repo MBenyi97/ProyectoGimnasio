@@ -145,5 +145,5 @@
         });
     });
 </script>
-
+<script src="https://unpkg.com/turbolinks"></script>
 </html>

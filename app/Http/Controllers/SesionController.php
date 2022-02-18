@@ -7,10 +7,11 @@ use App\Models\User;
 use App\Models\Sesion;
 use App\Models\Activity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Middleware\CheckRole;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class SesionController extends Controller
 {
@@ -58,6 +59,16 @@ class SesionController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'date' => ['required', 'date', 'max:255'],
+            'hour_start' => ['required', 'max:255'],
+            'hour_end' => ['required', 'max:255']
+        ]);
+        if ($validator->fails()) {
+            return redirect('/sesions/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
         // Array getting the start hour
         $arrHoraStart = explode(":", $request->hour_start);
         // Array getting the end hour
@@ -82,7 +93,11 @@ class SesionController extends Controller
                 $sesion->save();
             }
         }
-        return redirect('/sesions');
+        $message = [
+            'title' => 'Creada!',
+            'message' => 'La sesión ha sido creada.'
+        ];
+        return redirect('/sesions')->with($message);
     }
 
     public function englishWeekDay($englishDay)
@@ -95,24 +110,6 @@ class SesionController extends Controller
         $englishDay == 'Saturday' ? $weekDay = 'Sábado' : false;
         $englishDay == 'Sunday' ? $weekDay = 'Domingo' : false;
         return $weekDay;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Sesion  $sesion
-     * @return \Illuminate\Http\Response
-     */
-    public function show()
-    {
-        $user = Auth::user();
-        $sesions = Sesion::whereHas('users', function ($q) {
-            $q->where('user_id', 1);
-        })->get();
-        return view('sesion.show', [
-            'sesions' => $sesions,
-            'user' => $user
-        ]);
     }
 
     /**
@@ -133,6 +130,12 @@ class SesionController extends Controller
         ]);
     }
 
+    /**
+     * Loads the days of the week in Spanish.
+     *
+     * @param  \App\Models\Sesion  $sesion
+     * @return \Illuminate\Http\Response
+     */
     public function loadWeekDays(Sesion $sesion)
     {
         // Parsing the start date of the sesion
@@ -185,10 +188,20 @@ class SesionController extends Controller
                 $sesion->save();
             }
         }
-        return redirect('/sesions');
+        $message = [
+            'title' => 'Editado!',
+            'message' => 'La sesión ha sido editada.'
+        ];
+        return redirect('/sesions')->with($message);
     }
 
 
+    /**
+     * Finds the sesion by the given date.
+     *
+     * @param  $date
+     * @return \Illuminate\Http\Response
+     */
     public static function findByDate($date)
     {
         $sesions = Sesion::all();
@@ -199,6 +212,12 @@ class SesionController extends Controller
         return Sesion::find($id);
     }
 
+    /**
+     * If the weekDay is no longer selected it removes it from storage.
+     *
+     * @param  $id, $weekDaysSelected
+     * @return \Illuminate\Http\Response
+     */
     public static function destroyIfDayNotExists($id, $weekDaysSelected)
     {
         $sesion = Sesion::find($id);
@@ -216,12 +235,9 @@ class SesionController extends Controller
      */
     public function destroy(Sesion $sesion)
     {
-
-        $user = Auth::user();
-        $sesion->users()->detach($user);
-        if ($user->id != 1) {
-            return redirect('/sesions/show');
-        }
-        return redirect('/sesions');
+        return $sesion;
+        // $user = Auth::user();
+        // $sesion->users()->detach($user);
+        // return redirect('/sesions');
     }
 }
