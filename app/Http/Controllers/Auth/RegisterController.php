@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Rules\Identification;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -50,13 +51,13 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'dni' => ['required', 'string', 'min:9', 'max:9', 'unique:users'],
+            'dni' => ['required', 'string', 'unique:users', new Identification],
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'weight' => ['required', 'integer', 'max:150'],
-            'height' => ['required', 'integer', 'max:220'],
+            'email' => ['required', 'email', 'max:255', 'unique:users'],
+            'weight' => ['required', 'integer', 'min:50', 'max:150'],
+            'height' => ['required', 'integer', 'min:140', 'max:220'],
             'gender' => ['required', 'string', 'min:4'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'confirmed']
         ]);
     }
 

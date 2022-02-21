@@ -9,15 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Sesion;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     public function sesions()
     {
         return $this->belongsToMany(Sesion::class)
-            ->withPivot('created_at')
-            ->as('reservations')
             ->withTimestamps();
     }
 

@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Response;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
-    protected function showJobImage($filename)
+    protected function index($filename)
     {
         //check image exist or not
         $exists = Storage::disk('public')->exists('img/' . $filename);
-
         if ($exists) {
-
             //get content of image
             $content = Storage::get('public/img/' . $filename);
-
             //get mime type of image
             $mime = Storage::mimeType('public/img/' . $filename);
             //prepare response with image content and response code

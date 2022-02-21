@@ -100,18 +100,6 @@ class SesionController extends Controller
         return redirect('/sesions')->with($message);
     }
 
-    public function englishWeekDay($englishDay)
-    {
-        $englishDay == 'Monday' ? $weekDay = 'Lunes' : false;
-        $englishDay == 'Tuesday' ? $weekDay = 'Martes' : false;
-        $englishDay == 'Wednesday' ? $weekDay = 'Miércoles' : false;
-        $englishDay == 'Thursday' ? $weekDay = 'Jueves' : false;
-        $englishDay == 'Friday' ? $weekDay = 'Viernes' : false;
-        $englishDay == 'Saturday' ? $weekDay = 'Sábado' : false;
-        $englishDay == 'Sunday' ? $weekDay = 'Domingo' : false;
-        return $weekDay;
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -155,6 +143,24 @@ class SesionController extends Controller
             ($key == $dtStart->englishDayOfWeek) ? $daysChecked[$key] = 'checked' : '';
         }
         return $daysChecked;
+    }
+
+    /**
+     * Checks the week days choosen when editing a sesion.
+     *
+     * @param  Carbon\Carbon $englishDay
+     * @return \Illuminate\Http\Response
+     */
+    public function englishWeekDay($englishDay)
+    {
+        $englishDay == 'Monday' ? $weekDay = 'Lunes' : false;
+        $englishDay == 'Tuesday' ? $weekDay = 'Martes' : false;
+        $englishDay == 'Wednesday' ? $weekDay = 'Miércoles' : false;
+        $englishDay == 'Thursday' ? $weekDay = 'Jueves' : false;
+        $englishDay == 'Friday' ? $weekDay = 'Viernes' : false;
+        $englishDay == 'Saturday' ? $weekDay = 'Sábado' : false;
+        $englishDay == 'Sunday' ? $weekDay = 'Domingo' : false;
+        return $weekDay;
     }
 
     /**

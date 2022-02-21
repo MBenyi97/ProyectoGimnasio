@@ -82,7 +82,7 @@
                         <td>{{$sesion->activity->duration}} mins</td>
                         <td>{{Carbon\Carbon::parse($sesion->hour_start)->format('H:i')}}</td>
                         <td>{{Carbon\Carbon::parse($sesion->date)->format('d-m-Y')}}</td>
-                        <td>{{Carbon\Carbon::parse($sesion->reservations->created_at)->format('H:i d-m-Y')}}</td>
+                        <td>{{Carbon\Carbon::parse($sesion->created_at)->format('H:i d-m-Y')}}</td>
                         <td>
                             <form method="POST" action="/reservations/{{$user->id}}/{{$sesion->id}}">
                                 @csrf

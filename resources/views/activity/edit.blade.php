@@ -82,7 +82,7 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary edit-sesion">Editar</button>
-                                <a href="/sesions" class="btn btn-danger">Atrás</a>
+                                <a href="/activities" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
                     </form>
