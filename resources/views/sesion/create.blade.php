@@ -20,7 +20,7 @@
 
                         <!-- ACTIVITY -->
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Actividad') }}</label>
+                            <label for="activity_id" class="col-md-4 col-form-label text-md-end">{{ __('Actividad') }}</label>
 
                             <div class="col-md-6">
                                 <select class="form-select" aria-label="Default select example" name="activity_id" for="activity_id">
@@ -30,7 +30,7 @@
                                 </select>
 
 
-                                @error('name')
+                                @error('activity_id')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -40,12 +40,12 @@
 
                         <!-- DATE -->
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Fecha') }}</label>
+                            <label for="date" class="col-md-4 col-form-label text-md-end">{{ __('Fecha') }}</label>
 
                             <div class="col-md-6">
-                                <input type="date" class="form-control @error('name') is-invalid @enderror" name="date" required autocomplete="fecha" autofocus>
+                                <input type="date" class="form-control @error('date') is-invalid @enderror" name="date" required autocomplete="fecha" autofocus>
 
-                                @error('name')
+                                @error('date')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -55,7 +55,7 @@
 
                         <!-- WEEK DAYS -->
                         <div class="row mb-3">
-                            <label for="diaSemana" class="col-md-4 col-form-label text-md-end">{{ __('Días de la semana') }}</label>
+                            <label for="weekDays" class="col-md-4 col-form-label text-md-end">{{ __('Días de la semana') }}</label>
 
                             <div class="col-md-6">
 
@@ -82,7 +82,7 @@
                                     <label class="form-check-label">Domingo</label>
                                 </div>
 
-                                @error('diaSemana')
+                                @error('weekDays')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -92,12 +92,12 @@
 
                         <!-- START TIME -->
                         <div class="row mb-3">
-                            <label for="horaInicio" class="col-md-4 col-form-label text-md-end">{{ __('Hora de inicio') }}</label>
+                            <label for="hour_start" class="col-md-4 col-form-label text-md-end">{{ __('Hora de inicio') }}</label>
 
                             <div class="col-md-6">
                                 <input type="time" class="form-control @error('name') is-invalid @enderror" name="hour_start" required autocomplete="hour_start" autofocus>
 
-                                @error('horaInicio')
+                                @error('hour_start')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -107,12 +107,12 @@
 
                         <!-- END TIME -->
                         <div class="row mb-3">
-                            <label for="horaFinal" class="col-md-4 col-form-label text-md-end">{{ __('Hora final') }}</label>
+                            <label for="hour_end" class="col-md-4 col-form-label text-md-end">{{ __('Hora final') }}</label>
 
                             <div class="col-md-6">
                                 <input type="time" class="form-control @error('name') is-invalid @enderror" name="hour_end" required autocomplete="hour_end" autofocus>
 
-                                @error('horaFinal')
+                                @error('hour_end')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -122,7 +122,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <a class="btn btn-primary create-sesion">Crear</a>
+                                <button type="submit" class="btn btn-primary">Crear</button>
                                 <a href="/sesions" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
@@ -133,19 +133,4 @@
     </div>
 </div>
 @endsection
-@section('js')
-<script>
-    $(".create-sesion").click(function(event) {
-        var form = $(this).closest("form");
-        var name = $(this).data("name");
-        event.preventDefault();
-        Swal.fire(
-            'Creada!',
-            'La sesión ha sido creada.',
-            'success'
-        ).then(function() {
-            form.submit();
-        });
-    });
-</script>
-@endsection
+<script src="https://unpkg.com/turbolinks"></script>

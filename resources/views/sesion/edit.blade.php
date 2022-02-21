@@ -46,9 +46,9 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Fecha') }}</label>
 
                             <div class="col-md-6">
-                                <input value="{{$sesion->date}}" type="date" class="form-control @error('name') is-invalid @enderror" name="date" required autocomplete="fecha" autofocus>
+                                <input value="{{$sesion->date}}" type="date" class="form-control @error('date') is-invalid @enderror" name="date" required autocomplete="fecha" autofocus>
 
-                                @error('name')
+                                @error('date')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -59,21 +59,13 @@
                         <!-- WEEK DAYS -->
                         <div class="row mb-3">
                             <label for="diaSemana" class="col-md-4 col-form-label text-md-end">{{ __('Días de la semana') }}</label>
-
                             <div class="col-md-6">
-
                                 <div class="form-check">
                                     @foreach ($daysChecked as $days => $check)
                                     <input class="form-check-input" {{$check=='checked' ? 'checked' : ''}} type="checkbox" value="{{$days}}" name="weekDays[]">
                                     <label class="form-check-label">{{$days}}</label><br>
                                     @endforeach
                                 </div>
-
-                                @error('diaSemana')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
                             </div>
                         </div>
 
@@ -82,9 +74,9 @@
                             <label for="horaInicio" class="col-md-4 col-form-label text-md-end">{{ __('Hora de inicio') }}</label>
 
                             <div class="col-md-6">
-                                <input value="{{$sesion->hour_start}}" type="time" class="form-control @error('name') is-invalid @enderror" name="hour_start" required autocomplete="hour_start" autofocus>
+                                <input value="{{$sesion->hour_start}}" type="time" class="form-control @error('hour_start') is-invalid @enderror" name="hour_start" required autocomplete="hour_start" autofocus>
 
-                                @error('horaInicio')
+                                @error('hour_start')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -97,9 +89,9 @@
                             <label for="horaFinal" class="col-md-4 col-form-label text-md-end">{{ __('Hora final') }}</label>
 
                             <div class="col-md-6">
-                                <input value="{{$sesion->hour_end}}" type="time" class="form-control @error('name') is-invalid @enderror" name="hour_end" required autocomplete="hour_end" autofocus>
+                                <input value="{{$sesion->hour_end}}" type="time" class="form-control @error('hour_end') is-invalid @enderror" name="hour_end" required autocomplete="hour_end" autofocus>
 
-                                @error('horaFinal')
+                                @error('hour_end')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -109,7 +101,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <a class="btn btn-primary edit-sesion">Editar</a>
+                                <button type="submit" class="btn btn-primary">Editar</button>
                                 <a href="/sesions" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
@@ -119,18 +111,5 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(".edit-sesion").click(function(event) {
-        var form = $(this).closest("form");
-        var name = $(this).data("name");
-        event.preventDefault();
-        Swal.fire(
-            'Editado!',
-            'La sesión ha sido editada.',
-            'success'
-        ).then(function() {
-            form.submit();
-        });
-    });
-</script>
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection

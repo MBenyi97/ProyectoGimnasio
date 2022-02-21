@@ -83,7 +83,6 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">Crear</button>
-                                <!-- <a class="btn btn-primary create-activity">Crear</a> -->
                                 <a href="/activities" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
@@ -93,18 +92,5 @@
         </div>
     </div>
 </div>
-<!-- <script type="text/javascript">
-    $(".create-activity").click(function(event) {
-        var form = $(this).closest("form");
-        var name = $(this).data("name");
-        event.preventDefault();
-        Swal.fire(
-            'Creada!',
-            'La actividad ha sido creada.',
-            'success'
-        ).then(function() {
-            form.submit();
-        });
-    });
-</script> -->
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection

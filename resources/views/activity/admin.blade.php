@@ -12,11 +12,11 @@
             </nav>
 
             <div class="btn-toolbar d-flex justify-content-between align-middle" role="toolbar">
-            <h1>Lista de actividades
-                <a href="/activities/create" class="btn btn-success float-right" role="button">
-                    <i class="bi bi-plus-lg"></i>
-                </a>
-            </h1>
+                <h1>Lista de actividades
+                    <a href="/activities/create" class="btn btn-success float-right" role="button">
+                        <i class="bi bi-plus-lg"></i>
+                    </a>
+                </h1>
                 <div class="input-group">
                     <div class="container-fluid">
                         <form class="d-flex form-filter" action="/activities" method="get">
@@ -66,6 +66,15 @@
         </div>
     </div>
 </div>
+@if(Session::has('message'))
+<script type="text/javascript">
+    Swal.fire({
+        title: "{{ Session::get('title') }}",
+        text: "{{ Session::get('message') }}",
+        icon: 'success'
+    });
+</script>
+@endif
 <script type="text/javascript">
     $(".remove-activity").click(function(event) {
         var form = $(this).closest("form");
@@ -100,4 +109,5 @@
         });
     });
 </script>
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection
