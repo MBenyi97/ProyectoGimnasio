@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\Sesion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
@@ -51,18 +52,18 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-
-        $validator = Validator::make($request->all(), [
+        Validator::make($request->all(), [
             'name' => ['required', 'string', 'unique:activities', 'max:255'],
+            'description' => ['required', 'string', 'max:255'],
             'duration' => ['required', 'numeric', 'max:255'],
-        ]);
-        if ($validator->fails()) {
-            return redirect('/activities/create')
-                ->withErrors($validator)
-                ->withInput();
-        }
+            'capacity' => ['required', 'numeric', 'max:255']
+        ])->validate();
         Activity::create($request->all());
-        return redirect('/activities');
+        $message = [
+            'title' => 'Creada!',
+            'message' => 'La actividad ha sido creada.'
+        ];
+        return redirect('/activities')->with($message);
     }
 
     /**
@@ -73,7 +74,7 @@ class ActivityController extends Controller
      */
     public function show(Activity $activity)
     {
-        return view('activity.show', ['activity' => $activity, 'users', $users = 0]);
+        return view('activity.show', ['activity' => $activity]);
     }
 
     /**
@@ -96,15 +97,19 @@ class ActivityController extends Controller
      */
     public function update(Request $request, Activity $activity)
     {
-        $request->validate([
-            'name' => ['required', 'unique:activities', 'max:255'] . $this->activity->id,
+        Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255', Rule::unique('activities')->ignore($activity->name, 'name')],
             'description' => ['required', 'string', 'max:255'],
-            'duration' => ['required', 'integer', 'max:255'],
-            'capacity' => ['required', 'integer', 'max:255']
-        ]);
-        $activity->fill($request->validated());
+            'duration' => ['required', 'numeric', 'max:255'],
+            'capacity' => ['required', 'numeric', 'max:255']
+        ])->validate();
+        $activity->fill($request->all());
         $activity->save();
-        return redirect('/activities');
+        $message = [
+            'title' => 'Editado!',
+            'message' => 'La actividad ha sido editada.'
+        ];
+        return redirect('/activities')->with('message');
     }
 
     /**

@@ -153,7 +153,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <a class="btn btn-primary edit-user">Editar</a>
+                                <button type="submit" class="btn btn-primary">Editar</button>
                                 <a href="{{Auth::user()->role_id==1?'/users':'/users/show'}}" class="btn btn-danger">Atrás</a>
                             </div>
                         </div>
@@ -163,18 +163,5 @@
         </div>
     </div>
 </div>
-<script>
-    $(".edit-user").click(function(event) {
-        var form = $("#edit-form");
-        var name = $(this).data("name");
-        event.preventDefault();
-        Swal.fire(
-            'Editado@!',
-            'El usuario ha sido editado.',
-            'success'
-        ).then(function() {
-            form.submit();
-        });
-    });
-</script>
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection

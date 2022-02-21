@@ -42,10 +42,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         // https://es.stackoverflow.com/questions/277378/como-llamar-el-sweetalert2-en-un-ifsessionstatus1-que-esta-en-html
-        $message = [
-            'message' => 'Exito',
-            'type'    => 'success'
-        ];
+        $message = ['message' => 'success'];
         return redirect('/home')->with($message);
     }
 }

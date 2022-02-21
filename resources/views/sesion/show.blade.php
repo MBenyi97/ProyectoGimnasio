@@ -51,4 +51,5 @@
         </div>
     </div>
 </div>
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection

@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Role;
+use App\Rules\Identification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Middleware\CheckRole;
 
@@ -23,7 +26,6 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
         $users = User::paginate(10);
         $name = $request->name;
         $role = $request->role;
@@ -60,19 +62,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // $user = User::create([
-        //     'role_id' => $request->role_id,
-        //     'dni' => $request->dni,
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'weight' => $request->weight,
-        //     'height' => $request->height,
-        //     'birthdate' => $request->birthdate,
-        //     'gender' => $request->gender,
-        //     'password' => Hash::make($request->password),
-        // ]);
-
-        $user = User::create($request->all());
+        Validator::make($request->all(), [
+            'dni' => ['required', 'string', 'unique:users', new Identification],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users', 'max:255'],
+            'weight' => ['required', 'numeric', 'max:255'],
+            'height' => ['required', 'numeric', 'max:255'],
+            'birthdate' => ['required', 'date', 'max:255'],
+            'gender' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ])->validate();
+        User::create($request->all());
         return redirect('/users');
     }
 
@@ -107,6 +107,15 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        Validator::make($request->all(), [
+            'dni' => ['required', 'string', 'max:255', new Identification, Rule::unique('users')->ignore($user->dni, 'dni')],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->email, 'email')],
+            'weight' => ['required', 'numeric', 'max:255'],
+            'height' => ['required', 'numeric', 'max:255'],
+            'birthdate' => ['required', 'date', 'max:255'],
+            'gender' => ['required', 'string', 'max:255']
+        ])->validate();
         $user->fill($request->all());
         $user->save();
         return redirect('/users');

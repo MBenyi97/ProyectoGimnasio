@@ -48,41 +48,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarsExample04">
                     <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                        @guest
-                        @else
-                        @if (Auth::user()->role_id==1)
-                        <!-- Center Side Of Navbar -->
-                        <ul class="navbar-nav">
-                            <!-- Gym Users -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="/users">Usuarios</a>
-                            </li>
-                            <!-- Gym Activities -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="/activities">Actividades</a>
-                            </li>
-                            <!-- Gym Sessions -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="/sesions">Sesiones</a>
-                            </li>
-                        </ul>
-                        @else
-                        <ul class="navbar-nav">
-                            <!-- Gym Activities -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="/activities">Actividades</a>
-                            </li>
-                            <!-- Gym Sessions -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="/sesions">Sesiones</a>
-                            </li>
-                            <!-- Gym Reservations -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="/reservations">Reservar</a>
-                            </li>
-                        </ul>
-                        @endif
-                        @endguest
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav">

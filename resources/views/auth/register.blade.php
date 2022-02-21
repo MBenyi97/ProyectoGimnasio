@@ -24,7 +24,7 @@
                             <label for="dni" class="col-md-4 col-form-label text-md-end">{{ __('DNI') }}</label>
 
                             <div class="col-md-6">
-                                <input id="dni" type="text" class="form-control @error('name') is-invalid @enderror" name="dni" value="{{ old('dni') }}" required autocomplete="dni" autofocus>
+                                <input id="dni" type="text" class="form-control @error('dni') is-invalid @enderror" name="dni" value="{{ old('dni') }}" required autocomplete="dni" autofocus>
 
                                 @error('dni')
                                 <span class="invalid-feedback" role="alert">
@@ -69,7 +69,7 @@
                             <label for="weight" class="col-md-4 col-form-label text-md-end">{{ __('Weight') }}</label>
 
                             <div class="col-md-6">
-                                <input id="weight" type="number" class="form-control @error('name') is-invalid @enderror" name="weight" value="{{ old('weight') }}" required autocomplete="weight" autofocus>
+                                <input id="weight" type="number" class="form-control @error('weight') is-invalid @enderror" name="weight" value="{{ old('weight') }}" required autocomplete="weight" autofocus>
 
                                 @error('weight')
                                 <span class="invalid-feedback" role="alert">
@@ -84,7 +84,7 @@
                             <label for="height" class="col-md-4 col-form-label text-md-end">{{ __('Height') }}</label>
 
                             <div class="col-md-6">
-                                <input id="height" type="number" class="form-control @error('name') is-invalid @enderror" name="height" value="{{ old('height') }}" required autocomplete="height" autofocus>
+                                <input id="height" type="number" class="form-control @error('height') is-invalid @enderror" name="height" value="{{ old('height') }}" required autocomplete="height" autofocus>
 
                                 @error('height')
                                 <span class="invalid-feedback" role="alert">
@@ -99,7 +99,7 @@
                             <label for="height" class="col-md-4 col-form-label text-md-end">{{ __('Birthdate') }}</label>
 
                             <div class="col-md-6">
-                                <input id="birthdate" type="date" class="form-control @error('name') is-invalid @enderror" name="birthdate" value="{{ old('birthdate') }}" required autocomplete="birthdate" autofocus>
+                                <input id="birthdate" type="date" class="form-control @error('birthdate') is-invalid @enderror" name="birthdate" value="{{ old('birthdate') }}" required autocomplete="birthdate" autofocus>
 
                                 @error('birthdate')
                                 <span class="invalid-feedback" role="alert">
@@ -114,7 +114,7 @@
                             <label for="gender" class="col-md-4 col-form-label text-md-end">{{ __('Gender') }}</label>
 
                             <div class="col-md-6">
-                                <select id="gender" type="select" class="form-control @error('name') is-invalid @enderror" name="gender" value="{{ old('gender') }}" required autocomplete="gender" autofocus>
+                                <select id="gender" type="select" class="form-control @error('gender') is-invalid @enderror" name="gender" value="{{ old('gender') }}" required autocomplete="gender" autofocus>
                                     <option value="Mujer">Mujer</option>
                                     <option value="Hombre">Hombre</option>
                                     <option value="Otro" selected>Otro</option>
@@ -154,7 +154,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <a class="btn btn-primary register-user">Register</a>
+                                <button type="submit" class="btn btn-primary">Register</button>
                                 @if(!Auth::guest())
                                 <a href="/users" class="btn btn-danger">Atrás</a>
                                 @endif
@@ -166,18 +166,5 @@
         </div>
     </div>
 </div>
-<script>
-    $(".register-user").click(function(event) {
-        var form = $("#register-form");
-        var name = $(this).data("name");
-        event.preventDefault();
-        Swal.fire(
-            'Registrad@!',
-            'Ahora ya puedes iniciar sesión.',
-            'success'
-        ).then(function() {
-            form.submit();
-        });
-    });
-</script>
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection

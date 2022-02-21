@@ -63,5 +63,6 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="{{ URL::asset('js/sesion_filter_copy.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/sesion_filter.js') }}"></script>
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection
