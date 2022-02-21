@@ -31,21 +31,24 @@ $(document).ready(function () {
 });
 
 function loadTable(data) {
-    // Borramos las entradas de la tabla, por si el usuario escribe otro nombre de actividad
-    $('.entry-row').remove();
-    // Función forEach que recorre los datos de las sesiones pasados por la petición GET
+    emptyTable();
+    $('.table-container').show();
     data.forEach((sesion) => {
-        let activity_name = sesion.activity.name;
-        let weekDay = sesion.weekDay;
-        let date = sesion.date;
-        let hour_start = sesion.hour_start;
-        let hour_end = sesion.hour_end;
-        // Botón que tiene una función onclick para que cuando hagas click añada la sesión
-        let join_btn = `<a class="btn btn-primary" onclick="addReservation(${sesion.id})"><i class='bi bi-bookmark-plus'></i></a>`;
-        // Carga las filas de la tabla cada sesión
-        $('.table-data').append(
-            `<tr class="entry-row"><td>${activity_name}</td><td>${weekDay}</td><td>${date}</td><td>${hour_start}</td><td>${hour_end}</td><td>${join_btn}</td></tr>`
-        );
+        $('.table-data').append(`
+        <tr>
+            <td>sesion.activity.name</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>`);
+        $('.activity_name').append(sesion.activity.name);
+        $('.weekDay').append(sesion.weekDay);
+        $('.date').append(sesion.date);
+        $('.hour_start').append(sesion.hour_start);
+        $('.hour_end').append(sesion.hour_end);
+        $('.join_btn').append(`<a class="btn btn-primary" onclick="sweetAlert(${sesion.id})"><i class='bi bi-bookmark-plus'></i></a>`);
     });
     // Mostramos la tabla con las nuevas entradas
     $('.table-container').show();

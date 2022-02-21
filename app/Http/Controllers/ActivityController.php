@@ -54,7 +54,9 @@ class ActivityController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'unique:activities', 'max:255'],
+            'description' => ['required', 'string', 'max:255'],
             'duration' => ['required', 'numeric', 'max:255'],
+            'capacity' => ['required', 'numeric', 'max:255']
         ]);
         if ($validator->fails()) {
             return redirect('/activities/create')
@@ -96,12 +98,17 @@ class ActivityController extends Controller
      */
     public function update(Request $request, Activity $activity)
     {
-        $request->validate([
-            'name' => ['required', 'unique:activities', 'max:255'] . $this->activity->id,
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'unique:activities', 'max:255'],
             'description' => ['required', 'string', 'max:255'],
-            'duration' => ['required', 'integer', 'max:255'],
-            'capacity' => ['required', 'integer', 'max:255']
+            'duration' => ['required', 'numeric', 'max:255'],
+            'capacity' => ['required', 'numeric', 'max:255']
         ]);
+        if ($validator->fails()) {
+            return redirect('/activities/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
         $activity->fill($request->validated());
         $activity->save();
         return redirect('/activities');
