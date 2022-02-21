@@ -6,8 +6,10 @@ use App\Models\User;
 use App\Models\Reservation;
 use App\Models\Activity;
 use App\Models\Sesion;
+use App\Mail\ReservationMail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -41,7 +43,6 @@ class ReservationController extends Controller
                     ->where('sesion_user.user_id', $userId);
             })->where('date', $filter)->with('activity')->get();
         }
-
         return $sesions;
         // $data = Sesion::select('sesion_user.user_id', 'sesions.activity_id',)
         //     ->leftjoin('sesion_user', 'sesion_user.user_id', '!=', $userId)
@@ -72,6 +73,7 @@ class ReservationController extends Controller
         $sesion = Sesion::find($id);
         // $sesion->users()->attach($user); 
         $sesion->users()->save($user, ['created_at' => Carbon::now()]);
+        Mail::to($user->email)->send(new ReservationMail($sesion));
         return redirect('/reservations');
     }
 
@@ -128,12 +130,17 @@ class ReservationController extends Controller
      */
     public function destroy($id)
     {
-        $user = auth()->user();
         $sesion = Sesion::find($id);
-        $sesion->users()->detach($user);
+        $sesion->users()->detach(Auth::id());
         return redirect('/users');
     }
 
+    /**
+     * Remove the specified sesion from the specified user from storage.
+     *
+     * @param  $userId, $sesionId
+     * @return \Illuminate\Http\Response
+     */
     public function userSesionDestroy($userId, $sesionId)
     {
         $user = User::find($userId);

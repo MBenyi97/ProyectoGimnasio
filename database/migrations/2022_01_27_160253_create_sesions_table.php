@@ -19,7 +19,7 @@ class CreateSesionsTable extends Migration
             $table->date('date')->format('d-m-Y');
             $table->time('hour_start')->format('H:i');
             $table->time('hour_end')->format('H:i');
-            $table->unsignedBigInteger('activity_id')->default(1);
+            $table->unsignedBigInteger('activity_id');
             $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
             $table->timestamps();
         });

@@ -29,4 +29,5 @@
     );
 </script>
 @endif
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection

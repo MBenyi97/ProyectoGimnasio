@@ -63,7 +63,7 @@
                                 <a class="btn btn-dark" href="/users/{{$user->id}}"><i class="bi bi-bookmarks"></i></a>
                                 <!-- <a class="btn btn-primary" href="/users/{{$user->id}}"><i class="bi bi-eye"></i></a> -->
                                 <a class="btn btn-warning" href="/users/{{$user->id}}/edit"><i class="bi bi-pencil-square"></i></a>
-                                <a class="btn btn-danger remove-user"><i class="bi bi-trash"></i></a>
+                                <button class="btn btn-danger remove-user"><i class="bi bi-trash"></i></button>
                             </div>
                         </form>
                     </td>
@@ -78,6 +78,15 @@
         </div>
     </div>
 </div>
+@if(Session::has('message'))
+<script type="text/javascript">
+    Swal.fire({
+        title: "{{ Session::get('title') }}",
+        text: "{{ Session::get('message') }}",
+        icon: 'success'
+    });
+</script>
+@endif
 <script type="text/javascript">
     $(".remove-user").click(function(event) {
         var form = $(this).closest("form");
@@ -112,4 +121,5 @@
         });
     });
 </script>
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection

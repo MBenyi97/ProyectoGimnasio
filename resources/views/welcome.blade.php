@@ -130,3 +130,4 @@
         </div>
     </body>
 </html>
+<script src="https://unpkg.com/turbolinks"></script>

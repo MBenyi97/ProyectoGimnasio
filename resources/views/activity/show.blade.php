@@ -28,7 +28,8 @@
                     <td>{{$activity->name}}</td>
                     <td>{{$activity->description}}</td>
                     <td>{{$activity->duration}}</td>
-                    <td> @php
+                    <td>
+                        @php
                         $users = 0;
                         foreach ($activity->sesions as $sesion){
                         $users+=count($sesion->users);
@@ -70,4 +71,5 @@
         </div>
     </div>
 </div>
+<script src="https://unpkg.com/turbolinks"></script>
 @endsection
