@@ -31,14 +31,15 @@
                     <th>Descripción</th>
                     <th>Duración</th>
                     <th>Capacidad total</th>
+                    <th>Apuntados</th>
                 </tr>
                 @forelse ($activities as $activity)
                 <tr>
                     <td>{{$activity->name}} </td>
                     <td>{{$activity->description}} </td>
                     <td>{{$activity->duration}} mins</td>
-                    <td>{{$activity->total}}</td>
-                    <td>{{$activity->users}}</td>
+                    <td>{{$activity->capacity}}</td>
+                    <td>{{$activity->users()}}</td>
                 </tr>
                 @empty
                 <tr>

@@ -72,7 +72,18 @@ class UserController extends Controller
             'gender' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ])->validate();
-        User::create($request->all());
+
+        // User::create([$request->all(), 'password' => Hash::make($request->password)]);
+        User::create([
+            'dni' => $request->dni,
+            'name' => $request->name,
+            'email' => $request->email,
+            'weight' => $request->weight,
+            'height' => $request->height,
+            'birthdate' => $request->birthdate,
+            'gender' => $request->gender,
+            'password' => Hash::make($request->password)
+        ]);
         return redirect('/users');
     }
 

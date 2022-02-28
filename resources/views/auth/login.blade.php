@@ -1,5 +1,9 @@
 @extends('layouts.app')
-
+<script> 
+$(document).ready(function(){
+    location.reload();
+});
+</script>
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -85,4 +89,5 @@
     });
 </script> -->
 <script src="https://unpkg.com/turbolinks"></script>
+
 @endsection

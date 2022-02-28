@@ -29,12 +29,7 @@
                     <td>{{$activity->description}}</td>
                     <td>{{$activity->duration}}</td>
                     <td>
-                        @php
-                        $users = 0;
-                        foreach ($activity->sesions as $sesion){
-                        $users+=count($sesion->users);
-                        }@endphp
-                        {{$users}}/{{(count($activity->sesions)==0 ? '1' : count($activity->sesions)) * $activity->capacity}}
+                        {{$activity->users()}}/{{(count($activity->sesions)==0 ? '1' : count($activity->sesions)) * $activity->capacity}}
                     </td>
                 </tr>
             </table>

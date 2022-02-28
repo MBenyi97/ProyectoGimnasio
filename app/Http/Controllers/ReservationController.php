@@ -43,13 +43,6 @@ class ReservationController extends Controller
                     ->where('sesion_user.user_id', $userId);
             })->where('date', $filter)->with('activity')->get();
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> arthur
-=======
->>>>>>> a3f597eac792d345ebf378deb712c84419022dee
         return $sesions;
         // $data = Sesion::select('sesion_user.user_id', 'sesions.activity_id',)
         //     ->leftjoin('sesion_user', 'sesion_user.user_id', '!=', $userId)
@@ -82,51 +75,6 @@ class ReservationController extends Controller
         // $sesion->users()->save($user, ['created_at' => Carbon::now()]);
         $this->reservationEmail($user, $sesion);
         return redirect('/reservations');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Reservation  $reservation
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Reservation $reservation)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Reservation  $reservation
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Reservation $reservation)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Reservation  $reservation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Reservation $reservation)
-    {
-        //
     }
 
     /**

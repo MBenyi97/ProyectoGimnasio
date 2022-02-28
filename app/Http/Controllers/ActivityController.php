@@ -109,7 +109,7 @@ class ActivityController extends Controller
             'title' => 'Editado!',
             'message' => 'La actividad ha sido editada.'
         ];
-        return redirect('/activities')->with('message');
+        return redirect('/activities')->with($message);
     }
 
     /**

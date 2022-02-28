@@ -36,8 +36,7 @@
                     <th>Descripción</th>
                     <th>Duración</th>
                     <th>Capacidad</th>
-                    <th class="text-center">Ver</th>
-                    <th class="text-center">Eliminar</th>
+                    <th>Opciones</th>
                 </tr>
                 @forelse ($activities as $activity)
                 <tr>
@@ -45,7 +44,7 @@
                     <td>{{$activity->description}} </td>
                     <td>{{$activity->duration}} </td>
                     <td>{{$activity->capacity}} </td>
-                    <td class="text-center">
+                    <td>
                         <form method="POST" action="/activities/{{$activity->id}}" id="form-delete">
                             @csrf
                             @method('DELETE')
