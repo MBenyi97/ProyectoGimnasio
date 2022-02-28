@@ -33,6 +33,7 @@
                     <th>Hora inicial</th>
                     <th>Hora final</th>
                     <th>Fecha</th>
+
                     <th>Capacidad</th>
                 </tr>
                 @forelse ($sesions as $sesion)
@@ -42,12 +43,7 @@
                     <td>{{Carbon\Carbon::parse($sesion->hour_start)->format('H:i')}}</td>
                     <td>{{Carbon\Carbon::parse($sesion->hour_end)->format('H:i')}}</td>
                     <td>{{Carbon\Carbon::parse($sesion->date)->format('d-m-Y')}} </td>
-                    <td>
-                        @php
-                        $users=count($sesion->users);
-                        @endphp
-                        {{$users}}/{{$sesion->activity->capacity}}
-                    </td>
+                    <td>{{count($sesion->users)}}/{{$sesion->activity->capacity}}</td>
                 </tr>
                 @empty
                 <tr>

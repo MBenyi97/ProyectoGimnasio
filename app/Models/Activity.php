@@ -23,4 +23,13 @@ class Activity extends Model
     {
         return "" . $this->id;
     }
+
+    public function users(){
+        $total = 0;
+        foreach($this->sesions as $sesion){
+            $total += count($sesion->users);
+        }
+        return $total;
+    }
+    
 }

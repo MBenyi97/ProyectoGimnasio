@@ -30,7 +30,7 @@ class ActivityController extends Controller
         (Auth::user()->role_id == 1) ? $view = 'admin' : $view = 'index';
         return view("activity.$view", [
             'activities' => $activities,
-            'name' => $name
+            'name' => $name,
         ]);
     }
 
