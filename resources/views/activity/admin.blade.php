@@ -36,7 +36,8 @@
                     <th>Descripción</th>
                     <th>Duración</th>
                     <th>Capacidad</th>
-                    <th class="text-center">Opciones</th>
+                    <th class="text-center">Ver</th>
+                    <th class="text-center">Eliminar</th>
                 </tr>
                 @forelse ($activities as $activity)
                 <tr>
@@ -55,6 +56,7 @@
                             </div>
                         </form>
                     </td>
+                    
                 </tr>
                 @empty
                 <tr>
