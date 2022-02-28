@@ -43,6 +43,13 @@ class ReservationController extends Controller
                     ->where('sesion_user.user_id', $userId);
             })->where('date', $filter)->with('activity')->get();
         }
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+=======
+>>>>>>> arthur
+=======
+>>>>>>> a3f597eac792d345ebf378deb712c84419022dee
         return $sesions;
     }
 

@@ -31,6 +31,26 @@ $(document).ready(function () {
 });
 
 function loadTable(data) {
+<<<<<<< HEAD
+    emptyTable();
+    $('.table-container').show();
+    data.forEach((sesion) => {
+        $('.table-data').append(`
+        <tr>
+            <td>sesion.activity.name</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>`);
+        $('.activity_name').append(sesion.activity.name);
+        $('.weekDay').append(sesion.weekDay);
+        $('.date').append(sesion.date);
+        $('.hour_start').append(sesion.hour_start);
+        $('.hour_end').append(sesion.hour_end);
+        $('.join_btn').append(`<a class="btn btn-primary" onclick="sweetAlert(${sesion.id})"><i class='bi bi-bookmark-plus'></i></a>`);
+=======
     // Borramos las entradas de la tabla, por si el usuario escribe otro nombre de actividad
     $('.entry-row').remove();
     // Función forEach que recorre los datos de las sesiones pasados por la petición GET
@@ -46,6 +66,7 @@ function loadTable(data) {
         $('.table-data').append(
             `<tr class="entry-row"><td>${activity_name}</td><td>${weekDay}</td><td>${date}</td><td>${hour_start}</td><td>${hour_end}</td><td>${join_btn}</td></tr>`
         );
+>>>>>>> a3f597eac792d345ebf378deb712c84419022dee
     });
     // Mostramos la tabla con las nuevas entradas
     $('.table-container').show();
