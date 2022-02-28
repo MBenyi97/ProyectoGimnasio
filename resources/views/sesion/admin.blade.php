@@ -49,10 +49,8 @@
                     <td>{{Carbon\Carbon::parse($sesion->hour_end)->format('H:i')}}</td>
                     <td>{{Carbon\Carbon::parse($sesion->date)->format('d-m-Y')}} </td>
                     <td>
-                        @php
-                        $users=count($sesion->users);
-                        @endphp
-                        {{$users}}/{{$sesion->activity->capacity}}
+                        
+                        {{count($sesion->users)}}/{{$sesion->activity->capacity}}
                     </td>
                     <td>
                         <form method="POST" action="/sesions/{{$sesion->id}}">

@@ -43,6 +43,13 @@ class ReservationController extends Controller
                     ->where('sesion_user.user_id', $userId);
             })->where('date', $filter)->with('activity')->get();
         }
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+=======
+>>>>>>> arthur
+=======
+>>>>>>> a3f597eac792d345ebf378deb712c84419022dee
         return $sesions;
         // $data = Sesion::select('sesion_user.user_id', 'sesions.activity_id',)
         //     ->leftjoin('sesion_user', 'sesion_user.user_id', '!=', $userId)
@@ -71,9 +78,9 @@ class ReservationController extends Controller
     {
         $user = Auth::user();
         $sesion = Sesion::find($id);
-        // $sesion->users()->attach($user); 
-        $sesion->users()->save($user, ['created_at' => Carbon::now()]);
-        Mail::to($user->email)->send(new ReservationMail($sesion));
+        $sesion->users()->attach($user, ['created_at' => Carbon::now()]);
+        // $sesion->users()->save($user, ['created_at' => Carbon::now()]);
+        $this->reservationEmail($user, $sesion);
         return redirect('/reservations');
     }
 
@@ -147,5 +154,17 @@ class ReservationController extends Controller
         $sesion = Sesion::find($sesionId);
         $sesion->users()->detach($user);
         return redirect('/users');
+    }
+
+    /**
+     * Send an email with the reservation.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Sesion  $sesion
+     */
+    public function reservationEmail(User $user, Sesion $sesion)
+    {
+        $userEmail = $user->email;
+        Mail::to($userEmail)->send(new ReservationMail($sesion));
     }
 }
