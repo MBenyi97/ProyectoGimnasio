@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+
 class SesionController extends Controller
 {
     public function __construct()

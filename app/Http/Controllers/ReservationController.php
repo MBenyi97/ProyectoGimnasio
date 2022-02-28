@@ -51,6 +51,11 @@ class ReservationController extends Controller
 =======
 >>>>>>> a3f597eac792d345ebf378deb712c84419022dee
         return $sesions;
+        // $data = Sesion::select('sesion_user.user_id', 'sesions.activity_id',)
+        //     ->leftjoin('sesion_user', 'sesion_user.user_id', '!=', $userId)
+        //     ->get();
+
+        // return $data;
     }
 
     /**
